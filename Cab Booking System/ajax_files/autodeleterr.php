@@ -1,5 +1,5 @@
 <?php 
-include "C:/xampp/htdocs/Cab Booking System/connection.php";
+include "connection.php";
 $query="select requestCreation,Request_id from tbl_request_ride where requestCreation<= CURRENT_TIMESTAMP-1030000;";
 $result=mysqli_query($conn,$query);
 if($result->num_rows>0)
