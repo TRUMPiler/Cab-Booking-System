@@ -1,6 +1,6 @@
 <?php 
 
-include "../connection.php"; 
+include "connection.php"; 
 $query="select RequestID,driver.id from tbl_interest JOIN driver where driver.email='".$_SESSION["email"]."'";
 $result=mysqli_query($conn,$query);
 if($result->num_rows>0)

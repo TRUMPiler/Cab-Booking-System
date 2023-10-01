@@ -301,7 +301,7 @@
                             }
                             else
                             {
-                                alert(data);
+                                window.location="emailerror.php";
                             }
                         },
                     }); 

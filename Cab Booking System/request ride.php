@@ -1,6 +1,21 @@
 <?php
+
 session_start();
+
 include "ajax_files/autodeleterr.php";
+if(!isset($_SESSION["role"]))
+{
+    echo "<script>alert('You need to login before accessing this page')</script>";
+    echo "<script>window.location='login'</script>";
+}
+else
+{
+    if($_SESSION["role"]!="passenger")
+    {
+        echo "<script>alert('ERROR 404:Forbidden Access(You're access is not ideal for using this page)')</script>";
+        echo "<script>window.location='index'</script>";
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">

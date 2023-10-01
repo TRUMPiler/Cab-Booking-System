@@ -1,5 +1,18 @@
 <?php 
 session_start();
+if(!isset($_SESSION["role"]))
+{
+    echo "<script>alert('You need to login before accessing this page')</script>";
+    echo "<script>window.location='login'</script>";
+}
+else
+{
+    if($_SESSION["role"]!="driver")
+    {
+        echo "<script>alert('ERROR 404:Forbidden Access(You're access is not ideal for using this page)')</script>";
+        echo "<script>window.location='index'</script>";
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -55,16 +68,35 @@ if(isset($_SESSION["RequestID"]))
             echo "<h4>Travel Ends On:".$row["To"]."</h4>";
             echo "<h4 id='distance'>Estimated Distance of the ride</h4>";
             echo "<h4 id='duration'>Estimated Duration of the ride</h4>";
+            $query="select driver.id,interestID,Cost FROM tbl_interest JOIN driver where driver.email='".$_SESSION["email"]."'";
+            $results=mysqli_query($conn,$query);
+            if($results->num_rows>0)
+            { 
+              while($row=$results->fetch_array())
+              {
+                echo "<h4>Cost given for the trip is:".$row["Cost"]."</h4>";
+                                
+              }
+            }
+            else
+            {
+                echo "
+                <input type='text' name='cost_estimation' required>
+                   ";
+            }
         }
     }   
 }
+            
 ?>   
-<input type='text' name='cost_estimation' required>
+
+<!-- <input type='text' name='cost_estimation' required> -->
     <input type="submit" id="estimation" value="Submit Your Estimation">
 </form> 
 <script>
     $(document).ready(function(){
         settingLoc();
+        
         $("form").on("submit",function(event)
                 {
                     event.preventDefault();

@@ -146,6 +146,10 @@ if(isset($_SESSION["verified"]) and isset($_SESSION["email"]))
                                 }
                             }
                         }
+                        else
+                        {
+                            echo "<script>alert('invalid email or password')</script>"; 
+                        }
                             
                     }   
                 }
