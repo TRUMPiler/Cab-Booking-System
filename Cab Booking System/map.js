@@ -11,31 +11,42 @@ var lat=undefined;
 var long=undefined;
 var dlat=undefined;
 var dlong=undefined;
-if(lat!=undefined)
-{
-  console.log("2");
-}
-function GG(lat,long,dlat,dlong)
-{
-  this.lat=lat;
-  this.long=long;
-  this.dlat=dlat;
-  this.dlong=dlong;
-  
+function GG(lat, long, dlat, dlong) {
+  this.lat = lat;
+  this.long = long;
+  this.dlat = dlat;
+  this.dlong = dlong;
+
+  // Create markers for source and destination
   calculateRouteFromAtoB(platform);
+}
+
+
+var router=undefined;
+var lastobj=undefined;
+if(lastobj!=undefined)
+{
+  console.log(lastobj);
+  map.removeObject(lastobj);
 }
 function calculateRouteFromAtoB(platform) {
   var origin=lat+','+long;
+  if(router!=undefined)
+  {
   
+  }
   console.log(origin);
-  var router = platform.getRoutingService(null, 8),
+  router = platform.getRoutingService(null, 8),// Check if currentRoute exists and is a valid object
+  
+  
       routeRequestParams = {
-        routingMode: 'fast',
-        transportMode: 'car',
+        routingMode: 'short',
+        transportMode: 'truck',
         origin: ''+origin+'', // Brandenburg Gate
         // destination: ''+''+document.querySelector(".myForm input[name='dlat']").value+','+document.querySelector(".myForm input[name='dlong']").value+'', // Friedrichstraße Railway Station
-        // origin: '20.8880,70.4010', // Brandenburg Gate
+        // origin: '21.1702,72.8311', // Brandenburg Gate
         destination: ''+document.querySelector(".myForm input[name='dlat']").value+','+document.querySelector(".myForm input[name='dlong']").value+'', // Friedrichstraße Railway Station
+        // destination: '21.5346,71.8275', // Friedrichstraße Railway Station
         return: 'polyline,turnByTurnActions,actions,instructions,travelSummary'
       };
       console.log(routeRequestParams);
@@ -63,9 +74,11 @@ function onSuccess(result) {
    */
   addRouteShapeToMap(route);
   addManueversToMap(route);
+  addsourceDestination(route);
   addWaypointsToPanel(route);
   addManueversToPanel(route);
   addSummaryToPanel(route);
+  
   // ... etc.
 }
 
@@ -92,11 +105,23 @@ var platform = new H.service.Platform({
 });
 
 var defaultLayers = platform.createDefaultLayers();
+var map=undefined;
+
+
+function removeObjectsbyid(id){
+  for(object of map.getobjects()){
+    if(object.id==id)
+    {
+      console.log(object);
+      map.removeObject(object);
+    }
+  }
+}
 
 // Step 2: initialize a map - this map is centered over Berlin
-var map = new H.Map(mapContainer,
+ map = new H.Map(mapContainer,
   defaultLayers.vector.normal.map, {
-  center: {lat: 52.5160, lng: 13.3779},
+  center: {lat: 21.1702, lng: 72.8311},
   zoom: 13,
   pixelRatio: window.devicePixelRatio || 1
 });
@@ -138,19 +163,25 @@ function openBubble(position, text) {
  * Creates a H.map.Polyline from the shape of the route and adds it to the map.
  * @param {Object} route A route as received from the H.service.RoutingService
  */
+var polyline="";
 function addRouteShapeToMap(route) {
   route.sections.forEach((section) => {
     // decode LineString from the flexible polyline
     let linestring = H.geo.LineString.fromFlexiblePolyline(section.polyline);
-
+    if(polyline!="")
+    {
+      map.removeObject(polyline);
+      console.log("polyline removal");
+      
+    }
     // Create a polyline to display the route:
-    let polyline = new H.map.Polyline(linestring, {
+    polyline = new H.map.Polyline(linestring, {
       style: {
         lineWidth: 4,
         strokeColor: 'rgba(0, 128, 255, 0.7)'
       }
     });
-
+    
     // Add the polyline to the map
     map.addObject(polyline);
     // And zoom to its bounding rectangle
@@ -159,35 +190,44 @@ function addRouteShapeToMap(route) {
     });
   });
 }
-
-/**
+    
+    /**
  * Creates a series of H.map.Marker points from the route and adds them to the map.
  * @param {Object} route A route as received from the H.service.RoutingService
  */
+
+
 function addManueversToMap(route) {
+ 
   var svgMarkup = '<svg width="18" height="18" ' +
     'xmlns="http://www.w3.org/2000/svg">' +
     '<circle cx="8" cy="8" r="8" ' +
       'fill="#1b468d" stroke="white" stroke-width="1" />' +
     '</svg>',
     dotIcon = new H.map.Icon(svgMarkup, {anchor: {x:8, y:8}}),
+      
     group = new H.map.Group(),
     i,
     j;
-
+  
   route.sections.forEach((section) => {
     let poly = H.geo.LineString.fromFlexiblePolyline(section.polyline).getLatLngAltArray();
-
+    
     let actions = section.actions;
     // Add a marker for each maneuver
+    
+
     for (i = 0; i < actions.length; i += 1) {
+           
       let action = actions[i];
-      var marker = new H.map.Marker({
+      this.marker = new H.map.Marker({
         lat: poly[action.offset * 3],
         lng: poly[action.offset * 3 + 1]},
         {icon: dotIcon});
-      marker.instruction = action.instruction;
-      group.addObject(marker);
+      this.marker.instruction = action.instruction;
+      // console.log(marker);
+      group.addObject(this.marker);
+      
     }
 
     group.addEventListener('tap', function (evt) {
@@ -196,8 +236,21 @@ function addManueversToMap(route) {
     }, false);
 
     // Add the maneuvers group to the map
+    group.id='router';
     map.addObject(group);
+       
+    $("#daddress").on("input",async function(){
+      await new Promise(r=>setTimeout(r,100));
+      if(group!="")
+      {
+        map.removeObject(group);
+      group="";
+      }
+      
+    })
+    
   });
+  
 }
 
 /**
@@ -273,7 +326,40 @@ function addManueversToPanel(route) {
 
   routeInstructionsContainer.appendChild(nodeOL);
 }
-
+function addsourceDestination(route)
+{
+  console.log("sourceMarker placed");
+    // Create a source marker with a blue point icon
+    var sourceIcon = new H.map.Icon('images/source.png', {size: {w: 35, h: 35}});
+var destinationIcon = new H.map.Icon('images/destination.png', {size: {w: 35, h: 35}});
+    
+    // Create markers for source and destination with custom icons
+    var sourceMarker = new H.map.Marker({ lat: document.querySelector(".myForm input[name='latitude']").value, lng: long }, { icon: sourceIcon });
+    var destinationMarker = new H.map.Marker({ lat: document.querySelector(".myForm input[name='dlat']").value, lng:document.querySelector(".myForm input[name='dlong']").value }, { icon: destinationIcon });
+    console.log(sourceMarker);
+    // Add markers to the map
+    if(map!=undefined)
+    {
+      console.log("map not empty");
+      map.addObject(sourceMarker);
+      map.addObject(destinationMarker);
+    }
+    else
+    {
+      console.log("map is empty");
+    }
+    $("#daddress").on("input",async function(){
+      await new Promise(r=>setTimeout(r,100));
+      if(sourceMarker!="")
+      {
+        map.removeObject(sourceMarker);
+        map.removeObject(destinationMarker);
+        sourceMarker="";
+      }
+      
+    })
+    // map.addObject(destinationMarker);
+}
 function toMMSS(duration) {
   return Math.floor(duration / 60) + ' minutes ' + (duration % 60) + ' seconds.';
 }
