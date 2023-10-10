@@ -97,7 +97,7 @@ session_start();
           {
             if($_SESSION["fname"]=="")
             {
-              echo "<li><a class='getstarted scrollto' href='login.php'>Login</a></li>";
+              echo "<li><a class='getstarted scrollto' href='login'>Login</a></li>";
             }
             elseif(isset($_SESSION["filename"]))
             {
@@ -110,7 +110,7 @@ session_start();
           }
           else
           {
-            echo "<li><a class='getstarted scrollto' href='login.php'>Login</a></li>";
+            echo "<li><a class='getstarted scrollto' href='login'>Login</a></li>";
           }
           ?>
         </ul>
@@ -130,7 +130,7 @@ session_start();
           <h1>We Support You To Reach Your Destination</h1>
           <h2>We are team of Taxi Booking, Trying to make your travel possible</h2>
           <div>
-            <a href="Request ride.php" class="btn-get-started scrollto">Get Started</a>
+            <a href="Request ride" class="btn-get-started scrollto">Get Started</a>
           </div>
         </div>
         <div class="col-lg-6 order-1 order-lg-2 hero-img">

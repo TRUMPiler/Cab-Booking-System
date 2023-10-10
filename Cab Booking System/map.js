@@ -7,6 +7,10 @@
  *
  * @param {H.service.Platform} platform A stub class to access HERE services
  */
+
+
+   
+  
 var lat=undefined;
 var long=undefined;
 var dlat=undefined;
@@ -121,7 +125,7 @@ function removeObjectsbyid(id){
 // Step 2: initialize a map - this map is centered over Berlin
  map = new H.Map(mapContainer,
   defaultLayers.vector.normal.map, {
-  center: {lat: 21.1702, lng: 72.8311},
+  center: {lat: document.querySelector(".myForm input[name='latitudes']").value, lng: document.querySelector(".myForm input[name='longitudes']").value},
   zoom: 13,
   pixelRatio: window.devicePixelRatio || 1
 });

@@ -9,6 +9,7 @@ require_once "connection.php";
         {
             $fname=$_SESSION["fname"];
             $lname=$_SESSION["lname"];
+            $mname=$_SESSION["mname"];
             $dob=$_SESSION["dob"];
             $gender=$_SESSION["gender"];
             $contact=$_SESSION["contact"];
@@ -18,7 +19,7 @@ require_once "connection.php";
             echo $city; 
             $password=$_SESSION["password"];
             $fileName=$_SESSION["filename"];
-            $query="insert into $tbname(`fname`, `lname`, `dob`, `gender`, `contact`, `address`, `email`,`password`,`image`,`CityGG`) values('$fname','$lname','$dob','$gender',$contact,'$address','$email','$password','$fileName',$city)";
+            $query="insert into $tbname(`fname`, `lname`, `mname` ,`dob`, `gender`, `contact`, `address`, `email`,`password`,`image`,`CityGG`) values('$fname','$lname','$mname','$dob','$gender',$contact,'$address','$email','$password','$fileName',$city)";
             $ret=mysqli_query($conn,$query);
             if($ret>0)
             {
@@ -45,6 +46,7 @@ require_once "connection.php";
         else
         {
              $fname=$_SESSION["fname"];
+             $mname=$_SESSION["mname"];
             $lname=$_SESSION["lname"];
             $dob=$_SESSION["dob"];
             $gender=$_SESSION["gender"];
@@ -54,7 +56,7 @@ require_once "connection.php";
             $password=$_SESSION["password"];
             $city=$_SESSION["city"];
             $fileName=$_SESSION["filename"];
-            $query="insert into $tbname(`fname`, `lname`, `dob`, `gender`, `contact`, `address`, `email`,`password`,`image`,`CityGG`) values('$fname','$lname','$dob','$gender',$contact,'$address','$email','$password','$fileName',$city)";
+            $query="insert into $tbname(`fname`, `lname`, `mname` ,`dob`, `gender`, `contact`, `address`, `email`,`password`,`image`,`CityGG`) values('$fname','$lname','$mname','$dob','$gender',$contact,'$address','$email','$password','$fileName',$city)";
             $ret=mysqli_query($conn,$query);
             if($ret>0)
             {

@@ -7,6 +7,9 @@ $(document).ready(function () {
     $('#fname').on('input', function () {
         checkfirstname();
     });
+    $('#mname').on('input', function () {
+        checkmiddlename();
+    });
      $('#lname').on('input', function () {
         checklastname();
     });
@@ -32,10 +35,10 @@ $(document).ready(function () {
     $('#submitbtn').click(function () {
 
 
-        if (!checkfirstname() && !checklastname()  && !checkemail() && !checkmobile() && !checkpass() && !checkcpass()) {
+        if (!checkfirstname() && !checklastname() &&!checkmiddlename() && !checkemail() && !checkmobile() && !checkpass() && !checkcpass()) {
             console.log("er1");
             $("#message").html(`<div class="alert alert-warning">Please fill all required field</div>`);
-        } else if (!checkfirstname() || !checklastname() || !checkemail() || !checkmobile() || !checkpass() || !checkcpass()) {
+        } else if (!checkfirstname() || !checklastname() || !checkemail()||!checkmiddlename() || !checkmobile() || !checkpass() || !checkcpass()) {
             $("#message").html(`<div class="alert alert-warning">Please fill all required field</div>`);
             console.log("er");
         }
@@ -90,6 +93,24 @@ function checkfirstname() {
         return false;
     } else {
         $('#fname_err').html('');
+        return true;
+    }
+}
+function checkmiddlename() {
+    var pattern = /^[A-Za-z]+$/;
+    var user = $('#mname').val();
+    var validuser = pattern.test(user);
+    if(user == ""){
+         $('#mname_err').html('Please enter the first name');
+    }
+     else if ($('#mname').val().length < 4) {
+        $('#mname_err').html('length is too short');
+        return false;
+    } else if (!validuser) {
+        $('#mname_err').html('firstname should be a-z ,A-Z only');
+        return false;
+    } else {
+        $('#mname_err').html('');
         return true;
     }
 }

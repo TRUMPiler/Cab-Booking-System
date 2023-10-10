@@ -64,7 +64,7 @@ else
             <?php }?>
         </tbody>
     </table>
-    
+    <a href="index"><button>Back</button></a>
 </body>
 <script>
     

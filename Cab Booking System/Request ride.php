@@ -201,6 +201,8 @@ if (!isset($_SESSION["role"])) {
                 </div>
                 <input type="text" name="latitude" id="" hidden>
                 <input type="text" name="longitude" id="" hidden>
+                <input type="text" name="latitudes" id="" hidden>
+                <input type="text" name="longitudes" id="" hidden>
                 <div class="form-group">
                     <label for="Last name">Destination Location:</label>
                     <input type="text" class="form-control" id="daddress" name="daddress" placeholder="Enter where do you wish to reach" onchange=overloading()>
@@ -291,8 +293,23 @@ if (!isset($_SESSION["role"])) {
                     <button type="submit" class="btn btn-success">Submit</button>
                 </div><br>
                 <script>
+                        
+                        $(document).ready(function()
+                        {
+                            var latitudes,longitudes;
+                            navigator.geolocation.getCurrentPosition(position=>{
+                            const {latitude,longitude}=position.coords;
+                            latitudes=latitude;
+                            longitudes=longitude;
+                            document.querySelector(".myForm input[name='latitudes']").value=latitudes;
+                            document.querySelector(".myForm input[name='longitudes']").value=longitudes;
+                        })
+                        
+                        })   
+                        
                 $("form").on("submit",function(event)
                 {
+
                     event.preventDefault();
                     var formValues=$(this).serialize();
                     $.post(
@@ -358,6 +375,7 @@ headers: {
 };
 
 $.ajax(settings).done(function (responses) {
+    console.log(responses);
     if(responses.results[0].country=="India" && responses.results[0].region!="Andaman and Nicobar Islands")
     {
         var city=responses.results[0].locality;
@@ -433,7 +451,6 @@ $.ajax(settings).done(function (response) {
         return result;
     }
    
-
 
     </script>
 

@@ -138,7 +138,7 @@ background-repeat: no-repeat;">
 			<div class="col-md-4 text-center company__info">
 				<span class="company__logo">
 					<h2>
-						<img src="Images\Taxi.png" alt="Not Found">
+						<img src="images\Taxi.png" alt="Not Found">
 					</h2>
 				</span>
 				<h4 class="company_title"></h4>
@@ -252,7 +252,7 @@ background-repeat: no-repeat;">
 						</form>
 					</div>
 					<div class="row">
-						<p>Don't have an account? <a href="Registration.html">Register Here</a></p>
+						<p>Don't have an account? <a href="Register">Register Here</a></p>
 					</div>
 				</div>
 			</div>

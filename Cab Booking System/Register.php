@@ -48,8 +48,8 @@ if(isset($_SESSION["fname"]))
       </ul>
     </div>
     <div data-aos="fade-down-left" data-aos-duration="1000" data-aos-delay="500">
-    <a href="register_customer"><button class="button-28" role="button" onclick="loading()">Register as Passenger</button></a>
-    <a href="register_driver"><button class="button-28" role="button">Register as Driver</button></a>
+    <a href="Registration Passenger"><button class="button-28" role="button" onclick="loading()">Register as Passenger</button></a>
+    <a href="Registration Driver"><button class="button-28" role="button">Register as Driver</button></a>
   </div>
     <script>
         window.addEventListener("load",function(){HH();})
