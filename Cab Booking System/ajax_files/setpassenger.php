@@ -20,7 +20,7 @@
                             $_SESSION["contact"]=$_POST["contact"];
                             $_SESSION["address"]=$_POST["address"];
                             $_SESSION["email"]=$_POST["email"];
-                            $_SESSION["role"]="driver";
+                            $_SESSION["role"]="passenger";
                             $_SESSION["url"]="insertion.php";
                             $targetDir = "C:/xampp/htdocs/Cab Booking System/images/";
                             $fileName = basename($_FILES["file"]["name"]);
