@@ -25,7 +25,8 @@
     <title>Registration Page</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-    <script src="js/loader.js"></script>
+    <script src="assets/js/loader.js"></script>
+    
     <style>
         #preloader
         {
