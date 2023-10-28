@@ -8,7 +8,7 @@ if (!isset($_SESSION["role"])) {
     echo "<script>window.location='login'</script>";
 } else {
     if ($_SESSION["role"] != "passenger") {
-        echo "<script>alert('ERROR 404:Forbidden Access(You're access is not ideal for using this page)')</script>";
+        echo "<script>alert('ERROR 404:Forbidden Access(You\'re access is not ideal for using this page)')</script>";
         echo "<script>window.location='index'</script>";
     }
 }
@@ -23,9 +23,16 @@ if (!isset($_SESSION["role"])) {
     <!-- Favicons -->
     <link href="taxibooking.png" rel="icon">
     <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
-
+ <!-- here location -->
+ 
+ <link rel="stylesheet" type="text/css" href="https://js.api.here.com/v3/3.1/mapsjs-ui.css" />
+    <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-core.js"></script>
+    <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-service.js"></script>
+    <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-ui.js"></script>
+    <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-mapevents.js"></script>
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,600,600i,700,700i" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
     <!-- Vendor CSS Files -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
@@ -88,6 +95,19 @@ if (!isset($_SESSION["role"])) {
         h1 {
             color: rgb(255, 174, 0);
         }
+        .source-icon {
+    width: 24px;
+    height: 24px;
+    background-color: blue;
+    border-radius: 50%;
+  }
+
+  .destination-icon {
+    width: 24px;
+    height: 24px;
+    background-color: red;
+    border-radius: 50%;
+  }
     </style>
     <!-- =======================================================
   * Template Name: Ninestars
@@ -114,14 +134,14 @@ if (!isset($_SESSION["role"])) {
 
             <nav id="navbar" class="navbar">
                 <ul>
-                    <li><a class="nav-link scrollto active" href="#hero">Home</a></li>
+                    <li><a class="nav-link scrollto " href="index">Home</a></li>
                     <li><a class="nav-link scrollto" href="#about">About Us</a></li>
                     <!-- <li><a class="nav-link scrollto" href="#services">Services</a></li> -->
                     <!-- <li><a class="nav-link scrollto" href="#portfolio">Portfolio</a></li> -->
                     <!-- <li><a class="nav-link scrollto" href="#team">Team</a></li> -->
-                    <li class="dropdown"><a href="#"><span>Services</span> <i class="bi bi-chevron-down"></i></a>
+                    <li class="dropdown"><a class="nav-link scrollto active" href="#"><span>Services</span> <i class="bi bi-chevron-down"></i></a>
                         <ul>
-                            <li><a href="Request_ride.php">Request Ride</a></li>
+                            <li><a class="nav-link scrollto active" href="Request ride.php">Request Ride</a></li>
                             <!-- <li class="dropdown"><a href="#"><span>Deep Drop Down</span> <i class="bi bi-chevron-right"></i></a>
                 <ul>
                   <li><a href="#">Deep Drop Down 1</a></li>
@@ -137,7 +157,27 @@ if (!isset($_SESSION["role"])) {
                         </ul>
                     </li>
                     <!-- <li><a class="nav-link scrollto" href="#contact">Contact</a></li> -->
-                    <li><a class="getstarted scrollto" href="login.php">Login</a></li>
+                    <?php 
+          if(isset($_SESSION["fname"]))
+          {
+            if($_SESSION["fname"]=="")
+            {
+              echo "<li><a class='getstarted scrollto' href='login.php'>Login</a></li>";
+            }
+            elseif($_SESSION["filename"]!="")
+            {
+              echo "<li><a  href='profile1'>"."<img src='images/".$_SESSION["filename"]."' alt='".$_SESSION["fname"]."' style='border-radius:200%'>"."</a></li>";
+            }
+            elseif($_SESSION["filename"]=="" && $_SESSION["fname"]!="")
+            {
+              echo "<li><a class='getstarted scrollto' href='profile1'>".$_SESSION["fname"]."</a></li>";
+            }
+          }
+          else
+          {
+            echo "<li><a class='getstarted scrollto' href='login.php'>Login</a></li>";
+          }
+          ?>
                 </ul>
                 <i class="bi bi-list mobile-nav-toggle"></i>
             </nav><!-- .navbar -->
@@ -147,6 +187,7 @@ if (!isset($_SESSION["role"])) {
     <div class="split left">
         <!-- <div class="centered"> -->
         <div id="map"></div>
+        <script src="map.js"></script>
         <!-- </div> -->
     </div><br><br>
     <div class="split right">
@@ -160,6 +201,8 @@ if (!isset($_SESSION["role"])) {
                 </div>
                 <input type="text" name="latitude" id="" hidden>
                 <input type="text" name="longitude" id="" hidden>
+                <input type="text" name="latitudes" id="" hidden>
+                <input type="text" name="longitudes" id="" hidden>
                 <div class="form-group">
                     <label for="Last name">Destination Location:</label>
                     <input type="text" class="form-control" id="daddress" name="daddress" placeholder="Enter where do you wish to reach" onchange=overloading()>
@@ -232,7 +275,7 @@ if (!isset($_SESSION["role"])) {
                     }
 
                     ?>
-                    <br>
+                    
                     <div class="form-group">
                         <label for="Distance">Distance:</label>
                         <input type="text" class="form-control" name="distance" id="dis" readonly>
@@ -241,156 +284,175 @@ if (!isset($_SESSION["role"])) {
                     <div class="form-group">
                         <label for="Duration">Duration:</label>
                         <input type="text" class="form-control" name="duration" id="dur" readonly>
-                    </div>
-
+                    </div><br>
+                    
                     </select>
+                    <!-- <img src="images/source.png" alt=""> -->
                 </div>
                 <div class="form-group">
                     <button type="submit" class="btn btn-success">Submit</button>
-                </div>
+                </div><br>
                 <script>
-                    $("form").on("submit", function(event) {
-                        event.preventDefault();
-                        var formValues = $(this).serialize();
-                        $.post(
-                            "insertRR.php",
-                            formValues,
-                            function(data, status) {
-                                if (data == "success") {
-                                    window.location = "index";
-                                }
-                            }
-                        )
-                    });
+                        
+                        $(document).ready(function()
+                        {
+                            var latitudes,longitudes;
+                            navigator.geolocation.getCurrentPosition(position=>{
+                            const {latitude,longitude}=position.coords;
+                            latitudes=latitude;
+                            longitudes=longitude;
+                            document.querySelector(".myForm input[name='latitudes']").value=latitudes;
+                            document.querySelector(".myForm input[name='longitudes']").value=longitudes;
+                        })
+                        
+                        })   
+                        
+                $("form").on("submit",function(event)
+                {
 
-                    function overloading() {
-
-
-                        var address = document.querySelector("#address").value;
-                        console.log(address);
-                        const settingss = {
-
-                            async: true,
-                            crossDomain: true,
-                            url: 'https://trueway-geocoding.p.rapidapi.com/Geocode?address=' + address + '&language=en',
-                            method: 'GET',
-                            headers: {
-                                'X-RapidAPI-Key': '39bebf8c65msh3c5431b6e89763ap1093ddjsn2d7d1e854615',
-                                'X-RapidAPI-Host': 'trueway-geocoding.p.rapidapi.com'
-                            }
-                        };
-
-                        $.ajax(settingss).done(function(response) {
-                            console.log(response);
-                            var lat = response.results[0].location.lat;
-                            var long = response.results[0].location.lng;
-                            console.log(lat);
-                            document.querySelector(".myForm input[name='latitude']").value = lat;
-                            document.querySelector(".myForm input[name='longitude']").value = long;
-                        });
-
-
-                        var daddress = document.querySelector("#daddress").value;
-                        console.log(daddress);
-                        const settings = {
-
-                            async: true,
-                            crossDomain: true,
-                            url: 'https://trueway-geocoding.p.rapidapi.com/Geocode?address=' + daddress + '&language=en',
-                            method: 'GET',
-                            headers: {
-                                'X-RapidAPI-Key': '39bebf8c65msh3c5431b6e89763ap1093ddjsn2d7d1e854615',
-                                'X-RapidAPI-Host': 'trueway-geocoding.p.rapidapi.com'
-                            }
-                        };
-
-                        $.ajax(settings).done(function(responses) {
-                            var city = responses.results[0].locality;
-
-                            var dropdown = document.getElementById("dcity");
-                            for (var i = 0; i < dropdown.options.length; i++) {
-                                if (dropdown.options[i].text === city) {
-                                    dropdown.options[i].selected = true;
-                                    break;
-                                }
-                            }
-                            var dlat = responses.results[0].location.lat;
-                            var dlong = responses.results[0].location.lng;
-                            console.log(responses);
-                            document.querySelector(".myForm input[name='dlat']").value = dlat;
-                            document.querySelector(".myForm input[name='dlong']").value = dlong;
-                            overloadings();
-                        });
-                        console.log("called map");
-
-                    }
-                    async function overloadings() {
-                        try {
-                            await new Promise(r => setTimeout(r, 2000));
-                            L.mapquest.key = 'w03p4OcwnfyANcr03u9OE13IfBPPwV1g';
-                            var baseLayer = L.mapquest.tileLayer('map');
-
-                            var map = L.mapquest.map('map', {
-                                center: [21.1702, 72.8311],
-                                layers: baseLayer,
-                                zoom: 12
-                            });
-
-
-                            // Create markers for source and destination
-                            var sourceMarker = L.mapquest.textMarker([37.7749, -122.4194], {
-                                text: 'Source',
-                                position: 'right',
-                            }).addTo(map);
-
-                            var destinationMarker = L.mapquest.textMarker([34.0522, -118.2437], {
-                                text: 'Destination',
-                                position: 'right',
-                            }).addTo(map);
-                            map.addLayer(L.mapquest.trafficLayer());
-                            map.addLayer(L.mapquest.incidentsLayer());
-                            map.addLayer(L.mapquest.marketsLayer());
-                            map.addControl(L.mapquest.trafficControl());
-                            L.mapquest.directions().route({
-
-                                start: '' + document.querySelector(".myForm input[name='latitude']").value + ',' + document.querySelector(".myForm input[name='longitude']").value + '', // Starting address or location
-                                end: '' + document.querySelector(".myForm input[name='dlat']").value + ',' + document.querySelector(".myForm input[name='dlong']").value + '', // Ending address or location
-                            });
-                        } finally {
-                            calculate();
+                    event.preventDefault();
+                    var formValues=$(this).serialize();
+                    $.post(
+                        "insertRR.php",
+                     formValues,
+                    function(data,status)
+                    {
+                        if(data=="success")
+                        {
+                            window.location="index";
                         }
+                    }   
+                )
+                });
 
-                    }
+    function overloading(){
+      
+                  
+      var address=document.querySelector("#address").value; 
+      console.log(address);   
+      const settingss = {
+      
+      async: true,
+      crossDomain: true,
+      url: 'https://trueway-geocoding.p.rapidapi.com/Geocode?address='+address+'&language=en',
+      method: 'GET',
+      headers: {
+          'X-RapidAPI-Key': '39bebf8c65msh3c5431b6e89763ap1093ddjsn2d7d1e854615',
+          'X-RapidAPI-Host': 'trueway-geocoding.p.rapidapi.com'
+      }
+  };
+  
+  $.ajax(settingss).done(function (response) {
+  console.log(response);
+    if(response.results[0].country=="India" && response.results[0].region!="Andaman and Nicobar Islands")
+    {
+        var lat=response.results[0].location.lat;
+      var long=response.results[0].location.lng;
+      console.log(lat);
+      document.querySelector(".myForm input[name='latitude']").value=lat;
+      document.querySelector(".myForm input[name='longitude']").value=long;
+    }
+    else
+    {
+        alert("please enter a place which is india");
+    }
+      
+  });
 
-                    function calculate() {
+  
+  var daddress=document.querySelector("#daddress").value ; 
+console.log(daddress);   
+const settings = {
 
-                        const settings = {
-                            async: true,
-                            crossDomain: true,
-                            url: 'https://trueway-matrix.p.rapidapi.com/CalculateDrivingMatrix?origins=' + document.querySelector(".myForm input[name='latitude']").value + '%2C' + document.querySelector(".myForm input[name='longitude']").value + '&destinations=' + document.querySelector(".myForm input[name='dlat']").value + '%2C' + document.querySelector(".myForm input[name='dlong']").value + '',
-                            method: 'GET',
-                            headers: {
-                                'X-RapidAPI-Key': '39bebf8c65msh3c5431b6e89763ap1093ddjsn2d7d1e854615',
-                                'X-RapidAPI-Host': 'trueway-matrix.p.rapidapi.com'
-                            }
-                        };
+async: true,
+crossDomain: true,
+url: 'https://trueway-geocoding.p.rapidapi.com/Geocode?address='+daddress+'&language=en',
+method: 'GET',
+headers: {
+'X-RapidAPI-Key': '39bebf8c65msh3c5431b6e89763ap1093ddjsn2d7d1e854615',
+'X-RapidAPI-Host': 'trueway-geocoding.p.rapidapi.com'
+}
+};
 
-                        $.ajax(settings).done(function(response) {
-                            console.log(response);
-                            var dis = response.distances[0];
-                            var dur = response.durations[0];
-                            document.querySelector(".myForm input[name='distance']").value = dis / 1000 + "km";
-                            document.querySelector(".myForm input[name='duration']").value = toTimeString(dur);
-                            console.log("i was called");
-                        });
-                    }
+$.ajax(settings).done(function (responses) {
+    console.log(responses);
+    if(responses.results[0].country=="India" && responses.results[0].region!="Andaman and Nicobar Islands")
+    {
+        var city=responses.results[0].locality;
 
-                    function toTimeString(totalseconds) {
-                        const totalMs = totalseconds * 1000;
-                        const result = new Date(totalMs).toISOString().slice(11, 19);
-                        return result;
-                    }
-                </script>
+        var dropdown=document.getElementById("dcity");
+        for(var i=0;i<dropdown.options.length;i++)
+        {
+            if(dropdown.options[i].text===city)
+            {
+                dropdown.options[i].selected=true;
+                break;
+            }
+        }
+        var dlat=responses.results[0].location.lat;
+        var dlong=responses.results[0].location.lng;
+        console.log(responses);
+        document.querySelector(".myForm input[name='dlat']").value=dlat;
+        document.querySelector(".myForm input[name='dlong']").value=dlong;
+        overloadings();
+
+    }
+    else
+    {
+        alert("please enter a place which is india or can be travelled in mainland india");
+    }
+    
+});
+console.log("called map");
+
+}
+async function overloadings()
+    {
+        try
+        {
+            await new Promise(r=>setTimeout(r,2000));
+            var lat=document.querySelector(".myForm input[name='latitude']").value;
+        var long=document.querySelector(".myForm input[name='longitude']").value;
+        var dlat=document.querySelector(".myForm input[name='dlat']").value;
+        var dlong=document.querySelector(".myForm input[name='dlong']").value;
+        GG(lat,long,dlat,dlong);
+        }finally{
+            calculate();
+        }
+        
+    }
+    function calculate()
+    {
+        
+        const settings = {
+	async: true,
+	crossDomain: true,
+	url: 'https://trueway-matrix.p.rapidapi.com/CalculateDrivingMatrix?origins='+document.querySelector(".myForm input[name='latitude']").value+'%2C'+document.querySelector(".myForm input[name='longitude']").value+'&destinations='+document.querySelector(".myForm input[name='dlat']").value+'%2C'+document.querySelector(".myForm input[name='dlong']").value+'',
+	method: 'GET',
+	headers: {
+		'X-RapidAPI-Key': '39bebf8c65msh3c5431b6e89763ap1093ddjsn2d7d1e854615',
+		'X-RapidAPI-Host': 'trueway-matrix.p.rapidapi.com'
+	}
+};
+
+$.ajax(settings).done(function (response) {
+	console.log(response);
+    var dis=response.distances[0];
+    var dur=response.durations[0];
+    document.querySelector(".myForm input[name='distance']").value=dis/1000+"km";
+    document.querySelector(".myForm input[name='duration']").value=toTimeString(dur);
+    console.log("i was called");
+});
+    }
+    function toTimeString(totalseconds)
+    {
+        const totalMs=totalseconds * 1000;
+        const result=new Date(totalMs).toISOString().slice(11,19);
+        return result;
+    }
+   
+
+    </script>
 
             </form>
         </div>
