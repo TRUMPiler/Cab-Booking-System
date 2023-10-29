@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 28, 2023 at 09:21 AM
+-- Generation Time: Oct 29, 2023 at 08:27 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -50,6 +50,7 @@ INSERT INTO `admin` (`adminID`, `adminName`, `email`, `password`) VALUES
 CREATE TABLE `driver` (
   `id` int(11) NOT NULL,
   `fname` varchar(60) NOT NULL,
+  `mname` varchar(50) NOT NULL,
   `lname` varchar(50) NOT NULL,
   `password` varchar(90) NOT NULL,
   `dob` date NOT NULL,
@@ -66,9 +67,8 @@ CREATE TABLE `driver` (
 -- Dumping data for table `driver`
 --
 
-INSERT INTO `driver` (`id`, `fname`, `lname`, `password`, `dob`, `gender`, `contact`, `address`, `CityGG`, `email`, `image`, `account_creation`) VALUES
-(25, 'Naishal', 'Doshi', 'naishald123', '2003-02-13', 'Male', 9326163059, 'pratistha apartments piplod', 1225, 'kraken9012e@gmail.com', 'naishal.jpg', '2023-09-23 21:44:54'),
-(27, 'Naishal', 'Doshi', 'Naishald123@', '2003-06-13', 'Male', 9326163059, 'Pratistha Apartments piplod', 1225, 'cjesus691332@gmail.com', 'naishal.jpg', '2023-09-28 07:19:34');
+INSERT INTO `driver` (`id`, `fname`, `mname`, `lname`, `password`, `dob`, `gender`, `contact`, `address`, `CityGG`, `email`, `image`, `account_creation`) VALUES
+(32, 'Naishal', 'manish', 'Doshi', 'Naishald123@', '2003-06-13', 'male', 9326163059, 'Pratistha apartments piplod', 1225, 'naishal036@gmail.com', 'naishal.jpg', '2023-10-29 18:57:21');
 
 -- --------------------------------------------------------
 
@@ -79,6 +79,7 @@ INSERT INTO `driver` (`id`, `fname`, `lname`, `password`, `dob`, `gender`, `cont
 CREATE TABLE `passenger` (
   `id` int(11) NOT NULL,
   `fname` varchar(60) NOT NULL,
+  `mname` varchar(50) NOT NULL,
   `lname` varchar(50) NOT NULL,
   `password` varchar(150) NOT NULL,
   `dob` varchar(20) NOT NULL,
@@ -95,9 +96,8 @@ CREATE TABLE `passenger` (
 -- Dumping data for table `passenger`
 --
 
-INSERT INTO `passenger` (`id`, `fname`, `lname`, `password`, `dob`, `gender`, `contact`, `address`, `CityGG`, `email`, `image`, `account_creation`) VALUES
-(54, 'navdeep', 'Chaudhari', '2da824c99f53f7ea3bdc263230bbed18', '2003-06-13', 'Male', 9326163059, 'bardoli', 1219, '21bmiit105@gmail.com', 'Screenshot 2023-07-09 172132.png', '2023-09-14 03:56:09'),
-(55, 'naishal', 'Doshi', 'naishald123', '2003-06-12', 'Male', 9326163059, 'pratistha apartments piplod surat', 1218, '21bmiit100@gmail.com', 'naishal.jpg', '2023-09-18 19:53:07');
+INSERT INTO `passenger` (`id`, `fname`, `mname`, `lname`, `password`, `dob`, `gender`, `contact`, `address`, `CityGG`, `email`, `image`, `account_creation`) VALUES
+(56, 'Naishal ', '', 'Doshi', 'naishald123', '2003-06-13', 'Male', 9326163059, 'Pratistha apartments piplod', 1225, '21bmiit100@gmail.com', 'naishal.jpg', '2023-10-01 06:05:29');
 
 -- --------------------------------------------------------
 
@@ -999,13 +999,6 @@ CREATE TABLE `tbl_interest` (
   `date_of_request` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `tbl_interest`
---
-
-INSERT INTO `tbl_interest` (`interestID`, `RequestID`, `DriverID`, `Cost`, `date_of_request`) VALUES
-(9, 5, 27, 21000.00, '2023-09-28 12:50:04');
-
 -- --------------------------------------------------------
 
 --
@@ -1029,7 +1022,7 @@ CREATE TABLE `tbl_request_ride` (
 --
 
 INSERT INTO `tbl_request_ride` (`Request_id`, `SourceAddress`, `DestinationAddress`, `SourceCity`, `DestinationCity`, `From`, `To`, `passengerId`, `requestCreation`) VALUES
-(5, 'pratistha apartments piplod surat', 'uka tarsadia university', 1225, 1230, '2023-09-29 16:48:00', '2023-09-30 17:49:00', 55, '2023-09-28 12:44:54');
+(10, 'Pratistha apartments piplod', 'uka tarsadia university ', 1225, 1230, '2023-10-29 16:37:00', '2023-10-29 20:37:00', 56, '2023-10-28 16:37:52');
 
 -- --------------------------------------------------------
 
@@ -1093,8 +1086,10 @@ INSERT INTO `tbl_state` (`stateID`, `State_name`) VALUES
 CREATE TABLE `vehicle` (
   `id` int(11) NOT NULL,
   `company_name` varchar(50) NOT NULL,
-  `Vehicle_name` varchar(50) NOT NULL,
+  `model` varchar(50) NOT NULL,
   `vehicle-number` varchar(20) NOT NULL,
+  `vehiclepermit` varchar(150) NOT NULL,
+  `vehicleinsurance` varchar(150) NOT NULL,
   `driver_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -1102,9 +1097,8 @@ CREATE TABLE `vehicle` (
 -- Dumping data for table `vehicle`
 --
 
-INSERT INTO `vehicle` (`id`, `company_name`, `Vehicle_name`, `vehicle-number`, `driver_id`) VALUES
-(6, 'taxDASH', 'fiatGo', 'GJ-03-AC-9212', 25),
-(8, 'taxDASH', 'fiatGo', 'GJ-03-AC-9212', 27);
+INSERT INTO `vehicle` (`id`, `company_name`, `model`, `vehicle-number`, `vehiclepermit`, `vehicleinsurance`, `driver_id`) VALUES
+(13, 'Taxdash', 'huvre XUV', 'AJ-04-CH-1567', 'cab2.png', 'destination.png', 32);
 
 --
 -- Indexes for dumped tables
@@ -1169,25 +1163,25 @@ ALTER TABLE `vehicle`
 -- AUTO_INCREMENT for table `driver`
 --
 ALTER TABLE `driver`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT for table `passenger`
 --
 ALTER TABLE `passenger`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
 
 --
 -- AUTO_INCREMENT for table `tbl_interest`
 --
 ALTER TABLE `tbl_interest`
-  MODIFY `interestID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `interestID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `tbl_request_ride`
 --
 ALTER TABLE `tbl_request_ride`
-  MODIFY `Request_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `Request_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `tbl_state`
@@ -1199,7 +1193,7 @@ ALTER TABLE `tbl_state`
 -- AUTO_INCREMENT for table `vehicle`
 --
 ALTER TABLE `vehicle`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- Constraints for dumped tables

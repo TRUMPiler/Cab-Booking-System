@@ -3,7 +3,9 @@
 
 <head>
     <title>Registration Page</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    
     <style>
         body {
             background-image: url('Images/Background.jpg');
@@ -48,7 +50,7 @@
                 <div class="card">
                     <h1 class="card-header text-center">Register your vehicle</h1>
                     <div class="card-body">
-                        <form id="registration-form" action="registration.php" method="post">
+                        <form enctype="multipart/form-data" id="myform">
                             <section class="registration-section" id="personal-info-section">
                                 <h2>Vehicle Information</h2>
                                 <div class="form-row">
@@ -59,8 +61,7 @@
                                     </div>
                                     <div class="form-group col-md-12">
                                         <label for="model">Model:</label>
-                                        <input type="text" class="form-control" id="model" name="model"
-                                            placeholder="Enter Vehicle Model">
+                                        <input type="text" class="form-control" id="model" name="model" placeholder="Enter Vehicle Model">
                                     </div>
                                     <div class="form-group col-md-12">
                                         <label for="vehiclenumber">Registration Number:</label>
@@ -80,6 +81,43 @@
                                     <button type="submit" class="btn btn-success">Register</button>
                                 </div>
                             </section>
+                            <script>
+                                
+                                    $(document).ready(function()
+                                    {
+                                        
+                                        $("#myform").submit(function(event)
+                                        {   
+                                            event.preventDefault();
+                                            var formdata=new FormData(this);
+                                            $.ajax({
+                                                type:"POST",
+                                                url:"ajax_files/setvehicle.php",
+                                                data:formdata,
+                                                contentType: false,
+                                                cache: false,
+                                                processData:false,
+                                                success:function(data){
+                                                    if(data=="true")
+                                                    {
+                                                        window.location="otp.php";
+                                                    }
+                                                    else if(data=="vehicle exists")
+                                                    {
+                                                        alert("This vehicle seems to be registered on another driver\'s name \n please check your vehicle details");
+                                                    }
+                                                    else
+                                                    {
+                                                        alert(data);
+                                                    }
+                                                   
+                                                },
+                                            }); 
+                                            
+                                        });
+                                    
+                                    })
+                                    </script>
                         </form>
                     </div>
                 </div>
