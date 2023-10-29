@@ -13,6 +13,7 @@
                             $_SESSION["city"]=$_POST["city"];
                             $_SESSION["fname"]=$_POST["fname"];
                             $_SESSION["lname"]=$_POST["lname"];
+                            $_SESSION["mname"]=$_POST["mname"];
                             $_SESSION["password"]=$_POST["password"];
                            $_SESSION["dob"]=$_POST["dob"];
                            $_SESSION["gender"]=$_POST["gender"];
