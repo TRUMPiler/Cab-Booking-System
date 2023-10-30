@@ -62,7 +62,7 @@ session_start();
           <!-- <li><a class="nav-link scrollto" href="#team">Team</a></li> -->
           <li class="dropdown" ><a href="#"><span>Services</span> <i class="bi bi-chevron-down"></i></a>
             <ul>
-              <li><a href="Request ride">View Request Ride</a></li>
+              <li><a href="view_requested">View Request Ride</a></li>
               <!-- <li class="dropdown"><a href="#"><span>Deep Drop Down</span> <i class="bi bi-chevron-right"></i></a>
                 <ul>
                   <li><a href="#">Deep Drop Down 1</a></li>
@@ -174,7 +174,7 @@ session_start();
           <div class="col-md-6 col-lg-3 d-flex align-items-stretch" data-aos="zoom-in" data-aos-delay="100">
             <div class="icon-box">
               <div class="icon"><i class="bx bx-notification"></i></div>
-              <h4 class="title"><a href="">View Requested Rides</a></h4>
+              <h4 class="title"><a href="view_requested">View Requested Rides</a></h4>
               <p class="description">View the list of clients who wants to travel</p>
             </div>
           </div>
@@ -191,7 +191,7 @@ session_start();
             <div class="icon-box">
               <div class="icon"><i class="bx bx-bell"></i></div>
               <h4 class="title"><a href="">Notification</a></h4>
-              <p class="description">Get notified when you get a Response.</p>
+              <p class="description">Get notified through email when you get a Response.</p>
             </div>
           </div>
 
@@ -618,7 +618,7 @@ session_start();
   </main><!-- End #main -->
 
   <!-- ======= Footer ======= -->
-  <footer id="footer">
+   <footer id="footer">
 
     <!-- <div class="footer-newsletter">
       <div class="container">
@@ -639,13 +639,14 @@ session_start();
         <div class="row">
 
           <div class="col-lg-3 col-md-6 footer-contact">
-            <h3>Ninestars</h3>
+            <h3>Team no 2</h3>
             <p>
-              A108 Adam Street <br>
-              New York, NY 535022<br>
-              United States <br><br>
-              <strong>Phone:</strong> +1 5589 55488 55<br>
-              <strong>Email:</strong> info@example.com<br>
+              Babu Madhav Institude of Information and Technology <br>
+              Uka Tarsadia University<br>
+              Bardoli, Gujrat 394620<br>
+              India <br><br>
+              <strong>Phone:</strong> +91 6353 0300 96<br>
+              <strong>Email:</strong> registrar@utu.ac.in<br>
             </p>
           </div>
 
@@ -654,13 +655,13 @@ session_start();
             <ul>
               <li><i class="bx bx-chevron-right"></i> <a href="#hero">Home</a></li>
               <li><i class="bx bx-chevron-right"></i> <a href="#services">About us</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="#scroll service">Services</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#services">Services</a></li>
               <li><i class="bx bx-chevron-right"></i> <a href="#services">Terms of service</a></li>
               <li><i class="bx bx-chevron-right"></i> <a href="#services">Privacy policy</a></li>
             </ul>
           </div>
 
-          <div class="col-lg-3 col-md-6 footer-links">
+          <!-- <div class="col-lg-3 col-md-6 footer-links">
             <h4>Our Services</h4>
             <ul>
               <li><i class="bx bx-chevron-right"></i> <a href="#">Web Design</a></li>
@@ -669,17 +670,17 @@ session_start();
               <li><i class="bx bx-chevron-right"></i> <a href="#">Marketing</a></li>
               <li><i class="bx bx-chevron-right"></i> <a href="#">Graphic Design</a></li>
             </ul>
-          </div>
+          </div> -->
 
           <div class="col-lg-3 col-md-6 footer-links">
             <h4>Our Social Networks</h4>
             <!-- <p></p> -->
             <div class="social-links mt-3">
-              <a href="#" class="twitter"><i class="bx bxl-twitter"></i></a>
-              <a href="#" class="facebook"><i class="bx bxl-facebook"></i></a>
-              <a href="#" class="instagram"><i class="bx bxl-instagram"></i></a>
-              <a href="#" class="google-plus"><i class="bx bxl-skype"></i></a>
-              <a href="#" class="linkedin"><i class="bx bxl-linkedin"></i></a>
+              <a href="https://twitter.com/utumalibacampus?lang=en" class="twitter"><i class="bx bxl-twitter"></i></a>
+              <a href="https://www.facebook.com/utu.malibacampus/" class="facebook"><i class="bx bxl-facebook"></i></a>
+              <a href="https://www.instagram.com/bmiit.utu/?hl=en" class="instagram"><i class="bx bxl-instagram"></i></a>
+              <a href="mailto:“dashtaxigg@gamil.com.com" class="google-plus"><i class="bx bxl-google"></i></a>
+              <a href="https://www.linkedin.com/company/utu-malibacampus" class="linkedin"><i class="bx bxl-linkedin"></i></a>
             </div>
           </div>
 
@@ -696,7 +697,7 @@ session_start();
         <!-- You can delete the links only if you purchased the pro version. -->
         <!-- Licensing information: https://bootstrapmade.com/license/ -->
         <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/ninestars-free-bootstrap-3-theme-for-creative/ -->
-        Designed by <a href="https://bootstrapmade.com/">Pranav Chaudhari, Naishal Doshi and Navdeep Chaudhary</a>
+        Designed by <a href="https://github.com/Whitespider06">Pranav Chaudhari, Naishal Doshi and Navdeep Chaudhary</a>
       </div>
     </div>
   </footer><!-- End Footer -->

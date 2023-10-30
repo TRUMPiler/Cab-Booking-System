@@ -1,11 +1,17 @@
 <?php 
 session_start();
-if(isset($_SESSION["verified"]))
+if(isset($_SESSION["role"]))
 {
-  if($_SESSION["verified"]!=true)
+  if($_SESSION["role"]!="")
   {
-    session_unset();
-    session_destroy();
+    if($_SESSION["role"]=="passenger")
+    {
+      header("location: index");
+    }
+    else if($_SESSION["role"]=="driver")
+    {
+      header("location: index_driver");
+    }
   }
 }
 ?>
@@ -22,6 +28,7 @@ if(isset($_SESSION["verified"]))
   <!-- ajax -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js">
     </script>
+    <script src="assets/js/loader.js"></script>
   <!-- Favicons -->
   <link href="Images/Taxibooking.png" rel="icon">
   <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
@@ -108,7 +115,7 @@ if(isset($_SESSION["verified"]))
             }
             elseif(isset($_SESSION["filename"]))
             {
-              echo "<li><a  href='profile1'>"."<img src='images/".$_SESSION["filename"]."' alt='".$_SESSION["fname"]."' style='border-radius:150%;'>"."</a></li>";
+              echo "<li><a  href='profile1'>"."<img src='images/".$_SESSION["filename"]."' alt='".$_SESSION["fname"]."' style='border-radius:360%;'>"."</a></li>";
             }
             elseif(!isset($_SESSION["filename"]) && $_SESSION["fname"]!="")
             {
@@ -211,7 +218,7 @@ if(isset($_SESSION["verified"]))
             <div class="icon-box">
               <div class="icon"><i class="bx bx-bell"></i></div>
               <h4 class="title"><a href="">Notification</a></h4>
-              <p class="description">Get notified when you get a Response.</p>
+              <p class="description">Get notified through email when you get a Response.</p>
             </div>
           </div>
 
