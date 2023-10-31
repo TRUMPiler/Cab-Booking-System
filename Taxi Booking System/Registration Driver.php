@@ -25,7 +25,8 @@
     <title>Registration Page</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-    <script src="js/loader.js"></script>
+    <script src="assets/js/loader.js"></script>
+    
     <style>
         #preloader
         {
@@ -237,7 +238,7 @@
                                                 success:function(data){
                                                     if(data=="true")
                                                     {
-                                                        window.location="Registration Vehicle";
+                                                        window.location="register_vehicle";
                                                     }
                                                     else if(data=="./emailerror.php")
                                                     {
@@ -271,11 +272,7 @@
 
                                     $.ajax(settings).done(function (responses) {
                                     var city=responses.results[0].locality;
-                                    if(responses.results[0].region=="Gujarat")
-                                    {
-                                        if(document.getElementById("address").value==responses.results[0].locality)
-                                        {
-                                            console.log(city);
+                                    console.log(city);
                                     var dropdown=document.getElementById("dcity");
                                     for(var i=0;i<dropdown.options.length;i++)
                                     {
@@ -285,19 +282,6 @@
                                             break;
                                         }
                                     }
-                                        }
-                                        else
-                                        {
-                                            alert("address not found to be complete please write proper address");
-                                            document.querySelector("#myform textarea[name='address']").value="";
-                                        }
-                                    }
-                                    else
-                                    {
-                                        alert("Sorry only residents of gurjat can register here 😢");
-                                        document.querySelector("#myform textarea[name='address']").value="";
-                                    }
-                                    
 
                                     });
                                 }
