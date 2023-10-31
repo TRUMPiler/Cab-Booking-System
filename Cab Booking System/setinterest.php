@@ -3,7 +3,7 @@ session_start();
 
 include "ajax_files/checkrr.php";
 include "connection.php";
-$query="select id from driver where fname='".$_SESSION["fname"]."' and email='".$_SESSION["email"]."'";
+$query="SELECT * FROM `driver`where id=".$_SESSION["id"]."";
 include "connection.php";
 $result=mysqli_query($conn,$query);
 if($result->num_rows>0 && $_SESSION["rrveri"]==true)
@@ -17,6 +17,7 @@ if($result->num_rows>0 && $_SESSION["rrveri"]==true)
 }
 else
 {
+  
     echo "false";
 }
 ?>

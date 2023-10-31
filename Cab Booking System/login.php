@@ -174,6 +174,7 @@ background-repeat: no-repeat;">
 									// output data of each row
 									while ($row = $result->fetch_assoc()) {
 										if ($row["email"] == $_POST["email"] and $row["password"] == $_POST["password"]) {
+											$_SESSION["id"]=$row["id"];
 											$_SESSION["fname"] = $row["fname"];
 											$_SESSION["lname"] = $row["lname"];
 											$_SESSION["dob"] = $row["dob"];
@@ -199,6 +200,7 @@ background-repeat: no-repeat;">
 										// output data of each row
 										while ($row = $result->fetch_assoc()) {
 											if ($row["email"] == $_POST["email"] and $row["password"] == $_POST["password"]) {
+												$_SESSION["id"]=$row["id"];
 												$_SESSION["fname"] = $row["fname"];
 												$_SESSION["lname"] = $row["lname"];
 												$_SESSION["dob"] = $row["dob"];
@@ -212,7 +214,7 @@ background-repeat: no-repeat;">
 												$_SESSION["verified"] = true;
 												$_SESSION["city"] = $row["CityGG"];
 												$_SESSION["filename"] = $row["image"];
-												header("location:index.php");
+												header("location:index_driver.php");
 											} else {
 												echo "<script>alert('invalid email or password')</script>";
 											}

@@ -68,7 +68,8 @@ if(isset($_SESSION["RequestID"]))
             echo "<h4>Travel Ends On:".$row["To"]."</h4>";
             echo "<h4 id='distance'>Estimated Distance of the ride</h4>";
             echo "<h4 id='duration'>Estimated Duration of the ride</h4>";
-            $query="select driver.id,interestID,Cost FROM tbl_interest JOIN driver where driver.email='".$_SESSION["email"]."'";
+            $query="select driver.id,interestID,Cost FROM tbl_interest JOIN driver where tbl_interest.DriverID=".$_SESSION["id"]." and driver.id=tbl_interest.DriverID";
+            // echo $query;
             $results=mysqli_query($conn,$query);
             if($results->num_rows>0)
             { 
@@ -109,12 +110,13 @@ if(isset($_SESSION["RequestID"]))
                         if(data=="true")
                         {
                           alert("Estimation send to passenger");
-                          window.location='index';
+                          window.location='index_driver';
                         }
                         else
                         {
+                          alert(data);
                           alert("Estimation Already exists");
-                          window.location='index.php';
+                          // window.location='index_driver';
                         }
                         }   
                 )

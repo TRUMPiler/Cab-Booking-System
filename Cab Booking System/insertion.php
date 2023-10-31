@@ -24,22 +24,34 @@ require_once "connection.php";
             if($ret>0)
             {
                 $company=$_SESSION["company"];
-                $vehiclename=$_SESSION["vehiclename"];  
+                $vehiclemodel=$_SESSION["model"];  
                 $vehiclenumber=$_SESSION["vehiclenumber"];
-                $sql = "select id from driver where email='$email' and fname='$fname' LIMIT 1";
+                $vehiclepermit=$_SESSION["vehiclepermit"];
+                $vehicleinsurance=$_SESSION["vehicleinsurance"];
 
+                $sql = "select id from driver where email='$email' and fname='$fname' LIMIT 1";
+                $result=0;
                     if ($result = $conn -> query($sql)) 
                     {
                         while ($row = $result -> fetch_row()) {
-                            $sql="INSERT INTO `vehicle`(`company_name`, `Vehicle_name`, `vehicle-number`, `driver_id`) VALUES ('$company','$vehiclename','$vehiclenumber',".$row[0].")";
+                            $sql="INSERT INTO `vehicle`(`company_name`, `model`, `vehicle-number`, `vehiclepermit`, `vehicleinsurance`, `driver_id`) VALUES ('$company','$vehiclemodel','$vehiclenumber','$vehiclepermit','$vehicleinsurance',".$row[0].")";
                         }
                     }
                     else
                     {
-                        header("location:register_vehical");
+                        echo "<script>alert('information of vehicle could\'nt be recorded please register again')</script>";
+                        echo "<script>window.location='Register Vehicle.php'</script>";
                     }
                     mysqli_query($conn,$sql);
-                
+                    if($result>0)
+                    {
+                        $_SESSION["verified"]=true;
+                        echo "<script>window.location='index_driver.php'</script>";
+                    }
+                    else
+                    {
+                        $_SESSION["verified"]=false;
+                    }
             }   
                
         }

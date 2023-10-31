@@ -103,7 +103,7 @@ session_start();
             {
               session_destroy();
               session_unset();
-              header("location:index");       
+              echo "<script>window.location='index'</script>";    
             }
             ?>
        </form>

@@ -49,7 +49,7 @@ function calculateRouteFromAtoB(platform) {
         origin: ''+origin+'', // Brandenburg Gate
         // destination: ''+''+document.querySelector(".myForm input[name='dlat']").value+','+document.querySelector(".myForm input[name='dlong']").value+'', // Friedrichstraße Railway Station
         // origin: '21.1702,72.8311', // Brandenburg Gate
-        destination: ''+document.querySelector(".myForm input[name='dlat']").value+','+document.querySelector(".myForm input[name='dlong']").value+'', // Friedrichstraße Railway Station
+        destination: ''+document.querySelector("#dlat").value+','+document.querySelector("#dlong").value+'', // Friedrichstraße Railway Station
         // destination: '21.5346,71.8275', // Friedrichstraße Railway Station
         return: 'polyline,turnByTurnActions,actions,instructions,travelSummary'
       };
@@ -338,8 +338,8 @@ function addsourceDestination(route)
 var destinationIcon = new H.map.Icon('images/destination.png', {size: {w: 35, h: 35}});
     
     // Create markers for source and destination with custom icons
-    var sourceMarker = new H.map.Marker({ lat: document.querySelector(".myForm input[name='latitude']").value, lng: long }, { icon: sourceIcon });
-    var destinationMarker = new H.map.Marker({ lat: document.querySelector(".myForm input[name='dlat']").value, lng:document.querySelector(".myForm input[name='dlong']").value }, { icon: destinationIcon });
+    var sourceMarker = new H.map.Marker({ lat: document.querySelector("#latitude").value, lng: long }, { icon: sourceIcon });
+    var destinationMarker = new H.map.Marker({ lat: document.querySelector("#dlat").value, lng:document.querySelector("#dlong").value }, { icon: destinationIcon });
     console.log(sourceMarker);
     // Add markers to the map
     if(map!=undefined)

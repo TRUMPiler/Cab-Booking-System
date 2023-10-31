@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 28, 2023 at 09:21 AM
+-- Generation Time: Oct 31, 2023 at 09:24 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -50,6 +50,7 @@ INSERT INTO `admin` (`adminID`, `adminName`, `email`, `password`) VALUES
 CREATE TABLE `driver` (
   `id` int(11) NOT NULL,
   `fname` varchar(60) NOT NULL,
+  `mname` varchar(50) NOT NULL,
   `lname` varchar(50) NOT NULL,
   `password` varchar(90) NOT NULL,
   `dob` date NOT NULL,
@@ -66,9 +67,9 @@ CREATE TABLE `driver` (
 -- Dumping data for table `driver`
 --
 
-INSERT INTO `driver` (`id`, `fname`, `lname`, `password`, `dob`, `gender`, `contact`, `address`, `CityGG`, `email`, `image`, `account_creation`) VALUES
-(25, 'Naishal', 'Doshi', 'naishald123', '2003-02-13', 'Male', 9326163059, 'pratistha apartments piplod', 1225, 'kraken9012e@gmail.com', 'naishal.jpg', '2023-09-23 21:44:54'),
-(27, 'Naishal', 'Doshi', 'Naishald123@', '2003-06-13', 'Male', 9326163059, 'Pratistha Apartments piplod', 1225, 'cjesus691332@gmail.com', 'naishal.jpg', '2023-09-28 07:19:34');
+INSERT INTO `driver` (`id`, `fname`, `mname`, `lname`, `password`, `dob`, `gender`, `contact`, `address`, `CityGG`, `email`, `image`, `account_creation`) VALUES
+(32, 'Naishal', 'manish', 'Doshi', 'Naishald123@', '2003-06-13', 'male', 9326163059, 'Pratistha apartments piplod', 1225, 'naishal036@gmail.com', 'naishal.jpg', '2023-10-29 18:57:21'),
+(34, 'Manish', 'navinbhai', 'Doshi', 'Naishald123@', '2003-06-12', 'male', 9326163059, 'Pratistha apartments piplod', 1225, 'cjesus69133@gmail.com', 'naishal.jpg', '2023-10-31 17:38:20');
 
 -- --------------------------------------------------------
 
@@ -79,6 +80,7 @@ INSERT INTO `driver` (`id`, `fname`, `lname`, `password`, `dob`, `gender`, `cont
 CREATE TABLE `passenger` (
   `id` int(11) NOT NULL,
   `fname` varchar(60) NOT NULL,
+  `mname` varchar(50) NOT NULL,
   `lname` varchar(50) NOT NULL,
   `password` varchar(150) NOT NULL,
   `dob` varchar(20) NOT NULL,
@@ -95,9 +97,27 @@ CREATE TABLE `passenger` (
 -- Dumping data for table `passenger`
 --
 
-INSERT INTO `passenger` (`id`, `fname`, `lname`, `password`, `dob`, `gender`, `contact`, `address`, `CityGG`, `email`, `image`, `account_creation`) VALUES
-(54, 'navdeep', 'Chaudhari', '2da824c99f53f7ea3bdc263230bbed18', '2003-06-13', 'Male', 9326163059, 'bardoli', 1219, '21bmiit105@gmail.com', 'Screenshot 2023-07-09 172132.png', '2023-09-14 03:56:09'),
-(55, 'naishal', 'Doshi', 'naishald123', '2003-06-12', 'Male', 9326163059, 'pratistha apartments piplod surat', 1218, '21bmiit100@gmail.com', 'naishal.jpg', '2023-09-18 19:53:07');
+INSERT INTO `passenger` (`id`, `fname`, `mname`, `lname`, `password`, `dob`, `gender`, `contact`, `address`, `CityGG`, `email`, `image`, `account_creation`) VALUES
+(56, 'Naishal ', '', 'Doshi', 'naishald123', '2003-06-13', 'Male', 9326163059, 'Pratistha apartments piplod', 1225, '21bmiit100@gmail.com', 'naishal.jpg', '2023-10-01 06:05:29');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_booked`
+--
+
+CREATE TABLE `tbl_booked` (
+  `Booked_ID` int(11) NOT NULL,
+  `InterestID` int(11) NOT NULL,
+  `RideStatus` varchar(70) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tbl_booked`
+--
+
+INSERT INTO `tbl_booked` (`Booked_ID`, `InterestID`, `RideStatus`) VALUES
+(14, 25, 'Ride Booked');
 
 -- --------------------------------------------------------
 
@@ -988,6 +1008,25 @@ INSERT INTO `tbl_city` (`CityID`, `City_Name`, `stateId`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `tbl_feedback`
+--
+
+CREATE TABLE `tbl_feedback` (
+  `feedbackid` int(11) NOT NULL,
+  `date-of-feedback` timestamp NOT NULL DEFAULT current_timestamp(),
+  `description` varchar(300) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tbl_feedback`
+--
+
+INSERT INTO `tbl_feedback` (`feedbackid`, `date-of-feedback`, `description`) VALUES
+(1, '2023-10-30 16:11:26', 'hello');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `tbl_interest`
 --
 
@@ -1004,7 +1043,7 @@ CREATE TABLE `tbl_interest` (
 --
 
 INSERT INTO `tbl_interest` (`interestID`, `RequestID`, `DriverID`, `Cost`, `date_of_request`) VALUES
-(9, 5, 27, 21000.00, '2023-09-28 12:50:04');
+(25, 12, 32, 21000.00, '2023-11-01 00:18:14');
 
 -- --------------------------------------------------------
 
@@ -1029,7 +1068,7 @@ CREATE TABLE `tbl_request_ride` (
 --
 
 INSERT INTO `tbl_request_ride` (`Request_id`, `SourceAddress`, `DestinationAddress`, `SourceCity`, `DestinationCity`, `From`, `To`, `passengerId`, `requestCreation`) VALUES
-(5, 'pratistha apartments piplod surat', 'uka tarsadia university', 1225, 1230, '2023-09-29 16:48:00', '2023-09-30 17:49:00', 55, '2023-09-28 12:44:54');
+(12, 'Pratistha apartments piplod', 'Suryansh serenity ahemdabad', 1225, 1201, '2023-11-02 05:26:00', '2023-11-02 23:02:00', 56, '2023-10-31 23:02:42');
 
 -- --------------------------------------------------------
 
@@ -1093,8 +1132,10 @@ INSERT INTO `tbl_state` (`stateID`, `State_name`) VALUES
 CREATE TABLE `vehicle` (
   `id` int(11) NOT NULL,
   `company_name` varchar(50) NOT NULL,
-  `Vehicle_name` varchar(50) NOT NULL,
+  `model` varchar(50) NOT NULL,
   `vehicle-number` varchar(20) NOT NULL,
+  `vehiclepermit` varchar(150) NOT NULL,
+  `vehicleinsurance` varchar(150) NOT NULL,
   `driver_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -1102,9 +1143,9 @@ CREATE TABLE `vehicle` (
 -- Dumping data for table `vehicle`
 --
 
-INSERT INTO `vehicle` (`id`, `company_name`, `Vehicle_name`, `vehicle-number`, `driver_id`) VALUES
-(6, 'taxDASH', 'fiatGo', 'GJ-03-AC-9212', 25),
-(8, 'taxDASH', 'fiatGo', 'GJ-03-AC-9212', 27);
+INSERT INTO `vehicle` (`id`, `company_name`, `model`, `vehicle-number`, `vehiclepermit`, `vehicleinsurance`, `driver_id`) VALUES
+(13, 'Taxdash', 'huvre XUV', 'AJ-04-CH-1567', 'cab2.png', 'destination.png', 32),
+(15, 'Taxdash', 'huvre XUV', 'AJ-04-CH-1566', 'reg_passenger.jpg', 'cab2.png', 34);
 
 --
 -- Indexes for dumped tables
@@ -1125,11 +1166,24 @@ ALTER TABLE `passenger`
   ADD KEY `CityKING` (`CityGG`);
 
 --
+-- Indexes for table `tbl_booked`
+--
+ALTER TABLE `tbl_booked`
+  ADD PRIMARY KEY (`Booked_ID`),
+  ADD KEY `interest` (`InterestID`);
+
+--
 -- Indexes for table `tbl_city`
 --
 ALTER TABLE `tbl_city`
   ADD PRIMARY KEY (`CityID`),
   ADD KEY `STATE_FOREIGN` (`stateId`);
+
+--
+-- Indexes for table `tbl_feedback`
+--
+ALTER TABLE `tbl_feedback`
+  ADD PRIMARY KEY (`feedbackid`);
 
 --
 -- Indexes for table `tbl_interest`
@@ -1169,25 +1223,37 @@ ALTER TABLE `vehicle`
 -- AUTO_INCREMENT for table `driver`
 --
 ALTER TABLE `driver`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- AUTO_INCREMENT for table `passenger`
 --
 ALTER TABLE `passenger`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
+
+--
+-- AUTO_INCREMENT for table `tbl_booked`
+--
+ALTER TABLE `tbl_booked`
+  MODIFY `Booked_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+
+--
+-- AUTO_INCREMENT for table `tbl_feedback`
+--
+ALTER TABLE `tbl_feedback`
+  MODIFY `feedbackid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `tbl_interest`
 --
 ALTER TABLE `tbl_interest`
-  MODIFY `interestID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `interestID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT for table `tbl_request_ride`
 --
 ALTER TABLE `tbl_request_ride`
-  MODIFY `Request_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `Request_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `tbl_state`
@@ -1199,7 +1265,7 @@ ALTER TABLE `tbl_state`
 -- AUTO_INCREMENT for table `vehicle`
 --
 ALTER TABLE `vehicle`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- Constraints for dumped tables
@@ -1216,6 +1282,12 @@ ALTER TABLE `driver`
 --
 ALTER TABLE `passenger`
   ADD CONSTRAINT `CityKING` FOREIGN KEY (`CityGG`) REFERENCES `tbl_city` (`CityID`);
+
+--
+-- Constraints for table `tbl_booked`
+--
+ALTER TABLE `tbl_booked`
+  ADD CONSTRAINT `interest` FOREIGN KEY (`InterestID`) REFERENCES `tbl_interest` (`interestID`);
 
 --
 -- Constraints for table `tbl_city`
