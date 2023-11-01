@@ -70,11 +70,11 @@
                                     </div>
                                     <div class="form-group col-md-12">
                                         <label for="vehiclepermit">Vehicle Permit:</label>
-                                        <input type="file" class="form-control" id="vehiclepermit" name="vehiclepermit" placeholder="Upload Vehicle Permit" required>
+                                        <input type="file" class="form-control" id="vehiclepermit" name="vehiclepermit" accept=".jpg,.png" placeholder="Upload Vehicle Permit" required>
                                     </div>
                                     <div class="form-group col-md-12">
                                         <label for="vehicleinsurance">Vehicle Insurance:</label>
-                                        <input type="file" class="form-control" id="vehicleinsurance" name="vehicleinsurance" placeholder="Upload Vehicle Insurance" required>
+                                        <input type="file" class="form-control" id="vehicleinsurance" name="vehicleinsurance" accept=".jpg,.png" placeholder="Upload Vehicle Insurance" required>
                                     </div>
                                 </div>
                                 <div class="d-flex justify-content-between">
@@ -118,6 +118,38 @@
                                     
                                     })
                                     </script>
+                                <script>
+                const plateNumberInput = document.getElementById('vehiclenumber');
+
+                plateNumberInput.addEventListener('input', function () {
+                  // Remove any spaces from the input
+                  let inputValue = this.value.replace(/ /g, '');
+
+                  // Insert spaces at the appropriate positions
+                  if (inputValue.length >= 2) {
+                    inputValue = inputValue.substr(0, 2) + ' ' + inputValue.substr(2);
+                  }
+                  if (inputValue.length >= 5) {
+                    inputValue = inputValue.substr(0, 5) + ' ' + inputValue.substr(5);
+                  }
+                  if (inputValue.length >= 8) {
+                inputValue = inputValue.substring(0, 8) + ' ' + inputValue.substring(8);
+              }
+              if (inputValue.length >= 13) {
+                inputValue = inputValue.substring(0, 13) + ' ' + inputValue.substring(13);
+              }
+
+
+                  // Limit the input to 13 characters
+                  this.value = inputValue.substr(0, 13);
+                  console.log(this.value);
+                  //                  const inputLength = this.value.length;
+//                  console.log(inputLength);
+         
+        });
+
+
+</script>
                         </form>
                     </div>
                 </div>
