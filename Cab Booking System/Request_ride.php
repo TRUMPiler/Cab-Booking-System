@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Request Ride</title>
     <!-- Favicons -->
-  <link href="taxibooking.png" rel="icon">
+  <link href="Images/Taxibooking.png" rel="icon">
   <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
 
   <!-- Google Fonts -->
