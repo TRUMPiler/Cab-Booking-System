@@ -100,7 +100,6 @@ session_start();
                                     <span class="error" id="fname_err"> </span>
                                 </div><br>
                                 <div class="d-flex justify-content-end">
-                                    <!-- <a href="profile"><button type="button" class="btn custom-button">Back to Profile</button></a> -->
                                     <button type="submit" name="submit" class="btn custom-button">Submit</button>
                                 </div>
                             </section>
