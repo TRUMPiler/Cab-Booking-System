@@ -5,7 +5,7 @@
     <title>Registration Page</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    
+    <link href="Images/Taxibooking.png" rel="icon">
     <style>
         body {
             background-image: url('Images/Background.jpg');
