@@ -19,7 +19,7 @@ if (!isset($_SESSION["role"])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>View Requested Rides</title>
-
+    <link href="Images/Taxibooking.png" rel="icon">
     <!-- Include Bootstrap CSS with custom color theme -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
