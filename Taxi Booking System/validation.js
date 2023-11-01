@@ -199,13 +199,31 @@ function checkmobile() {
 }
 function checkdob() {
     
-    var dob = $('#dob').val();
-     if(dob == null){
-        $('#dob_err').html('Please enter DOB');
-    }else {
-        $('#dob_err').html('');
+    var dobInput = document.getElementById('dob');
+  var dob = new Date(dobInput.value);
+
+  // Get the current date
+  var today = new Date();
+
+  // Calculate the user's age
+  var age = today.getFullYear() - dob.getFullYear();
+
+  // Check if the birthday has occurred this year
+  if (
+    age < 18 ||
+    (age === 18 &&
+      (today.getMonth() < dob.getMonth() ||
+        (today.getMonth() === dob.getMonth() && today.getDate() < dob.getDate())))
+  ) {
+    //alert('You must be 18 or older to submit this form.');
+    $('#dob_err').html('You must be 18 or older');
+    
+      dobInput.focus();
+//    return false;
+  }else {
+        $("#dob_err").html('');
         return true;
-    }
+    };
     
 }
 
