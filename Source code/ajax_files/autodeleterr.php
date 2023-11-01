@@ -1,6 +1,6 @@
 <?php 
 include "connection.php";
-$query="select requestCreation,Request_id from tbl_request_ride where requestCreation<= CURRENT_TIMESTAMP-1030000;";
+$query="select requestCreation,Request_id from tbl_request_ride JOIN tbl_booked where requestCreation<= CURRENT_TIMESTAMP-1030000 and not  tbl_booked.InterestID;";
 $result=mysqli_query($conn,$query);
 if($result->num_rows>0)
 {
