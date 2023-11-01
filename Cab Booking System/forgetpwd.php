@@ -22,6 +22,7 @@ if (isset($_SESSION["passwordVerified"])) {
     <link href='http://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <link href="Images/Taxibooking.png" rel="icon">
     <script src="assets/js/loader.js"></script>
     <title>Change Paassword</title>
     <style>
