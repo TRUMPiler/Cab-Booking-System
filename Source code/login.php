@@ -138,7 +138,7 @@ background-repeat: no-repeat;">
 			<div class="col-md-4 text-center company__info">
 				<span class="company__logo">
 					<h2>
-						<img src="Images\Taxi.png" alt="Not Found">
+						<img src="images\Taxi.png" alt="Not Found">
 					</h2>
 				</span>
 				<h4 class="company_title"></h4>
@@ -174,6 +174,7 @@ background-repeat: no-repeat;">
 									// output data of each row
 									while ($row = $result->fetch_assoc()) {
 										if ($row["email"] == $_POST["email"] and $row["password"] == $_POST["password"]) {
+											$_SESSION["id"]=$row["id"];
 											$_SESSION["fname"] = $row["fname"];
 											$_SESSION["lname"] = $row["lname"];
 											$_SESSION["dob"] = $row["dob"];
@@ -182,6 +183,7 @@ background-repeat: no-repeat;">
 											$_SESSION["address"] = $row["address"];
 											$_SESSION["email"] = $row["email"];
 											$_SESSION["password"] = $row["password"];
+											$_SESSION["filename"]=$row["image"];
 											$_SESSION["city"] = $row["CityGG"];
 											$_SESSION["role"] = "passenger";
 											$_SESSION["verified"] = true;
@@ -198,9 +200,11 @@ background-repeat: no-repeat;">
 										// output data of each row
 										while ($row = $result->fetch_assoc()) {
 											if ($row["email"] == $_POST["email"] and $row["password"] == $_POST["password"]) {
+												$_SESSION["id"]=$row["id"];
 												$_SESSION["fname"] = $row["fname"];
 												$_SESSION["lname"] = $row["lname"];
 												$_SESSION["dob"] = $row["dob"];
+												$_SESSION["filename"]=$row["image"];
 												$_SESSION["gender"] = $row["gender"];
 												$_SESSION["contact"] = $row["contact"];
 												$_SESSION["address"] = $row["address"];
@@ -210,7 +214,7 @@ background-repeat: no-repeat;">
 												$_SESSION["verified"] = true;
 												$_SESSION["city"] = $row["CityGG"];
 												$_SESSION["filename"] = $row["image"];
-												header("location:index.php");
+												header("location:index_driver.php");
 											} else {
 												echo "<script>alert('invalid email or password')</script>";
 											}
@@ -233,6 +237,7 @@ background-repeat: no-repeat;">
 													$_SESSION["password"] = $row["password"];
 													$_SESSION["role"] = "admin";
 													$_SESSION["verified"] = true;
+													
 													// $_SESSION["filename"]=$row["image"];
 													header("location:index.php");
 												} else {
@@ -249,7 +254,7 @@ background-repeat: no-repeat;">
 						</form>
 					</div>
 					<div class="row">
-						<p>Don't have an account? <a href="Registration.html">Register Here</a></p>
+						<p>Don't have an account? <a href="Register">Register Here</a></p>
 					</div>
 				</div>
 			</div>

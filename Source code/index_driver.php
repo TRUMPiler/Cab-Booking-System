@@ -1,17 +1,6 @@
 <?php 
 session_start();
-if(isset($_SESSION["verified"]))
-{
-  if($_SESSION["verified"]!=true)
-  {
-    session_unset();
-    session_destroy();
-  }
-  else if($_SESSION["role"]=="driver")
-  {
-     echo "<script>window.location='index_driver'</script>";
-  }
-}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -23,9 +12,7 @@ if(isset($_SESSION["verified"]))
   <title>Taxi Booking | Home</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
-  <!-- ajax -->
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js">
-    </script>
+
   <!-- Favicons -->
   <link href="Images/Taxibooking.png" rel="icon">
   <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
@@ -40,21 +27,10 @@ if(isset($_SESSION["verified"]))
   <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
   <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
   <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
-  <script src="js/loader.js"></script>
+
   <!-- Template Main CSS File -->
   <link href="assets/css/style.css" rel="stylesheet">
-  <style>
-    #preloader
-{
-   background: transparent url("images/loading.gif") no-repeat center;
-   backdrop-filter: blur(10px);
-   background-size: 13%;
-   height: 100vh;
-   width: 100%;
-   position: fixed;
-   z-index: 100;
-}
-  </style>
+
   <!-- =======================================================
   * Template Name: Ninestars
   * Updated: Jul 27 2023 with Bootstrap v5.3.1
@@ -65,7 +41,7 @@ if(isset($_SESSION["verified"]))
 </head>
 
 <body>
-  <div id="preloader"></div>
+
   <!-- ======= Header ======= -->
   <header id="header" class="fixed-top d-flex align-items-center">
     <div class="container d-flex align-items-center justify-content-between">
@@ -80,13 +56,13 @@ if(isset($_SESSION["verified"]))
       <nav id="navbar" class="navbar">
         <ul>
           <li><a class="nav-link scrollto active" href="#hero">Home</a></li>
-          <li><a class="nav-link scrollto" href="#about">About Us</a></li>
+          <!-- <li><a class="nav-link scrollto" href="#about">About Us</a></li> -->
           <!-- <li><a class="nav-link scrollto" href="#services">Services</a></li> -->
           <!-- <li><a class="nav-link scrollto" href="#portfolio">Portfolio</a></li> -->
           <!-- <li><a class="nav-link scrollto" href="#team">Team</a></li> -->
-          <li class="dropdown" ><a href="#services"><span>Services</span> <i class="bi bi-chevron-down"></i></a>
+          <li class="dropdown" ><a href="#"><span>Services</span> <i class="bi bi-chevron-down"></i></a>
             <ul>
-              <li><a href="Request ride">Request Ride</a></li>
+              <li><a href="view_requested">View Request Ride</a></li>
               <!-- <li class="dropdown"><a href="#"><span>Deep Drop Down</span> <i class="bi bi-chevron-right"></i></a>
                 <ul>
                   <li><a href="#">Deep Drop Down 1</a></li>
@@ -96,9 +72,9 @@ if(isset($_SESSION["verified"]))
                   <li><a href="#">Deep Drop Down 5</a></li>
                 </ul>
               </li> -->
-              <li><a href="#">Response</a></li>
-              <li><a href="#">Drop Down 3</a></li>
-              <li><a href="#">Drop Down 4</a></li>
+              <li><a href="confirm booking">Confirmed Bookings</a></li>
+              <!-- <li><a href="#">Drop Down 3</a></li> -->
+              <!-- <li><a href="#">Drop Down 4</a></li> -->
             </ul>
           </li>
           <!-- <li><a class="nav-link scrollto" href="#contact">Contact</a></li> -->
@@ -108,20 +84,20 @@ if(isset($_SESSION["verified"]))
           {
             if($_SESSION["fname"]=="")
             {
-              echo "<li><a class='getstarted scrollto' href='login'>Login</a></li>";
+              echo "<li><a class='getstarted scrollto' href='login.php'>Login</a></li>";
             }
-            elseif(isset($_SESSION["filename"]))
+            elseif($_SESSION["filename"]!="")
             {
-              echo "<li><a  href='profile1'>"."<img src='images/".$_SESSION["filename"]."' alt='".$_SESSION["fname"]."' style='border-radius:150%;'>"."</a></li>";
+              echo "<li><a  href='profile1'>"."<img src='Images/".$_SESSION["filename"]."' alt='".$_SESSION["fname"]."' style='border-radius:150%;'>"."</a></li>";
             }
-            elseif(!isset($_SESSION["filename"]) && $_SESSION["fname"]!="")
+            elseif($_SESSION["filename"]=="" && $_SESSION["fname"]!="")
             {
               echo "<li><a class='getstarted scrollto' href='profile1'>".$_SESSION["fname"]."</a></li>";
             }
           }
           else
           {
-            echo "<li><a class='getstarted scrollto' href='login'>Login</a></li>";
+            echo "<li><a class='getstarted scrollto' href='login.php'>Login</a></li>";
           }
           ?>
         </ul>
@@ -138,14 +114,14 @@ if(isset($_SESSION["verified"]))
     <div class="container">
       <div class="row gy-4">
         <div class="col-lg-6 order-2 order-lg-1 d-flex flex-column justify-content-center">
-          <h1>We Support You To Reach Your Destination</h1>
-          <h2>We are team of Taxi Booking, Trying to make your travel possible</h2>
+          <h1>Thank you for Supporting!</h1>
+          <h2>We Are Team Of Taxi Booking, We Thank You For Your Service.</h2>
           <div>
-            <a href="Request ride" class="btn-get-started scrollto">Get Started</a>
+            <a href="Request ride.php" class="btn-get-started scrollto">Get Started</a>
           </div>
         </div>
         <div class="col-lg-6 order-1 order-lg-2 hero-img">
-          <img src="Images/Homeimg1.jpg" class="img-fluid " alt="">
+          <img src="Images/Homepage Driver.jpg" class="img-fluid " alt="">
         </div>
       </div>
     </div>
@@ -163,9 +139,9 @@ if(isset($_SESSION["verified"]))
             <img src="assets/img/about-img.svg" class="img-fluid" alt="" data-aos="zoom-in">
           </div>
           <div class="col-lg-6 pt-5 pt-lg-0">
-            <h3 data-aos="fade-up">Book a ride sitting at your home</h3>
+            <h3 data-aos="fade-up">Help our clients to reach their destination.</h3>
             <p data-aos="fade-up" data-aos-delay="100">
-              Search, Request and Booked a Ride of your desire, no external entities involved. You are the controller of your ride.
+              View the request, accept it and help them reach their destination.
             </p>
             <!-- <div class="row">
               <div class="col-md-6" data-aos="fade-up" data-aos-delay="100">
@@ -191,31 +167,31 @@ if(isset($_SESSION["verified"]))
 
         <div class="section-title">
           <h2>Services</h2>
-          <p>Check out the great services we offer</p>
+          <!-- <p>Check out the great services we offer</p> -->
         </div>
 
         <div class="row">
           <div class="col-md-6 col-lg-3 d-flex align-items-stretch" data-aos="zoom-in" data-aos-delay="100">
             <div class="icon-box">
-              <div class="icon"><i class="bx bx-taxi"></i></div>
-              <h4 class="title"><a href="">Ride of your Desire</a></h4>
-              <p class="description">It's your travel, you have the control over it.</p>
+              <div class="icon"><i class="bx bx-notification"></i></div>
+              <h4 class="title"><a href="view_requested">View Requested Rides</a></h4>
+              <p class="description">View the list of clients who wants to travel</p>
             </div>
           </div>
 
-         <div class="col-md-6 col-lg-3 d-flex align-items-stretch" data-aos="zoom-in" data-aos-delay="200">
-         <a href="Request ride"><div class="icon-box">
+          <div class="col-md-6 col-lg-3 d-flex align-items-stretch" data-aos="zoom-in" data-aos-delay="200">
+            <div class="icon-box">
               <div class="icon"><i class="bx bx-file"></i></div>
-              <h4 class="title"><a href="Request ride">Request Ride</a></h4>
-              <p class="description">Fill in your travel details and put on a request.</p>
+              <h4 class="title"><a href="Request ride.php">Send Estimate</a></h4>
+              <p class="description">Send a cost estimation accroding to the travel</p>
             </div>
-          </div></a>
+          </div>
 
           <div class="col-md-6 col-lg-3 d-flex align-items-stretch" data-aos="zoom-in" data-aos-delay="300">
             <div class="icon-box">
               <div class="icon"><i class="bx bx-bell"></i></div>
               <h4 class="title"><a href="">Notification</a></h4>
-              <p class="description">Get notified when you get a Response.</p>
+              <p class="description">Get notified through email when you get a Response.</p>
             </div>
           </div>
 
@@ -223,7 +199,7 @@ if(isset($_SESSION["verified"]))
             <div class="icon-box">
               <div class="icon"><i class="bx bx-check-double"></i></div>
               <h4 class="title"><a href="">Confirm Booking</a></h4>
-              <p class="description">Once you get a proper ride, Confirm your Travel.</p>
+              <p class="description">Once the ride is confirmed, You are good to go</p>
             </div>
           </div>
 
@@ -642,7 +618,7 @@ if(isset($_SESSION["verified"]))
   </main><!-- End #main -->
 
   <!-- ======= Footer ======= -->
-  <footer id="footer">
+   <footer id="footer">
 
     <!-- <div class="footer-newsletter">
       <div class="container">
@@ -735,13 +711,7 @@ if(isset($_SESSION["verified"]))
   <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
   <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
   <script src="assets/vendor/php-email-form/validate.js"></script>
-<script>
-// loading();
-$(document).ready(function (){
-  HH();
-}
-)
-loading();</script>
+
   <!-- Template Main JS File -->
   <script src="assets/js/main.js"></script>
 
