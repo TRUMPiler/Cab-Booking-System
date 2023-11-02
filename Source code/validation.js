@@ -85,7 +85,7 @@ function checkfirstname() {
     if(user == ""){
          $('#fname_err').html('Please enter the first name');
     }
-     else if ($('#fname').val().length < 4) {
+     else if ($('#fname').val().length < 3) {
         $('#fname_err').html('length is too short');
         return false;
     } else if (!validuser) {
@@ -103,7 +103,7 @@ function checkmiddlename() {
     if(user == ""){
          $('#mname_err').html('Please enter the first name');
     }
-     else if ($('#mname').val().length < 4) {
+     else if ($('#mname').val().length < 3) {
         $('#mname_err').html('length is too short');
         return false;
     } else if (!validuser) {
@@ -121,7 +121,7 @@ function checklastname() {
     if(user == ""){
          $('#lname_err').html('Please enter the last name');
     }
-    else if ($('#lname').val().length < 4) {
+    else if ($('#lname').val().length < 3) {
         $('#lname_err').html('length is too short');
         return false;
     } else if (!validuser) {
@@ -199,13 +199,31 @@ function checkmobile() {
 }
 function checkdob() {
     
-    var dob = $('#dob').val();
-     if(dob == null){
-        $('#dob_err').html('Please enter DOB');
-    }else {
-        $('#dob_err').html('');
+  var dobInput = document.getElementById('dob');
+  var dob = new Date(dobInput.value);
+
+  // Get the current date
+  var today = new Date();
+
+  // Calculate the user's age
+  var age = today.getFullYear() - dob.getFullYear();
+
+  // Check if the birthday has occurred this year
+  if (
+    age < 18 ||
+    (age === 18 &&
+      (today.getMonth() < dob.getMonth() ||
+        (today.getMonth() === dob.getMonth() && today.getDate() < dob.getDate())))
+  ) {
+    //alert('You must be 18 or older to submit this form.');
+    $('#dob_err').html('You must be 18 or older');
+    
+      dobInput.focus();
+//    return false;
+  }else {
+        $("#dob_err").html('');
         return true;
-    }
+    };
     
 }
 
