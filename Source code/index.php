@@ -40,7 +40,7 @@ if(isset($_SESSION["verified"]))
   <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
   <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
   <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
-  <script src="js/loader.js"></script>
+  <script src="assets/js/loader.js"></script>
   <!-- Template Main CSS File -->
   <link href="assets/css/style.css" rel="stylesheet">
   <style>
@@ -84,7 +84,7 @@ if(isset($_SESSION["verified"]))
           <!-- <li><a class="nav-link scrollto" href="#services">Services</a></li> -->
           <!-- <li><a class="nav-link scrollto" href="#portfolio">Portfolio</a></li> -->
           <!-- <li><a class="nav-link scrollto" href="#team">Team</a></li> -->
-          <li class="dropdown" ><a href="#services"><span>Services</span> <i class="bi bi-chevron-down"></i></a>
+          <li class="dropdown" ><a href="#"><span>Services</span> <i class="bi bi-chevron-down"></i></a>
             <ul>
               <li><a href="Request ride">Request Ride</a></li>
               <!-- <li class="dropdown"><a href="#"><span>Deep Drop Down</span> <i class="bi bi-chevron-right"></i></a>
@@ -97,8 +97,6 @@ if(isset($_SESSION["verified"]))
                 </ul>
               </li> -->
               <li><a href="#">Response</a></li>
-              <li><a href="#">Drop Down 3</a></li>
-              <li><a href="#">Drop Down 4</a></li>
             </ul>
           </li>
           <!-- <li><a class="nav-link scrollto" href="#contact">Contact</a></li> -->
@@ -112,11 +110,11 @@ if(isset($_SESSION["verified"]))
             }
             elseif(isset($_SESSION["filename"]))
             {
-              echo "<li><a  href='profile1'>"."<img src='images/".$_SESSION["filename"]."' alt='".$_SESSION["fname"]."' style='border-radius:150%;'>"."</a></li>";
+              echo "<li><a  href='profile passenger'>"."<img src='images/".$_SESSION["filename"]."' alt='".$_SESSION["fname"]."' style='border-radius:150%;'>"."</a></li>";
             }
             elseif(!isset($_SESSION["filename"]) && $_SESSION["fname"]!="")
             {
-              echo "<li><a class='getstarted scrollto' href='profile1'>".$_SESSION["fname"]."</a></li>";
+              echo "<li><a class='getstarted scrollto' href='profile passenger'>".$_SESSION["fname"]."</a></li>";
             }
           }
           else
