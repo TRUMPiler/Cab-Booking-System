@@ -1,10 +1,11 @@
 <?php 
 session_start();
-include "../connection.php"; 
-$query="insert into tbl_feedback(description) values('".$_POST["description"]."')";
+include "checkfeedback.php"; 
+$query="insert into tbl_feedback(description,booked_id) values('".$_POST["description"]."',".$_POST["booked_id"].")";
 $result=mysqli_query($conn,$query);
 if($result)
 {
+    
     echo "true";
 }
 else
