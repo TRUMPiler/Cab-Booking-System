@@ -92,7 +92,7 @@ session_start();
             }
             elseif($_SESSION["filename"]=="" && $_SESSION["fname"]!="")
             {
-              echo "<li><a class='getstarted scrollto' href='profile1'>".$_SESSION["fname"]."</a></li>";
+              echo "<li><a class='getstarted scrollto' href='profile driver'>".$_SESSION["fname"]."</a></li>";
             }
           }
           else
