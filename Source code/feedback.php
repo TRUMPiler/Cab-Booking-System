@@ -1,3 +1,4 @@
+<?php session_start();?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -101,17 +102,18 @@
                     <h1 class="card-header text-center">Feedback</h1>
                     <div class="card-body">
                         <form id="myform">
+                            <input type="text" name="booked_id" value="<?php echo $_SESSION["booked_id"]?>" hidden>
                             <section class="registration-section" id="personal-info-section">
                                 <h2>Share Your Experience</h2>
                                 <div class="form-row">
                                     <div class="form-group col-md-12">
                                         <label for="description">Your Feedback:</label>
-                                        <textarea class="form-control" id="description" name="description" placeholder="Provide us your feedback regarding our travel services.." rows="4"></textarea>
+                                        <textarea class="form-control" id="description" name="description" placeholder="Provide us your feedback regarding our travel services.." rows="4" required></textarea>
                                     </div>
                                 </div>
                                 <div class="d-flex justify-content-between">
                                     <a href="index"><button type="button" class="btn custom-button">Home</button></a>
-                                    <button type="submit" name="submit" class="btn custom-button">Submit</button>
+                                    <button type="submit" name="submit" onclick="submit(<?php echo $_SESSION['booked_id']?>)" class="btn custom-button">Submit</button>
                                 </div>
                             </section>
                         </form>
@@ -130,32 +132,35 @@
         </div> -->
     <script>
         $(document).ready(function() {
-
-            $("#myform").submit(function(event) {
+            $("#myform").submit(function(event)
+            {
                 event.preventDefault();
-                var formdata = new FormData(this);
+                var formdata=new FormData(this);
                 $.ajax({
-                    type: "POST",
-                    url: "ajax_files/setfeedback.php",
-                    data: formdata,
-                    contentType: false,
-                    cache: false,
-                    processData: false,
-                    success: function(data) {
-                        if (data == "true") {
-                            alert("Feedback recorded successfully");
-                            window.location = "index";
-                        } else if (data == "feedback exits") {
-                            alert("Your Feedback was already recorded");
-                            window.location = "index";
-                        } else {
-                            alert(data);
-                        }
-                    },
-                });
-
-            });
-
+                                                type:"POST",
+                                                url:"ajax_files/setfeedback.php",
+                        data:formdata,
+                        contentType: false,
+                        cache: false,
+                        processData:false,
+                        success:function(data){
+                            if(data=="true")
+                            {
+                                alert("feedback has been recieved✔️");
+                                window.location="booked Ride";
+                            }
+                            else if(data=="feedback exists")
+                            {
+                                alert("Feedback on this trip is already given⛔");
+                                window.location="index";
+                            }
+                            else
+                            {
+                                alert(data);
+                            }
+                        },
+                    }); 
+            })
         })
     </script>
 </body>

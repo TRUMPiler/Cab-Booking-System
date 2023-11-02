@@ -1,6 +1,17 @@
 <?php 
 session_start();
-
+if(isset($_SESSION["verified"]))
+{
+  if($_SESSION["verified"]!=true)
+  {
+    session_unset();
+    session_destroy();
+  }
+  else if($_SESSION["role"]=="passenger")
+  {
+     echo "<script>window.location='index'</script>";
+  }
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">

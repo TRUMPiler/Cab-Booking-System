@@ -239,7 +239,7 @@ background-repeat: no-repeat;">
 													$_SESSION["verified"] = true;
 													
 													// $_SESSION["filename"]=$row["image"];
-													header("location:index.php");
+													header("location:Admin Panel/");
 												} else {
 													echo "<script>alert('invalid email or password')</script>";
 												}

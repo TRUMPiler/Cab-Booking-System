@@ -26,6 +26,7 @@ session_start();
         <h1>Register: </h1><hr>
         <form action="#" method="post" onsubmit="loading()">
         <div class='form-group'>
+        
         <label for='OTP'>Enter OTP</label><br><br>
         <input type='text' class='form-control' name="otp" id='' placeholder='Enter your OTP'><br><br>
         <button type='submit' class='btn btn-success' name='submit_Otp'>Submit</button><br><br><br>
@@ -40,6 +41,10 @@ session_start();
                             $url=$_SESSION["url"];
                             header("location:$url");
 
+                        }
+                        else
+                        {
+                            echo "<script>alert('Entered otp is incorrect \nPlease enter the correct otp')</script>";
                         }
                      } 
             ?>

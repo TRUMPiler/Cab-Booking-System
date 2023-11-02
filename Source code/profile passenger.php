@@ -73,7 +73,7 @@ session_start();
             }
 
             // $sql = "SELECT * from ".$_SESSION["role"]." where fname='".$_SESSION["fname"]."' and password='".$_SESSION ["password"]."' limit 1";
-            $sql = "SELECT * from passenger where fname='Pranav' and password='Pranav@1111' limit 1";
+            $sql = "SELECT id,fname,mname,lname,password,dob,gender,contact,address,email,image,tbl_city.City_Name from passenger Join tbl_city where  id=".$_SESSION["id"]." and tbl_city.CityID=passenger.CityGG limit 1;";
             $result = $conn->query($sql);
 
             if ($result->num_rows > 0) {
@@ -87,7 +87,7 @@ session_start();
                         <div class="d-flex justify-content-between align-items-center mb-3">
                             <h4 class="text-right">Personal Details: </h4>
                         </div>
-                        <form method="post">
+                        <form id="myform">
                             <div class="row mt-2">
                                 <div class="col-md-4"><label class="labels">First Name:</label><input type="text" class="form-control readonly" name="fname" readonly value="<?php echo $row['fname']; ?>"></div>
                                 <div class="col-md-4"><label class="labels">Middle Name:</label><input type="text" class="form-control readonly" name="mname" readonly value="<?php echo $row['mname']; ?>"></div>
@@ -97,18 +97,39 @@ session_start();
                                 <div class="col-md-12"><label class="labels">Contact Number</label><input type="text" class="form-control readonly" name="contact" readonly value="<?php echo $row['contact']; ?>"></div>
                                 <div class="col-md-12"><label class="labels">Address</label><input type="text" class="form-control readonly" name="address" readonly value="<?php echo $row['address']; ?>"></div>
                                 <div class="col-md-12"><label class="labels">Date of Birth</label><input type="text" class="form-control readonly" name="dob" readonly value="<?php echo $row['dob']; ?>"></div>
-                                <div class="col-md-12"><label class="labels">Gender</label><input type="text" class="form-control readonly" name="gender" readonly value="<?php echo $row['gender']; ?>"></div>
+                                <div class="col-md-12"><label class="labels">Gender</label><select class="form-control readonly" id="gender" name="gender" readonly>
+                                            <?php if($row["gender"]=="male" || $row["gender"]=="Male")
+                                            {
+                                                echo "<option value='male' selected>Male</option>";
+                                                echo "<option value='female'>Female</option>
+                                                <option value='other'>Other</option>";
+                                            }
+                                            else if($row["gender"]=="female" || $row["gender"]=="Female")
+                                            {
+                                                echo "<option value='male'>Male</option>";
+                                                echo "<option value='female' Selected>Female</option>
+                                                <option value='other'>Other</option>";
+                                            }
+                                            else
+                                            {
+                                                echo "<option value='male' >Male</option>";
+                                                echo "<option value='female'>Female</option>
+                                                <option value='other' selected>Other</option>";
+                                            }
+                                            ?>
+                                            
+                                        </select></div>
                                 <div class="col-md-12"><label class="labels">Email ID</label><input type="text" class="form-control readonly" name="email" readonly value="<?php echo $row['email']; ?>"></div>
-                                <div class="col-md-12"><label class="labels">Password</label><input type="text" class="form-control readonly" name="password" readonly value="<?php echo $row['password']; ?>"></div>
-                                <div class="col-md-12"><label class="labels">Profile</label><input type="text" class="form-control readonly" name="role" readonly placeholder="Passenger/Driver" value="passenger"></div>
+                                <!-- <div class="col-md-12"><label class="labels">Password</label><input type="text" class="form-control readonly" name="password" readonly value="<?php echo $row['password']; ?>"></div> -->
+                                <!-- <div class="col-md-12"><label class="labels">Profile</label><input type="text" class="form-control readonly" name="role" readonly placeholder="Passenger/Driver" value="passenger"></div> -->
                             <?php
                         }
                         $conn->close();
                             ?>
                             </div>
                             <div class="row mt-3">
-                                <div class="col-md-6"><label class="labels">Country</label><input type="text" class="form-control readonly" name="country" readonly value="India"></div>
-                                <div class="col-md-6"><label class="labels">State</label><input type="text" class="form-control readonly" name="state" readonly value=""></div>
+                                <div class="col-md-6"><label class="labels">Country</label><input type="text" class="form-control " name="country" readonly value="India"></div>
+                                <div class="col-md-6"><label class="labels">State</label><input type="text" class="form-control " name="state" readonly value="<?php echo $row["City_Name"]?>"></div>
                             </div>
                         <div class="row mt-5">
                             <div class="col-md-3">
@@ -118,7 +139,7 @@ session_start();
                             </div>
                             <div class="col-md-3">
                                 <div class="text-center">
-                                    <a href="index"><button class="btn btn-primary profile-button" name="logout" type="submit">Log out</button></a>
+                                    <a href="index"><button class="btn btn-primary profile-button" name="logout" id="logout" type="submit">Log out</button></a>
                                 </div>
                             </div>
                             <div class="col-md-3">
@@ -128,42 +149,58 @@ session_start();
                             </div>
                             <div class="col-md-3">
                                 <div class="text-center">
-                                    <button class="btn btn-primary profile-button" name="update" type="submit">Save Personal Details</button>
+                                    <button class="btn btn-primary profile-button"  id="update" name="update" type="submit">Save Personal Details</button>
                                 </div>
                             </div>
                         </div>
-                        <?php
-                            if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["update"])) {
-                                $conn = new mysqli("localhost", "root", "", "cms");
-
-                                if ($conn->connect_error) {
-                                    die("Connection failed: " . $conn->connect_error);
-                                }
-
-
-                                $fname = $_POST["fname"];
-                                $mname = $_POST["mname"];
-                                $lname = $_POST["lname"];
-                                $contact = $_POST["contact"];
-                                $address = $_POST["address"];
-                                $dob = $_POST["dob"];
-                                $gender = $_POST["gender"];
-                                $email = $_POST["email"];
-                                $password = $_POST["password"];
-
-                                $sql = "UPDATE passenger SET fname = '$fname', mname = '$mname', lname = '$lname', contact = '$contact', address = '$address', dob = '$dob', gender = '$gender', email = '$email', password = '$password' WHERE fname = 'Pranav' AND password = 'Pranav@1111'";
-
-                                if ($conn->query($sql) === TRUE) {
-                                    $response = "Record updated successfully.";
-                                } else {
-                                    $response = "Error: " . $sql . "<br>" . $conn->error;
-                                }
-                            
-                                $conn->close();
-                            
-                                echo "<script type='text/javascript'>alert('$response');</script>";
-                            }
-                            ?>
+                        <script>
+                            $(document).ready(function() {
+                                $("#update").click(function(event)
+                                        {   
+                                            event.preventDefault();
+                                            var formdata=new FormData(this);
+                                            $.ajax({
+                                                type:"POST",
+                                                url:"ajax_files/updatepassenger.php",
+                                                data:formdata,
+                                                contentType: false,
+                                                cache: false,
+                                                processData:false,
+                                                success:function(data){
+                                                    if(data=="true")
+                                                    {
+                                                        alert("profile updated successfully");
+                                                        window.location="profile passenger";
+                                                    }
+                                                    else if(data=="false")
+                                                    {
+                                                        alert("Profile updation failed email already exits")
+                                                        window.location="profile passenger";
+                                                    }
+                                                    else
+                                                    {
+                                                        alert(data);
+                                                    }
+                                                },
+                                            }); 
+                                            
+                                        });
+                                        $("#logout").click(function(){
+                                            $.post("logoutGG.php",function(data)
+                                            {
+                                                if(data=="true")
+                                                {
+                                                    alert("successfully logged out");
+                                                    window.location='index';
+                                                }
+                                                else
+                                                {
+                                                    alert(data);
+                                                }
+                                            })
+                                        })
+                            })
+                        </script>
                         </form>
                     </div>
                 </div>
@@ -172,14 +209,9 @@ session_start();
     </div>
     </div>
     </div>
-    <?php
-            if(isset($_POST["logout"]))
-            {
-              session_destroy();
-              session_unset();
-              echo "<script>window.location='index'</script>";    
-            }
-            ?>
+    <script>
+
+    </script>
     <script>
         // JavaScript function to enable input fields
         function enableFields() {

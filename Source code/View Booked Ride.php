@@ -80,7 +80,7 @@
                   <li><a href="#">Deep Drop Down 5</a></li>
                 </ul>
               </li> -->
-                            <li><a href="#">Response</a></li>
+                            <li><a href="booked Ride">Response</a></li>
                         </ul>
                     </li>
                     <!-- <li><a class="nav-link scrollto" href="#contact">Contact</a></li> -->
@@ -126,9 +126,12 @@
     <h4 id="duration">Duration</h4>
     ';
             if ($row["RideStatus"] == "Ride Ended") {
+
                 echo '<button id="make payemnt" onclick="MakePayment(' . $row["Booked_ID"] . ')">Make Payment</button>';
-            } else if ($row["RideStatus"] == "Payment Completed") {
-                echo '<button id="Give Feedback">Give feedback</button>';
+               
+            } 
+            else if ($row["RideStatus"] == "Payment Done") {
+                echo '<button id="Give" onclick=Give('.$row["Booked_ID"].')>Give feedback</button>';
             } else {
             }
         }
@@ -139,8 +142,22 @@
     <script>
         $(document).ready(function() {
             overloading();
+            
         })
-
+        function Give(id)
+        {
+            $.post("ajax_files/setBookedID.php",{booked_id:id},function(data)
+                {
+                    if(data=="true")
+                    {
+                        window.location='feedback.php';
+                    }
+                    else
+                    {
+                        alert(data);
+                    }
+                })
+        }
         function overloading() {
 
 

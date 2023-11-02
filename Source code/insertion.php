@@ -78,7 +78,7 @@ require_once "connection.php";
                 $results=mysqli_query($conn,$query);
                 if($results->num_rows>0)
                 {
-                    while($row=$result->fetch_array())
+                    while($row=$results->fetch_array())
                     {
                         $_SESSION["id"]=$row["id"];
                         
