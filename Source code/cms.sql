@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 31, 2023 at 09:24 PM
+-- Generation Time: Nov 02, 2023 at 10:45 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -98,7 +98,8 @@ CREATE TABLE `passenger` (
 --
 
 INSERT INTO `passenger` (`id`, `fname`, `mname`, `lname`, `password`, `dob`, `gender`, `contact`, `address`, `CityGG`, `email`, `image`, `account_creation`) VALUES
-(56, 'Naishal ', '', 'Doshi', 'naishald123', '2003-06-13', 'Male', 9326163059, 'Pratistha apartments piplod', 1225, '21bmiit100@gmail.com', 'naishal.jpg', '2023-10-01 06:05:29');
+(56, 'Naishal ', 'Manish', 'Doshi', 'naishald123', '2003-06-13', 'male', 9326163059, 'Pratistha apartments piplod', 1225, '21bmiit100@gmail.com', 'naishal.jpg', '2023-11-02 18:31:11'),
+(60, 'Naishal', 'manish', 'Doshi', 'Naishald123@', '2003-06-13', 'male', 9326163059, 'Pratistha apartments piplod', 1225, 'cjesus691332@gmail.com', 'naishal.jpg', '2023-11-01 18:51:41');
 
 -- --------------------------------------------------------
 
@@ -117,7 +118,7 @@ CREATE TABLE `tbl_booked` (
 --
 
 INSERT INTO `tbl_booked` (`Booked_ID`, `InterestID`, `RideStatus`) VALUES
-(14, 25, 'Ride Booked');
+(14, 25, 'Ride Completed');
 
 -- --------------------------------------------------------
 
@@ -1014,15 +1015,24 @@ INSERT INTO `tbl_city` (`CityID`, `City_Name`, `stateId`) VALUES
 CREATE TABLE `tbl_feedback` (
   `feedbackid` int(11) NOT NULL,
   `date-of-feedback` timestamp NOT NULL DEFAULT current_timestamp(),
-  `description` varchar(300) NOT NULL
+  `description` varchar(300) NOT NULL,
+  `booked_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `tbl_feedback`
 --
 
-INSERT INTO `tbl_feedback` (`feedbackid`, `date-of-feedback`, `description`) VALUES
-(1, '2023-10-30 16:11:26', 'hello');
+INSERT INTO `tbl_feedback` (`feedbackid`, `date-of-feedback`, `description`, `booked_id`) VALUES
+(5, '2023-11-02 21:12:04', 'Hello', 14);
+
+--
+-- Triggers `tbl_feedback`
+--
+DELIMITER $$
+CREATE TRIGGER `Update tbl_feedback` AFTER INSERT ON `tbl_feedback` FOR EACH ROW update tbl_booked set tbl_booked.RideStatus='Ride Completed' where tbl_booked.Booked_ID=new.booked_id
+$$
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -1068,7 +1078,8 @@ CREATE TABLE `tbl_request_ride` (
 --
 
 INSERT INTO `tbl_request_ride` (`Request_id`, `SourceAddress`, `DestinationAddress`, `SourceCity`, `DestinationCity`, `From`, `To`, `passengerId`, `requestCreation`) VALUES
-(12, 'Pratistha apartments piplod', 'Suryansh serenity ahemdabad', 1225, 1201, '2023-11-02 05:26:00', '2023-11-02 23:02:00', 56, '2023-10-31 23:02:42');
+(12, 'Pratistha apartments piplod', 'Suryansh serenity ahemdabad', 1225, 1201, '2023-11-01 05:26:00', '2023-11-01 23:56:00', 56, '2023-11-01 21:57:08'),
+(13, 'Pratistha apartments piplod', 'uka tarsadia university ', 1225, 1230, '2023-11-03 02:39:00', '2023-11-04 00:40:00', 60, '2023-11-02 00:40:15');
 
 -- --------------------------------------------------------
 
@@ -1183,7 +1194,8 @@ ALTER TABLE `tbl_city`
 -- Indexes for table `tbl_feedback`
 --
 ALTER TABLE `tbl_feedback`
-  ADD PRIMARY KEY (`feedbackid`);
+  ADD PRIMARY KEY (`feedbackid`),
+  ADD KEY `booked` (`booked_id`);
 
 --
 -- Indexes for table `tbl_interest`
@@ -1223,13 +1235,13 @@ ALTER TABLE `vehicle`
 -- AUTO_INCREMENT for table `driver`
 --
 ALTER TABLE `driver`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
 -- AUTO_INCREMENT for table `passenger`
 --
 ALTER TABLE `passenger`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=64;
 
 --
 -- AUTO_INCREMENT for table `tbl_booked`
@@ -1241,7 +1253,7 @@ ALTER TABLE `tbl_booked`
 -- AUTO_INCREMENT for table `tbl_feedback`
 --
 ALTER TABLE `tbl_feedback`
-  MODIFY `feedbackid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `feedbackid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `tbl_interest`
@@ -1253,7 +1265,7 @@ ALTER TABLE `tbl_interest`
 -- AUTO_INCREMENT for table `tbl_request_ride`
 --
 ALTER TABLE `tbl_request_ride`
-  MODIFY `Request_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `Request_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `tbl_state`
@@ -1265,7 +1277,7 @@ ALTER TABLE `tbl_state`
 -- AUTO_INCREMENT for table `vehicle`
 --
 ALTER TABLE `vehicle`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- Constraints for dumped tables
@@ -1294,6 +1306,12 @@ ALTER TABLE `tbl_booked`
 --
 ALTER TABLE `tbl_city`
   ADD CONSTRAINT `STATE_FOREIGN` FOREIGN KEY (`stateId`) REFERENCES `tbl_state` (`stateID`);
+
+--
+-- Constraints for table `tbl_feedback`
+--
+ALTER TABLE `tbl_feedback`
+  ADD CONSTRAINT `booked` FOREIGN KEY (`booked_id`) REFERENCES `tbl_booked` (`Booked_ID`);
 
 --
 -- Constraints for table `tbl_interest`
