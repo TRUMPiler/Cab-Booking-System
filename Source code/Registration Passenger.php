@@ -184,7 +184,7 @@
                                     <div class="form-group">
                                         <label for="email">Email ID:</label>
                                         <input type="email" class="form-control" id="email" name="email" required>
-                                        <span class="error" id="fname_err"> </span>
+                                        <span class="error" id="email_err"> </span>
                                     </div>
                                     <div class="form-group">
                                         <label for="contact_number">Contact number:</label>
