@@ -116,7 +116,12 @@ session_start();
                             <div class="row mt-5">
                                 <div class="col-md-3">
                                     <div class="text-center">
-                                        <button class="btn btn-primary profile-button" name="update" type="button">Home</button>
+                                    <a href="index"><button class="btn btn-primary profile-button" name="home" type="button">Home</button></a>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="text-center">
+                                        <a href="index"><button class="btn btn-primary profile-button" name="logout" type="submit">Log out</button></a>
                                     </div>
                                 </div>
                                 <div class="col-md-3">
@@ -172,66 +177,69 @@ session_start();
                             <h4>Vehicle Details:</h4>
                         </div><br>
                         <form method="post">
-                        <?php
-                        $conn = new mysqli("localhost", "root", "", "cms");
-
-                        if ($conn->connect_error) {
-                            die("Connection failed: " . $conn->connect_error);
-                        }
-
-                        // $sql = "SELECT * from ".$_SESSION["role"]." where fname='".$_SESSION["fname"]."' and password='".$_SESSION ["password"]."' limit 1";
-                        $sql = "SELECT * from vehicle where driver_id=$driverid limit 1";
-                        $result = $conn->query($sql);
-
-                        if ($result->num_rows > 0) {
-                            $row = $result->fetch_assoc();
-                        ?>
-                            <div class="col-md-12"><label class="labels">Company:</label><input type="text" class="form-control readonly" name="company" readonly value="<?php echo $row['company_name']; ?>"></div> <br>
-                            <div class="col-md-12"><label class="labels">Vehicle name:</label><input type="text" class="form-control readonly" name="vname" readonly value="<?php echo $row['Vehicle_name']; ?>"></div> <br>
-                            <div class="col-md-12"><label class="labels">Vehicle Plate number:</label><input type="text" class="form-control readonly" name="platenumber" readonly value="<?php echo $row['vehicle_number']; ?>"></div>
-                            <div class="row mt-5">
-                                <div class="col-md-3">
-                                    <div class="text-center">
-                                        <button class="btn btn-primary profile-button" name="update" type="button" onclick="enableFields()">Edit</button>
-                                    </div>
-                                </div>
-                                <div class="col-md-9">
-                                    <div class="text-center">
-                                        <button class="btn btn-primary profile-button" name="updatevehicle" type="submit">Save Personal Details</button>
-                                    </div>
-                                </div>
-                            </div>
                             <?php
-                            if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["updatevehicle"])) {
-                                $conn = new mysqli("localhost", "root", "", "cms");
+                            $conn = new mysqli("localhost", "root", "", "cms");
 
-                                if ($conn->connect_error) {
-                                    die("Connection failed: " . $conn->connect_error);
-                                }
-
-                                $company = $_POST["company"];
-                                $vname = $_POST["vname"];
-                                $platenumber = $_POST["platenumber"];
-
-                                $sql = "UPDATE vehicle SET company_name = '$company', Vehicle_name = '$vname', vehicle_number = '$platenumber' WHERE driver_id=$driverid";
-
-                                if ($conn->query($sql) === TRUE) {
-                                    $response = "Vehicle Record updated successfully.";
-                                } else {
-                                    $response = "Error: " . $sql . "<br>" . $conn->error;
-                                }
-
-                                $conn->close();
-
-                                echo "<script type='text/javascript'>alert('$response');</script>";
+                            if ($conn->connect_error) {
+                                die("Connection failed: " . $conn->connect_error);
                             }
+
+                            // $sql = "SELECT * from ".$_SESSION["role"]." where fname='".$_SESSION["fname"]."' and password='".$_SESSION ["password"]."' limit 1";
+                            $sql = "SELECT * from vehicle where driver_id=$driverid limit 1";
+                            $result = $conn->query($sql);
+
+                            if ($result->num_rows > 0) {
+                                $row = $result->fetch_assoc();
                             ?>
+                                <div class="col-md-12"><label class="labels">Company:</label><input type="text" class="form-control readonly" name="company" readonly value="<?php echo $row['company_name']; ?>"></div> <br>
+                                <div class="col-md-12"><label class="labels">Vehicle name:</label><input type="text" class="form-control readonly" name="vname" readonly value="<?php echo $row['Vehicle_name']; ?>"></div> <br>
+                                <div class="col-md-12"><label class="labels">Vehicle Plate number:</label><input type="text" class="form-control readonly" name="platenumber" readonly value="<?php echo $row['vehicle_number']; ?>"></div>
+                                <div class="row mt-5">
+                                    <div class="col-md-12">
+                                        <div class="text-center">
+                                            <button class="btn btn-primary profile-button" name="updatevehicle" type="submit">Save Personal Details</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <?php
+                                if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["updatevehicle"])) {
+                                    $conn = new mysqli("localhost", "root", "", "cms");
+
+                                    if ($conn->connect_error) {
+                                        die("Connection failed: " . $conn->connect_error);
+                                    }
+
+                                    $company = $_POST["company"];
+                                    $vname = $_POST["vname"];
+                                    $platenumber = $_POST["platenumber"];
+
+                                    $sql = "UPDATE vehicle SET company_name = '$company', Vehicle_name = '$vname', vehicle_number = '$platenumber' WHERE driver_id=$driverid";
+
+                                    if ($conn->query($sql) === TRUE) {
+                                        $response = "Vehicle Record updated successfully.";
+                                    } else {
+                                        $response = "Error: " . $sql . "<br>" . $conn->error;
+                                    }
+
+                                    $conn->close();
+
+                                    echo "<script type='text/javascript'>alert('$response');</script>";
+                                }
+                                ?>
                         </form>
                     </div>
                 <?php
-                        }
-                        // $conn->close();
+                            }
+                            // $conn->close();
                 ?>
+                <?php
+            if(isset($_POST["logout"]))
+            {
+              session_destroy();
+              session_unset();
+              echo "<script>window.location='index'</script>";    
+            }
+            ?>
                 </div>
         </div>
     </div>
