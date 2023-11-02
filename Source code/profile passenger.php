@@ -111,9 +111,14 @@ session_start();
                                 <div class="col-md-6"><label class="labels">State</label><input type="text" class="form-control readonly" name="state" readonly value=""></div>
                             </div>
                         <div class="row mt-5">
-                            <div class="col-md-6">
+                            <div class="col-md-3">
                                 <div class="text-center">
-                                    <button class="btn btn-primary profile-button" name="update" type="button">Home</button>
+                                    <a href="index"><button class="btn btn-primary profile-button" name="update" type="button">Home</button></a>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="text-center">
+                                    <a href="index"><button class="btn btn-primary profile-button" name="logout" type="submit">Log out</button></a>
                                 </div>
                             </div>
                             <div class="col-md-3">
@@ -167,6 +172,14 @@ session_start();
     </div>
     </div>
     </div>
+    <?php
+            if(isset($_POST["logout"]))
+            {
+              session_destroy();
+              session_unset();
+              echo "<script>window.location='index'</script>";    
+            }
+            ?>
     <script>
         // JavaScript function to enable input fields
         function enableFields() {
