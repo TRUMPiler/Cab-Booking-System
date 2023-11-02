@@ -153,8 +153,6 @@ include "ajax_files/checkRequest.php";
                 </ul>
               </li> -->
                             <li><a href="#">Response</a></li>
-                            <li><a href="#">Drop Down 3</a></li>
-                            <li><a href="#">Drop Down 4</a></li>
                         </ul>
                     </li>
                     <!-- <li><a class="nav-link scrollto" href="#contact">Contact</a></li> -->
@@ -167,11 +165,11 @@ include "ajax_files/checkRequest.php";
             }
             elseif($_SESSION["filename"]!="")
             {
-              echo "<li><a  href='profile1'>"."<img src='images/".$_SESSION["filename"]."' alt='".$_SESSION["fname"]."' style='border-radius:200%'>"."</a></li>";
+              echo "<li><a  href='profile passenger'>"."<img src='images/".$_SESSION["filename"]."' alt='".$_SESSION["fname"]."' style='border-radius:200%'>"."</a></li>";
             }
             elseif($_SESSION["filename"]=="" && $_SESSION["fname"]!="")
             {
-              echo "<li><a class='getstarted scrollto' href='profile1'>".$_SESSION["fname"]."</a></li>";
+              echo "<li><a class='getstarted scrollto' href='profile passenger'>".$_SESSION["fname"]."</a></li>";
             }
           }
           else
