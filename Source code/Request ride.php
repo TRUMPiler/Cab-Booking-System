@@ -452,7 +452,7 @@ $.ajax(settings).done(function (response) {
    
 
     </script>
-
+    <script src="assets/js/rr2.js"></script>	
             </form>
         </div>
     </div>
