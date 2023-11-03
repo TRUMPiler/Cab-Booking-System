@@ -188,9 +188,9 @@ echo "<li><a class='getstarted scrollto' href='login.php'>Login</a></li>";
         destination_city.City_name AS destination_city_name , 
         rr.SourceAddress, rr.DestinationAddress , 
         passenger.fname As passengername , 
-        rr.From,rr.To,
-        tbl_booked.RideStatus ,
-        tbl_booked.Booked_ID , (rr.To-CURRENT_TIMESTAMP)-10000 As totime 
+        rr.From,rr.To, tbl_booked.RideStatus , 
+        tbl_booked.Booked_ID , 
+        (rr.To-CURRENT_TIMESTAMP)-1000 As totime 
         FROM tbl_booked 
         Join tbl_request_ride as rr 
         JOIN tbl_city AS source_city ON rr.SourceCity = source_city.CityID 
@@ -198,10 +198,11 @@ echo "<li><a class='getstarted scrollto' href='login.php'>Login</a></li>";
         JOIN tbl_interest 
         JOIN passenger 
         JOIN driver 
-        where tbl_interest.DriverID=".$_SESSION["id"]."
+        where tbl_interest.DriverID=".$_SESSION["id"]." 
         and tbl_interest.interestID=tbl_booked.InterestID 
         and driver.id=tbl_interest.DriverID 
-        and passenger.id=rr.passengerId limit 1;";
+        and passenger.id=rr.passengerId 
+        and not tbl_booked.RideStatus in ('Ride Completed','Ride Cancelled') limit 1;";
         $results=mysqli_query($conn,$query);
         date_default_timezone_set('Asia/Calcutta');
         if($results->num_rows > 0)
@@ -225,7 +226,7 @@ echo "<li><a class='getstarted scrollto' href='login.php'>Login</a></li>";
                 {
                     echo "<button name='Ride Start' onclick=RideStart(".$row["Booked_ID"].")>Start Ride</button></div>"; 
                 }
-                else if($row["RideStatus"]=="Ride Started" && (date('Y-m-d H:i:s')>=$row["To"] || date('Y-m-d H:i:s')<=$row["To"]-$row["To"]))
+                else if($row["RideStatus"]=="Ride Started" && (date('Y-m-d H:i:s')>=$row["To"] || $row["totime"]>0))
                 {
                     echo "<button name='Ride Start' onclick=RideEnd(".$row["Booked_ID"].")>End Ride</button></div>";
                 }
@@ -245,6 +246,10 @@ echo "<li><a class='getstarted scrollto' href='login.php'>Login</a></li>";
         </div><br><br>';
 
             }
+        }
+        else
+        {
+            echo "No Ride has been Confirmed yet";
         }
      ?>
      <script>
