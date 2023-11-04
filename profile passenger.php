@@ -155,7 +155,7 @@ session_start();
                         </div>
                         <script>
                             $(document).ready(function() {
-                                $("#update").click(function(event)
+                                $("#myform").submit(function(event)
                                         {   
                                             event.preventDefault();
                                             var formdata=new FormData(this);
