@@ -52,6 +52,7 @@ if(isset($_SESSION["RequestID"]))
     JOIN
     passenger as passenger on rr.passengerId=passenger.id
     where Request_id=".$_SESSION["RequestID"]."";
+   
     $result=mysqli_query($conn,$query);
     if($result->num_rows>0)
     {
@@ -68,7 +69,7 @@ if(isset($_SESSION["RequestID"]))
             echo "<h4>Travel Ends On:".$row["To"]."</h4>";
             echo "<h4 id='distance'>Estimated Distance of the ride</h4>";
             echo "<h4 id='duration'>Estimated Duration of the ride</h4>";
-            $query="select driver.id,interestID,Cost FROM tbl_interest JOIN driver where tbl_interest.DriverID=".$_SESSION["id"]." and driver.id=tbl_interest.DriverID";
+            $query="select driver.id,interestID,Cost FROM tbl_interest JOIN driver where tbl_interest.DriverID=".$_SESSION["id"]." and driver.id=tbl_interest.DriverID and tbl_interest.RequestID=".$_SESSION["RequestID"]."";
             // echo $query;
             $results=mysqli_query($conn,$query);
             if($results->num_rows>0)
@@ -76,14 +77,15 @@ if(isset($_SESSION["RequestID"]))
               while($row=$results->fetch_array())
               {
                 echo "<h4>Cost given for the trip is:".$row["Cost"]."</h4>";
-                                
+                echo "<button id='Go'>Go Back</button>";
               }
             }
             else
             {
                 echo "
-                <input type='text' name='cost_estimation' required>
+                <input type='text' name='cost_estimation' id='cost_estimation'>
                    ";
+                   echo '<input type="submit" id="estimation" value="Submit Your Estimation">';
             }
         }
     }   
@@ -92,19 +94,19 @@ if(isset($_SESSION["RequestID"]))
 ?>   
 
 <!-- <input type='text' name='cost_estimation' required> -->
-    <input type="submit" id="estimation" value="Submit Your Estimation">
+    
 </form> 
 <script>
     $(document).ready(function(){
         settingLoc();
         
-        $("form").on("submit",function(event)
+        $("#estimation").on("click",function(event)
                 {
                     event.preventDefault();
                     var formValues=$(this).serialize();
                     $.post(
                         "setinterest.php",
-                     formValues,
+                     {cost_estimation:document.querySelector("#cost_estimation").value},
                     function(data,status){
                       
                         if(data=="true")
@@ -121,6 +123,10 @@ if(isset($_SESSION["RequestID"]))
                         }   
                 )
                 });
+                $("#Go").on("click",function(event)
+                {
+                    window.location='view_interest';
+                })
     })
         function settingLoc(){
       
