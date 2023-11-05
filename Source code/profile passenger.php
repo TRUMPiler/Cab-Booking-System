@@ -89,14 +89,14 @@ session_start();
                         </div>
                         <form id="myform">
                             <div class="row mt-2">
-                                <div class="col-md-4"><label class="labels">First Name:</label><input type="text" class="form-control readonly" name="fname" readonly value="<?php echo $row['fname']; ?>"></div>
-                                <div class="col-md-4"><label class="labels">Middle Name:</label><input type="text" class="form-control readonly" name="mname" readonly value="<?php echo $row['mname']; ?>"></div>
-                                <div class="col-md-4"><label class="labels">Last Name:</label><input type="text" class="form-control readonly" name="lname" readonly value="<?php echo $row['lname']; ?>"></div>
+                                <div class="col-md-4"><label class="labels">First Name:</label><input type="text" class="form-control readonly" name="fname" id="fname" readonly value="<?php echo $row['fname']; ?>"><span class="error" id="fname_err"> </span></div>
+                                <div class="col-md-4"><label class="labels">Middle Name:</label><input type="text" class="form-control readonly" name="mname" id="mname" readonly value="<?php echo $row['mname']; ?>"><span class="error" id="mname_err"> </span></div>
+                                <div class="col-md-4"><label class="labels">Last Name:</label><input type="text" class="form-control readonly" name="lname" id="lname" readonly value="<?php echo $row['lname']; ?>"><span class="error" id="lname_err"> </span></div>
                             </div>
                             <div class="row mt-3">
-                                <div class="col-md-12"><label class="labels">Contact Number</label><input type="text" class="form-control readonly" name="contact" readonly value="<?php echo $row['contact']; ?>"></div>
-                                <div class="col-md-12"><label class="labels">Address</label><input type="text" class="form-control readonly" name="address" readonly value="<?php echo $row['address']; ?>"></div>
-                                <div class="col-md-12"><label class="labels">Date of Birth</label><input type="text" class="form-control readonly" name="dob" readonly value="<?php echo $row['dob']; ?>"></div>
+                                <div class="col-md-12"><label class="labels">Contact Number</label><input type="text" class="form-control readonly" name="contact" id="contact" readonly value="<?php echo $row['contact']; ?>"><span class="error" id="contact_err"></div>
+                                <div class="col-md-12"><label class="labels">Address</label><input type="text" class="form-control readonly" name="address" id="address" readonly value="<?php echo $row['address']; ?>"><span class="error" id="address_err"></div>
+                                <div class="col-md-12"><label class="labels">Date of Birth</label><input type="text" class="form-control readonly" name="dob" id="dob" readonly value="<?php echo $row['dob']; ?>"><span class="error" id="dob_err"></div>
                                 <div class="col-md-12"><label class="labels">Gender</label><select class="form-control readonly" id="gender" name="gender" readonly>
                                             <?php if($row["gender"]=="male" || $row["gender"]=="Male")
                                             {
@@ -119,7 +119,7 @@ session_start();
                                             ?>
                                             
                                         </select></div>
-                                <div class="col-md-12"><label class="labels">Email ID</label><input type="text" class="form-control readonly" name="email" readonly value="<?php echo $row['email']; ?>"></div>
+                                <div class="col-md-12"><label class="labels">Email ID</label><input type="text" class="form-control readonly" name="email" id="email" readonly value="<?php echo $row['email']; ?>"><span class="error" id="email_err"></div>
                                 <!-- <div class="col-md-12"><label class="labels">Password</label><input type="text" class="form-control readonly" name="password" readonly value="<?php echo $row['password']; ?>"></div> -->
                                 <!-- <div class="col-md-12"><label class="labels">Profile</label><input type="text" class="form-control readonly" name="role" readonly placeholder="Passenger/Driver" value="passenger"></div> -->
                             <?php
@@ -128,8 +128,9 @@ session_start();
                             ?>
                             </div>
                             <div class="row mt-3">
-                                <div class="col-md-6"><label class="labels">Country</label><input type="text" class="form-control " name="country" readonly value="India"></div>
-                                <div class="col-md-6"><label class="labels">State</label><input type="text" class="form-control " name="state" readonly value="<?php echo $row["City_Name"]?>"></div>
+                                <div class="col-md-4"><label class="labels">Country</label><input type="text" class="form-control " name="country" readonly value="India"></div>
+                                <div class="col-md-4"><label class="labels">State</label><input type="text" class="form-control " name="state" readonly value="<?php echo $row["City_Name"]?>"></div>
+                                <div class="col-md-4 mt-3"><div class="text-center"><a href="changepassword1"><button class="btn btn-primary profile-button" name="update" type="button">Change password</button></a></div></div>
                             </div>
                         <div class="row mt-5">
                             <div class="col-md-3">
@@ -155,14 +156,13 @@ session_start();
                         </div>
                         <script>
                             $(document).ready(function() {
-                                $("#update").click(function () {
-                                    $("#myform").submit(function(event)
+                                $("#myform").submit(function(event)
                                         {   
                                             event.preventDefault();
                                             var formdata=new FormData(this);
                                             $.ajax({
                                                 type:"POST",
-                                                url:"ajax_files/updatedriver.php",
+                                                url:"ajax_files/updatepassenger.php",
                                                 data:formdata,
                                                 contentType: false,
                                                 cache: false,
@@ -171,12 +171,12 @@ session_start();
                                                     if(data=="true")
                                                     {
                                                         alert("profile updated successfully");
-                                                        window.location="profile driver";
+                                                        window.location="profile passenger";
                                                     }
                                                     else if(data=="false")
                                                     {
                                                         alert("Profile updation failed email already exits")
-                                                        window.location="profile driver";
+                                                        window.location="profile passenger";
                                                     }
                                                     else
                                                     {
@@ -186,8 +186,6 @@ session_start();
                                             }); 
                                             
                                         });
-                                    
-                                })
                                         $("#logout").click(function(){
                                             $.post("logoutGG.php",function(data)
                                             {
@@ -224,6 +222,7 @@ session_start();
             });
         }
     </script>
+    <script src="validation.js"></script>
 </body>
 
 </html>
