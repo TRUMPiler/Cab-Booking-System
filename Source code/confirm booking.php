@@ -184,14 +184,38 @@ echo "<li><a class='getstarted scrollto' href='login.php'>Login</a></li>";
     }
     ?>
      <?php 
-        $query="SELECT source_city.City_name AS source_city_name , 
-        destination_city.City_name AS destination_city_name , 
-        tbl_request_ride.SourceAddress, tbl_request_ride.DestinationAddress , 
-        passenger.fname As passengername , 
-        tbl_request_ride.From,tbl_request_ride.To, tbl_booked.RideStatus , 
-        tbl_booked.Booked_ID , 
-        (tbl_request_ride.To-CURRENT_TIMESTAMP)-100000 As totime
-        FROM tbl_booked JOIN tbl_interest on tbl_interest.interestID=tbl_booked.InterestID JOIN tbl_request_ride on tbl_request_ride.Request_id=tbl_interest.RequestID JOIN passenger on passenger.id=tbl_request_ride.passengerId JOIN tbl_city as source_city on source_city.CityID=tbl_request_ride.SourceCity JOIN tbl_city as destination_city on destination_city.CityID=tbl_request_ride.DestinationCity JOIN driver on driver.id=tbl_interest.DriverID where not tbl_booked.RideStatus in ('Ride Completed','Ride Cancelled') and tbl_interest.DriverID=".$_SESSION["id"]."";
+        $query="SELECT
+        source_city.City_name AS source_city_name,
+        destination_city.City_name AS destination_city_name,
+        tbl_request_ride.SourceAddress,
+        tbl_request_ride.DestinationAddress,
+        passenger.fname AS passengername,
+        tbl_request_ride.From,
+        tbl_request_ride.To,
+        tbl_booked.RideStatus,
+        tbl_booked.Booked_ID,
+        (tbl_request_ride.To - CURRENT_TIMESTAMP) - 100000 AS totime
+    FROM
+        tbl_booked
+    JOIN
+        tbl_interest ON tbl_interest.interestID = tbl_booked.InterestID
+    JOIN
+        tbl_request_ride ON tbl_request_ride.Request_id = tbl_interest.RequestID
+    JOIN
+        passenger ON passenger.id = tbl_request_ride.passengerId
+    JOIN
+        tbl_city AS source_city ON source_city.CityID = tbl_request_ride.SourceCity
+    JOIN
+        tbl_city AS destination_city ON destination_city.CityID = tbl_request_ride.DestinationCity
+    JOIN
+        driver ON driver.id = tbl_interest.DriverID
+    WHERE
+        NOT tbl_booked.RideStatus IN ('Ride Completed', 'Ride Cancelled')
+        AND tbl_interest.DriverID = " . $_SESSION["id"] . "
+        AND tbl_request_ride.To > CURRENT_TIMESTAMP
+    ORDER BY ABS(TIMESTAMPDIFF(SECOND, tbl_request_ride.To, CURRENT_TIMESTAMP))
+    LIMIT 1;
+    ";
         $results=mysqli_query($conn,$query);
         date_default_timezone_set('Asia/Calcutta');
         if($results->num_rows > 0)
