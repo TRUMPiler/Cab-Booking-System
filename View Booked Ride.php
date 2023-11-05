@@ -125,6 +125,11 @@
     <h4 id="distance">Distance</h4>
     <h4 id="duration">Duration</h4>
     ';
+            if($row["totime"]<0)
+            {
+                echo "<button id='cancel' onclick=cancell(".$row["Booked_ID"].")>Cancel</button>";
+            }
+
             if ($row["RideStatus"] == "Ride Ended") {
 
                 echo '<button id="make payemnt" onclick="MakePayment(' . $row["Booked_ID"] . ')">Make Payment</button>';
@@ -144,6 +149,20 @@
             overloading();
             
         })
+        function cancell(id)
+        {
+            $.post("ajax_files/cancel.php",{booked_id:id},function(data)
+                {
+                    if(data=="true")
+                    {
+                        window.location='index';
+                    }
+                    else
+                    {
+                        alert(data);
+                    }
+                })
+        }
         function Give(id)
         {
             $.post("ajax_files/setBookedID.php",{booked_id:id},function(data)
@@ -281,7 +300,7 @@
         }
 
         function MakePayment(id) {
-            $.post("ajax_files/makepayment.php", {
+            $.post("ajax_files/setBookedID.php", {
                 booked_id: id
             }, function(data) {
                 if (data == "true") {
