@@ -186,23 +186,12 @@ echo "<li><a class='getstarted scrollto' href='login.php'>Login</a></li>";
      <?php 
         $query="SELECT source_city.City_name AS source_city_name , 
         destination_city.City_name AS destination_city_name , 
-        rr.SourceAddress, rr.DestinationAddress , 
+        tbl_request_ride.SourceAddress, tbl_request_ride.DestinationAddress , 
         passenger.fname As passengername , 
-        rr.From,rr.To, tbl_booked.RideStatus , 
+        tbl_request_ride.From,tbl_request_ride.To, tbl_booked.RideStatus , 
         tbl_booked.Booked_ID , 
-        (rr.To-CURRENT_TIMESTAMP)-1000 As totime 
-        FROM tbl_booked 
-        Join tbl_request_ride as rr 
-        JOIN tbl_city AS source_city ON rr.SourceCity = source_city.CityID 
-        JOIN tbl_city AS destination_city ON rr.DestinationCity = destination_city.CityID 
-        JOIN tbl_interest 
-        JOIN passenger 
-        JOIN driver 
-        where tbl_interest.DriverID=".$_SESSION["id"]." 
-        and tbl_interest.interestID=tbl_booked.InterestID 
-        and driver.id=tbl_interest.DriverID 
-        and passenger.id=rr.passengerId 
-        and not tbl_booked.RideStatus in ('Ride Completed','Ride Cancelled') limit 1;";
+        (tbl_request_ride.To-CURRENT_TIMESTAMP)-100000 As totime
+        FROM tbl_booked JOIN tbl_interest on tbl_interest.interestID=tbl_booked.InterestID JOIN tbl_request_ride on tbl_request_ride.Request_id=tbl_interest.RequestID JOIN passenger on passenger.id=tbl_request_ride.passengerId JOIN tbl_city as source_city on source_city.CityID=tbl_request_ride.SourceCity JOIN tbl_city as destination_city on destination_city.CityID=tbl_request_ride.DestinationCity JOIN driver on driver.id=tbl_interest.DriverID where not tbl_booked.RideStatus in ('Ride Completed','Ride Cancelled') and tbl_interest.DriverID=".$_SESSION["id"]."";
         $results=mysqli_query($conn,$query);
         date_default_timezone_set('Asia/Calcutta');
         if($results->num_rows > 0)
@@ -222,11 +211,12 @@ echo "<li><a class='getstarted scrollto' href='login.php'>Login</a></li>";
                 <h4 id="duration">Duration</h4>
                 ';
                 
-                if(date('Y-m-d Y-m-d H:i:s')>=$row["From"] && date('Y-m-d H:i:s')<=$row["To"] && $row["RideStatus"]=="Ride Booked")
+                if((date('Y-m-d Y-m-d H:i:s')>=$row["From"] && date('Y-m-d H:i:s')<=$row["To"]) && $row["RideStatus"]=="Ride Booked")
                 {
+                    // echo date('Y-m-d Y-m-d H:i:s');
                     echo "<button name='Ride Start' onclick=RideStart(".$row["Booked_ID"].")>Start Ride</button></div>"; 
                 }
-                else if($row["RideStatus"]=="Ride Started" && (date('Y-m-d H:i:s')>=$row["To"] || $row["totime"]>0))
+                else if($row["RideStatus"]=="Ride Started" && (date('Y-m-d H:i:s')>=$row["To"] || $row["totime"]<0))
                 {
                     echo "<button name='Ride Start' onclick=RideEnd(".$row["Booked_ID"].")>End Ride</button></div>";
                 }
@@ -236,7 +226,7 @@ echo "<li><a class='getstarted scrollto' href='login.php'>Login</a></li>";
                 }
                 else 
                 {
-                    echo date('Y-m-d H:i:s')." ".$row["To"]."</div>";
+                    echo date('Y-m-d H:i:s')." ".$row["From"]."</div>";
                 }
             echo '<div class="split left">
             <!-- <div class="centered"> -->

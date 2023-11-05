@@ -105,7 +105,12 @@ if (!isset($_SESSION["role"])) {
 
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,600,600i,700,700i" rel="stylesheet">
+  <script src="https://api.mqcdn.com/sdk/mapquest-js/v1.3.2/mapquest.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://api.mqcdn.com/sdk/mapquest-js/v1.3.2/mapquest.css"/>
 
+    <script src=
+"https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js">
+    </script>
   <!-- Vendor CSS Files -->
   <link href="assets/vendor/aos/aos.css" rel="stylesheet">
   <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -113,7 +118,7 @@ if (!isset($_SESSION["role"])) {
   <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
   <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
   <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
-  <script src="assets/js/loader.js"></script>
+  <!-- <script src="assets/js/loader.js"></script> -->
   <!-- Template Main CSS File -->
   <link href="assets/css/style.css" rel="stylesheet">
 </head>
@@ -178,12 +183,12 @@ if (!isset($_SESSION["role"])) {
   <div class="split left">
     <!-- <div class="centered"> -->
     <div id="map"></div>
-    <script src="map.js"></script>
+    <!-- <script src="map.js"></script> -->
     <!-- </div> -->
   </div>
   <div class="split right">
     <div class="container">
-      <form action="" method="POST" class="myForm">
+      <form id="myform">
         <?php
         include "connection.php";
         if (isset($_SESSION["RequestID"])) {
@@ -251,13 +256,17 @@ if (!isset($_SESSION["role"])) {
               if ($results->num_rows > 0) {
                 while ($row = $results->fetch_array()) {
                   echo "<h4>Cost given for the trip is:" . $row["Cost"] . "</h4>";
+                  echo "<button id='Go'>Go Back</button>";
                 }
               } else {
                 echo "
                 <div class=input-group'>
-                <input type='text' name='cost_estimation' class='form-control' required>
+                <input type='text' id='cost_estimation' class='form-control' required>
               </div>
+              
                   ";
+                  echo '<button type="submit" id="estimation" class="custom-button">Submit Cost</button>';
+                  
               }
             }
           }
@@ -265,7 +274,7 @@ if (!isset($_SESSION["role"])) {
         ?>
         <!-- <input type='text' name='cost_estimation' required> -->
         <br><div class="d-flex justify-content-center">
-          <button type="submit" id="estimation" class=" custom-button">Submit Cost</button>
+          
         </div>
         <!-- <input type="submit" id="estimation" value="Submit Your Estimation"> -->
       </form>
@@ -366,28 +375,39 @@ if (!isset($_SESSION["role"])) {
     </div>
   </div> -->
   <script>
-    $(document).ready(function() {
-      settingLoc();
-
-      $("form").on("submit", function(event) {
-        event.preventDefault();
-        var formValues = $(this).serialize();
-        $.post(
-          "setinterest.php",
-          formValues,
-          function(data, status) {
-
-            if (data == "true") {
-              alert("Estimation send to passenger");
-              window.location = 'index_driver';
-            } else {
-              alert(data);
-              alert("Estimation Already exists");
-              // window.location='index_driver';
-            }
-          }
-        )
-      });
+    $(document).ready(function(){
+        settingLoc();
+        
+        $("button#estimation").click(function(event)
+                {
+                 $("#myform").submit(function(event) {
+                  event.preventDefault();
+                    var formValues=$(this).serialize();
+                    $.post(
+                        "setinterest.php",
+                     {cost_estimation:document.querySelector("#cost_estimation").value},
+                    function(data,status){
+                      
+                        if(data=="true")
+                        {
+                          alert("Estimation send to passenger");
+                          window.location='index_driver';
+                        }
+                        else
+                        {
+                          alert(data);
+                          alert("Estimation Already exists");
+                          // window.location='index_driver';
+                        }
+                        }   
+                )
+                  
+                 })
+                });
+                $("button#Go").click(function(event)
+                {
+                    window.location='index';
+                })
     })
 
     function settingLoc() {
@@ -413,8 +433,8 @@ if (!isset($_SESSION["role"])) {
         var lat = response.results[0].location.lat;
         var long = response.results[0].location.lng;
         console.log(lat);
-        document.querySelector(".myForm input[name='latitude']").value = lat;
-        document.querySelector(".myForm input[name='longitude']").value = long;
+        document.querySelector("#lat").value = lat;
+        document.querySelector("#long").value = long;
       });
 
 
@@ -437,8 +457,8 @@ if (!isset($_SESSION["role"])) {
         var dlat = responses.results[0].location.lat;
         var dlong = responses.results[0].location.lng;
         console.log(dlat);
-        document.querySelector(".myForm input[name='dlat']").value = dlat;
-        document.querySelector(".myForm input[name='dlong']").value = dlong;
+        document.querySelector("#dlat").value = dlat;
+        document.querySelector("#dlong").value = dlong;
 
       });
       overloadings();
@@ -470,8 +490,8 @@ if (!isset($_SESSION["role"])) {
 
         L.mapquest.directions().route({
 
-          start: '' + document.querySelector(".myForm input[name='latitude']").value + ',' + document.querySelector(".myForm input[name='longitude']").value + '', // Starting address or location
-          end: '' + document.querySelector(".myForm input[name='dlat']").value + ',' + document.querySelector(".myForm input[name='dlong']").value + '', // Ending address or location
+          start: '' + document.querySelector("#lat").value + ',' + document.querySelector("#long").value + '', // Starting address or location
+          end: '' + document.querySelector("#dlat").value + ',' + document.querySelector("#dlong").value + '', // Ending address or location
         });
       } finally {
         calculate();
@@ -484,7 +504,7 @@ if (!isset($_SESSION["role"])) {
       const settings = {
         async: true,
         crossDomain: true,
-        url: 'https://trueway-matrix.p.rapidapi.com/CalculateDrivingMatrix?origins=' + document.querySelector(".myForm input[name='latitude']").value + '%2C' + document.querySelector(".myForm input[name='longitude']").value + '&destinations=' + document.querySelector(".myForm input[name='dlat']").value + '%2C' + document.querySelector(".myForm input[name='dlong']").value + '&avoid_highway=true',
+        url: 'https://trueway-matrix.p.rapidapi.com/CalculateDrivingMatrix?origins=' + document.querySelector("#lat").value + '%2C' + document.querySelector("#long").value + '&destinations=' + document.querySelector("#dlat").value + '%2C' + document.querySelector("#dlong").value + '&avoid_highway=true',
         method: 'GET',
         headers: {
           'X-RapidAPI-Key': '39bebf8c65msh3c5431b6e89763ap1093ddjsn2d7d1e854615',

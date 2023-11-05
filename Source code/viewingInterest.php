@@ -13,15 +13,14 @@ $query="SELECT rr.interestID,rr.RequestID,
 driver.fname as DriverName,
 vehicle.company_name as VechicleCompany,
 vehicle.model as model,
-rr.Cost as Cost
-,Driver.image As Image 
-FROM tbl_interest AS rr 
-JOIN tbl_request_ride AS trr 
+rr.Cost as Cost,tbl_booked.RideStatus
+,driver.image As Image 
+FROM tbl_interest as rr
 JOIN tbl_booked
-JOIN driver AS Driver ON driver.ID = rr.Driverid 
-JOIN vehicle AS vehicle ON vehicle.driver_id = driver.id 
-where trr.passengerId=".$_SESSION["id"]."
-and rr.RequestID=trr.Request_id and not tbl_booked.InterestID=rr.interestID;";
+JOIN tbl_request_ride as trr on trr.Request_id=rr.RequestID
+JOIN driver 
+JOIN vehicle
+where trr.passengerId=".$_SESSION["id"]." and (rr.RequestID=trr.Request_id and tbl_booked.InterestID=rr.interestID) and NOT  tbl_booked.RideStatus in ('Ride Completed','Ride Booked');";
 $result=mysqli_query($conn,$query);
 // echo $query;
 ?>
