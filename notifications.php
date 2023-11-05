@@ -132,6 +132,11 @@
       <div class="row">
         <div class="col-12">
           <div class="card my-4">
+            <?php
+            include "/xampp/htdocs/Cab Booking System/connection.php";
+            $query="SELECT vehicle.vehiclepermit,vehicle.vehicleinsurance,driver.fname,driver.email,driver.id,driver.lname,driver.mname FROM vehicle JOIN driver on driver.id=vehicle.driver_id;";
+            $result=mysqli_query($conn,$query); 
+            ?>
             <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
               <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
                 <h6 class="text-white text-capitalize ps-3">Vehicle Details</h6>
@@ -142,28 +147,41 @@
                 <table class="table align-items-center mb-0">
                   <thead>
                     <tr>
+                    <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7">ID</th>
                       <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7">Name</th>
                       <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ps-2">Vehicle Permit</th>
                       <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-7">Vehicle Insurance</th>
                     </tr>
                   </thead>
                   <tbody>
+                    <?php if($result->num_rows > 0)
+                    {
+                      while($row=$result->fetch_array())
+                      {?>
                     <tr>
+                    <td>
+                        <p class="text-xs font-weight-bold mb-0"><?php echo $row["id"]?></p>
+                        <!-- <p class="text-xs text-secondary mb-0">Organization</p> -->
+                      </td>
                       <td>
-                        <div class="d-flex px-2 py-1">
-                          <div class="d-flex flex-column justify-content-center">
-                            <h6 class="mb-0 text-sm">Name here</h6>
-                            <p class="text-xs text-secondary mb-0">Email</p>
+
+                      <div class="d-flex flex-column justify-content-center">
+                            <h6 class="mb-0 text-sm"><?php echo $row["fname"]." ".$row["mname"]." ".$row["lname"]?></h6>
+                            <p class="text-xs text-secondary mb-0"><?php echo $row["email"]?></p>
                           </div>
-                        </div>
                       </td>
-                       <td>
-                        <p class="text-center text-xs font-weight-bold mb-0"><img src="../IMG_20190929_164535.jpg" style="height: 200px;" alt=""></p>
+                      
+                      <td>
+                        <p class=" text-center text-xs font-weight-bold mb-0"><img src="\Cab Booking System\Images\<?php echo $row["vehiclepermit"]?>" style="height: 200px;" alt=""></p>
                       </td>
                       <td>
-                        <p class=" text-center text-xs font-weight-bold mb-0"><img src="../IMG_20190929_164535.jpg" style="height: 200px;" alt=""></p>
+                        <p class=" text-center text-xs font-weight-bold mb-0"><img src="\Cab Booking System\Images\<?php echo $row["vehicleinsurance"]?>" style="height: 200px;" alt=""></p>
                       </td>
                     </tr>
+                    <?php 
+                      }
+                    }
+                    ?>
                   </tbody>
                 </table>
               </div>
