@@ -111,6 +111,7 @@
                 </td>
             </tr>
             <input type="text" value="<?php echo $row["RequestID"] ?>" id="REQUESTID" hidden>
+            <input type="text" value="<?php echo $row["DriverID"] ?>" id="DRIVERID" hidden>
             <?php }?>
         </tbody>
     </table>
@@ -123,6 +124,7 @@
     //    $("button").click(function(){
     //        var x=document.getElementById("btnintrestRide").name;
     //        var xs=document.getElementById("REQUESTID").value;
+            
     //        $.post("ajax_files/setBOOKEDRIDE.php",{interestid:x,requestid:xs},function(data){
     //            if(data=="true")
     //            {
@@ -132,16 +134,21 @@
     //        })    
     //    })
    })
-   function booking(name)
+  function booking(name)
    {
     var x=name;
            var xs=document.getElementById("REQUESTID").value;
-           $.post("ajax_files/setBOOKEDRIDE.php",{interestid:x,requestid:xs},function(data){
-               if(data=="true")
+           var xss=document.getElementById("DRIVERID").value;
+           $.post("ajax_files/setBOOKEDRIDE.php",{interestid:x,requestid:xs,driverid:xss},function(data){
+               if(data=="truetrue")
                {
                  alert("ride booked successfully");
                  window.location="booked ride mail.php";
                }   
+               else
+               {
+                alert(data);
+               }
            }) 
    }
     </script>
