@@ -91,16 +91,16 @@ session_start();
                         </div>
                         <form id="myform">
                             <div class="row mt-2">
-                                <div class="col-md-4"><label class="labels">First Name:</label><input type="text" class="form-control readonly" name="fname" id="fname" readonly value="<?php echo $row['fname']; ?>"><span class="error" id="fname_err"> </span></div>
-                                <div class="col-md-4"><label class="labels">Middle Name:</label><input type="text" class="form-control readonly" name="mname" id="mname" readonly value="<?php echo $row['mname']; ?>"><span class="error" id="mname_err"> </span></div>
-                                <div class="col-md-4"><label class="labels">Last Name:</label><input type="text" class="form-control readonly" name="lname" id="lname" readonly value="<?php echo $row['lname']; ?>"><span class="error" id="lname_err"> </span></div>
+                                <div class="col-md-4"><label class="labels">First Name:</label><input type="text" class="form-control readonly" name="fname" readonly value="<?php echo $row['fname']; ?>"></div>
+                                <div class="col-md-4"><label class="labels">Middle Name:</label><input type="text" class="form-control readonly" name="mname" readonly value="<?php echo $row['mname']; ?>"></div>
+                                <div class="col-md-4"><label class="labels">Last Name:</label><input type="text" class="form-control readonly" name="lname" readonly value="<?php echo $row['lname']; ?>"></div>
                             </div>
                             <div class="row mt-3">
-                                <div class="col-md-12"><label class="labels">Contact Number</label><input type="text" class="form-control readonly" name="contact" id="contact" readonly value="<?php echo $row['contact']; ?>"><span class="error" id="contact_err"> </span></div>
-                                <div class="col-md-12"><label class="labels">Address</label><input type="text" class="form-control readonly" name="address" id="address" readonly value="<?php echo $row['address']; ?>"><span class="error" id="address_err"> </span></div>
-                                <div class="col-md-12"><label class="labels">Date of Birth</label><input type="text" class="form-control readonly" name="dob" id="dob" readonly value="<?php echo $row['dob']; ?>"><span class="error" id="dob_err"> </span></div>
-                                <div class="col-md-12"><label class="labels">Gender</label><input type="text" class="form-control readonly" name="gender" id="gender" readonly value="<?php echo $row['gender']; ?>"></div>
-                                <div class="col-md-12"><label class="labels">Email ID</label><input type="text" class="form-control readonly" name="email" id="email" readonly value="<?php echo $row['email']; ?>"><span class="error" id="email_err"></span></div>
+                                <div class="col-md-12"><label class="labels">Contact Number</label><input type="text" class="form-control readonly" name="contact" readonly value="<?php echo $row['contact']; ?>"></div>
+                                <div class="col-md-12"><label class="labels">Address</label><input type="text" class="form-control readonly" name="address" readonly value="<?php echo $row['address']; ?>"></div>
+                                <div class="col-md-12"><label class="labels">Date of Birth</label><input type="text" class="form-control readonly" name="dob" readonly value="<?php echo $row['dob']; ?>"></div>
+                                <div class="col-md-12"><label class="labels">Gender</label><input type="text" class="form-control readonly" name="gender" readonly value="<?php echo $row['gender']; ?>"></div>
+                                <div class="col-md-12"><label class="labels">Email ID</label><input type="text" class="form-control readonly" name="email" readonly value="<?php echo $row['email']; ?>"></div>
                                 <!-- <div class="col-md-12"><label class="labels">Password</label><input type="text" class="form-control readonly" name="password" readonly value="<?php echo $row['password']; ?>"></div> -->
                                 <!-- <div class="col-md-12"><label class="labels">Profile</label><input type="text" class="form-control readonly" name="role" readonly placeholder="Passenger/Driver" value="driver"></div> -->
                             <?php
@@ -110,9 +110,8 @@ session_start();
                             ?>
                             </div>
                             <div class="row mt-3">
-                                <div class="col-md-4"><label class="labels">Country</label><input type="text" class="form-control " name="country" readonly value="India"></div>
-                                <div class="col-md-4"><label class="labels">State</label><input type="text" class="form-control " name="state" readonly value="<?php echo $row["City_Name"]?>"></div>
-                                <div class="col-md-4"><div class="text-center"><a href="changepassword1"><button class="btn btn-primary profile-button" name="update" type="button">Change password</button></a></div></div>
+                                <div class="col-md-6"><label class="labels">Country</label><input type="text" class="form-control " name="country" readonly value="India"></div>
+                                <div class="col-md-6"><label class="labels">State</label><input type="text" class="form-control " name="state" readonly value="<?php echo $row["City_Name"]?>"></div>
                             </div>
                             <div class="row mt-5">
                                 <div class="col-md-3">
@@ -127,12 +126,12 @@ session_start();
                                 </div>
                                 <div class="col-md-3">
                                 <div class="text-center">
-                                    <a href="index"><button class="btn btn-primary profile-button" name="logout" id="logout">Log out</button></a>
+                                    <a href="index"><button class="btn btn-primary profile-button" name="logout" id="logout" type="submit">Log out</button></a>
                                 </div>
                             </div>
-                                <div class="col-md-3">
+                                <div class="col-md-6">
                                     <div class="text-center">
-                                        <button class="btn btn-primary profile-button" name="update" type="submit">Save Personal Details</button>
+                                        <button class="btn btn-primary profile-button" name="update"id="update" type="submit">Save Personal Details</button>
                                     </div>
                                 </div>
                             </div>
@@ -153,8 +152,8 @@ session_start();
                                                 success:function(data){
                                                     if(data=="true")
                                                     {
-                                                        alert("profile updated successfully");
-                                                        window.location="profile driver";
+                                                        
+                                                        window.location="otp.php";
                                                     }
                                                     else if(data=="false")
                                                     {
@@ -169,14 +168,16 @@ session_start();
                                             }); 
                                             
                                         });
-                                });
+                                    
+                                })
+                                
                                         $("#logout").click(function(){
                                             $.post("logoutGG.php",function(data)
                                             {
                                                 if(data=="true")
                                                 {
                                                     alert("successfully logged out");
-                                                    window.location='index';
+                                                    window.location='index_driver';
                                                 }
                                                 else
                                                 {
@@ -220,35 +221,50 @@ session_start();
                                 </div>
                                 <div class="col-md-9">
                                     <div class="text-center">
-                                        <button class="btn btn-primary profile-button" name="updatevehicle" type="submit">Save Personal Details</button>
+                                        <button class="btn btn-primary profile-button" id="update1" name="updatevehicle" type="submit">Save Personal Details</button>
                                     </div>
                                 </div>
                             </div>
-                            <?php
-                            if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["updatevehicle"])) {
-                                $conn = new mysqli("localhost", "root", "", "cms");
-
-                                if ($conn->connect_error) {
-                                    die("Connection failed: " . $conn->connect_error);
-                                }
-
-                                $company = $_POST["company"];
-                                $vname = $_POST["vname"];
-                                $platenumber = $_POST["platenumber"];
-
-                                $sql = "UPDATE vehicle SET company_name = '$company', Vehicle_name = '$vname', vehicle_number = '$platenumber' WHERE driver_id=$driverid";
-
-                                if ($conn->query($sql) === TRUE) {
-                                    $response = "Vehicle Record updated successfully.";
-                                } else {
-                                    $response = "Error: " . $sql . "<br>" . $conn->error;
-                                }
-
-                                $conn->close();
-
-                                echo "<script type='text/javascript'>alert('$response');</script>";
-                            }
-                            ?>
+                            <script>
+                            $(document).ready(function() {
+                                $("#update1").click(function () {
+                                    $("#myformvehicle").submit(function(event)
+                                        {   
+                                            event.preventDefault();
+                                            var formdata=new FormData(this);
+                                            $.ajax({
+                                                type:"POST",
+                                                url:"ajax_files/updatevehicle.php",
+                                                data:formdata,
+                                                contentType: false,
+                                                cache: false,
+                                                processData:false,
+                                                success:function(data){
+                                                    if(data=="true")
+                                                    {
+                                                        
+                                                        alert("vehicle updated");
+                                                        window.location='index_driver';
+                                                    }
+                                                    else if(data=="vehicle exists")
+                                                    {
+                                                        alert("vehicle updation failed vehicle number already exits")
+                                                        window.location="profile driver";
+                                                    }
+                                                    else
+                                                    {
+                                                        alert(data);
+                                                    }
+                                                },
+                                            }); 
+                                            
+                                        });
+                                    
+                                })
+                                
+                                       
+                            })
+                        </script>
                         </form>
                     </div>
                 <?php
@@ -269,7 +285,6 @@ session_start();
             });
         }
     </script>
-        <script src="validation.js"></script>
 </body>
 
 </html>
