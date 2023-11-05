@@ -3,7 +3,7 @@ session_start();
 require_once "../connection.php";
 if(isset($_POST["email"]))
 {
-    $query="select email from passenger where email='".$_POST["email"]."'";
+    $query="select email from passenger where email='".$_POST["email"]."' or contact=".$_POST["contact"]."";
     $ret=mysqli_query($conn,$query);
     if($ret->num_rows>0)
     {
@@ -13,7 +13,7 @@ if(isset($_POST["email"]))
     }
     else
     {
-        $query="select email from driver where email='".$_POST["email"]."' and contact=".$_POSt["contact"]."";
+        $query="select email from driver where email='".$_POST["email"]."' or contact=".$_POST["contact"]."";
         $ret=mysqli_query($conn,$query);
         if($ret->num_rows>0)
         {
@@ -23,7 +23,7 @@ if(isset($_POST["email"]))
         }
         else
         {
-            $query="select email from admin where email='".$_POST["email"]."' and contact=".$_POST["contact"]."";
+            $query="select email from admin where email='".$_POST["email"]."' or  contact=".$_POST["contact"]."";
             $ret=mysqli_query($conn,$query);
             if($ret->num_rows>0)
             {
