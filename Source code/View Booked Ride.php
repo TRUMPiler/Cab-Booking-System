@@ -38,6 +38,25 @@
             position: fixed;
             z-index: 100;
         }
+
+        .custom-button {
+            background: white;
+            /* White background */
+            color: rgb(255, 174, 0);
+            /* Text color */
+            border: 2px solid rgb(255, 174, 0);
+            border-radius: 5px;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+
+        /* Button hover effect using Bootstrap classes */
+        .custom-button:hover {
+            background: rgb(255, 174, 0);
+            /* Background color on hover */
+            color: white;
+            /* Text color on hover */
+        }
     </style>
     <!-- =======================================================
   * Template Name: Ninestars
@@ -63,8 +82,8 @@
 
             <nav id="navbar" class="navbar">
                 <ul>
-                    <li><a class="nav-link scrollto active" href="#hero">Home</a></li>
-                    <li><a class="nav-link scrollto" href="#about">About Us</a></li>
+                    <li><a class="nav-link scrollto active" href="index">Home</a></li>
+                    <!-- <li><a class="nav-link scrollto" href="#about">About Us</a></li> -->
                     <!-- <li><a class="nav-link scrollto" href="#services">Services</a></li> -->
                     <!-- <li><a class="nav-link scrollto" href="#portfolio">Portfolio</a></li> -->
                     <!-- <li><a class="nav-link scrollto" href="#team">Team</a></li> -->
@@ -113,70 +132,56 @@
             <!-- </div> -->
         </div><br><br>
         <?php
-        while ($row = $result->fetch_assoc()) {
-            echo '<div class="split right"><input type="text" id="address" class="form-control" value="' . $row["SourceAddress"] . '" hidden>';
-            echo '<input type="text" id="daddress" class="form-control" value="' . $row["DestinationAddress"] . '" hidden>';
-            echo '<input type="text" class="form-control" name="latitude" id="latitude" hidden>
-    <h4>Source: ' . $row["SourceAddress"] . '</h4>
-    <h4>Destination: ' . $row["DestinationAddress"] . '</h4><br>
-    <input type="text" class="form-control" name="longitude" id="longitude" hidden>';
-            echo '<input type="text" name="dlat" id="dlat" hidden>
-    <input type="text" name="dlong" id="dlong" hidden>
-    <h4 id="distance">Distance</h4>
-    <h4 id="duration">Duration</h4>
-    ';
-            if($row["From"]>date("Y-m-d H:i:s"))
-            {
-                echo "<button id='cancel' onclick=cancell(".$row["Booked_ID"].")>Cancel</button>";
+        while ($row = $result->fetch_assoc()) { ?>
+
+            <div class="split right">
+                <input type="text" id="address" class="form-control" value="<?php echo $row['SourceAddress']; ?>" hidden>
+                <input type="text" id="daddress" class="form-control" value="<?php echo $row['DestinationAddress']; ?>" hidden>
+                <input type="text" class="form-control" name="latitude" id="latitude" hidden>
+                <h4>Source: <?php echo $row['SourceAddress']; ?></h4>
+                <h4>Destination: <?php echo $row['DestinationAddress']; ?></h4><br>
+                <input type="text" class="form-control" name="longitude" id="longitude" hidden>
+                <input type="text" name="dlat" id="dlat" hidden>
+                <input type="text" name="dlong" id="dlong" hidden>
+                <h4 id="distance">Distance</h4>
+                <h4 id="duration">Duration</h4>
+                <?php if ($row["RideStatus"] == "Ride Ended") {
+                    // echo '<button id="make payemnt" onclick="MakePayment(' . $row["Booked_ID"] . ')">Make Payment</button>';
+                ?> <div class='row col-md-6'>
+                        <div class='input-group'><button id="make payemnt" onclick="MakePayment(<?php echo $row['Booked_ID']; ?>)" class='btn custom-button form-control'>Make Payment</button></div>
+                    </div>
+
+                <?php
+                } else if ($row["RideStatus"] == "Payment Done") {
+                ?> <div class='row col-md-6'>
+                        <div class='input-group'><button id="Give" onclick="Give(<?php echo $row['Booked_ID']; ?>)" class='btn custom-button form-control'>Give Feedback</button></div>
+                    </div>
+            </div>
+    <?php    } else {
+                }
             }
 
-            if ($row["RideStatus"] == "Ride Ended") {
 
-                echo '<button id="make payemnt" onclick="MakePayment(' . $row["Booked_ID"] . ')">Make Payment</button>';
-               
-            } 
-            else if ($row["RideStatus"] == "Payment Done") {
-                echo '<button id="Give" onclick=Give('.$row["Booked_ID"].')>Give feedback</button>';
-            } else {
-            }
-        }
-
-
-        ?>
+    ?>
     </div>
     <script>
         $(document).ready(function() {
             overloading();
-            
+
         })
-        function cancell(id)
-        {
-            $.post("ajax_files/cancel.php",{booked_id:id},function(data)
-                {
-                    if(data=="true")
-                    {
-                        window.location='index';
-                    }
-                    else
-                    {
-                        alert(data);
-                    }
-                })
+
+        function Give(id) {
+            $.post("ajax_files/setBookedID.php", {
+                booked_id: id
+            }, function(data) {
+                if (data == "true") {
+                    window.location = 'feedback.php';
+                } else {
+                    alert(data);
+                }
+            })
         }
-        function Give(id)
-        {
-            $.post("ajax_files/setBookedID.php",{booked_id:id},function(data)
-                {
-                    if(data=="true")
-                    {
-                        window.location='feedback.php';
-                    }
-                    else
-                    {
-                        alert(data);
-                    }
-                })
-        }
+
         function overloading() {
 
 
