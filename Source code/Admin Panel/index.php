@@ -49,7 +49,7 @@ if($result->num_rows > 0){
 }
 
 $totalRev=0;
-$query="SELECT SUM(tbl_interest.Cost) as totalRev from tbl_booked JOIN tbl_interest where tbl_interest.interestID=tbl_booked.InterestID;";
+$query="SELECT SUM(tbl_interest.Cost) as totalRev from tbl_booked JOIN tbl_interest where tbl_interest.interestID=tbl_booked.InterestID and tbl_booked.RideStatus in ('Ride Completed');";
 $result=mysqli_query($conn,$query);
 if($result->num_rows > 0){
   while($row=mysqli_fetch_array($result)){
