@@ -283,6 +283,7 @@ background-repeat: no-repeat;">
 					<div class="row">
 						<p>Don't have an account? <a href="Register">Register Here</a></p>
 					</div>
+					<p><a href="forgetpwd">Forgot Password?</a></p>
 				</div>
 			</div>
 		</div>
