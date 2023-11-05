@@ -192,7 +192,7 @@ include "ajax_files/checkRequest.php";
             <form class="myForm">
                 <div class="form-group">
                     <label for="First name">Source Location:</label>
-                    <input type="test" class="form-control" value="<?php echo $_SESSION["address"] ?>" id="address" name="source_address" placeholder="Enter from where you are going to travel">
+                    <input type="test" class="form-control" value="<?php echo $_SESSION["address"] ?>" id="address" name="source_address" placeholder="Enter from where you are going to travel" required>
                 </div>
                 <input type="text" name="latitude" id="" hidden>
                 <input type="text" name="longitude" id="" hidden>
@@ -200,18 +200,18 @@ include "ajax_files/checkRequest.php";
                 <input type="text" name="longitudes" id="" hidden>
                 <div class="form-group">
                     <label for="Last name">Destination Location:</label>
-                    <input type="text" class="form-control" id="daddress" name="daddress" placeholder="Enter where do you wish to reach" onchange=overloading()>
+                    <input type="text" class="form-control" id="daddress" name="daddress" placeholder="Enter where do you wish to reach" onchange=overloading() required>
                 </div>
                 <input type="text" name="dlat" id="" hidden>
                 <input type="text" name="dlong" id="" hidden>
                 <div class="form-group">
                     <label for="Email">From Date:</label>
-                    <input type="datetime-local" class="form-control" name="from-dt" id="frmDate" placeholder="Enter your email">
+                    <input type="datetime-local" class="form-control" name="from-dt" id="frmDate" placeholder="Enter your email" required>
                     <span class="error" id="frmDate_err"></span>
                 </div>
                 <div class="form-group">
                     <label for="Password">To Date:</label>
-                    <input type="datetime-local" class="form-control" name="to-dt" id="toDate" placeholder="Enter password">
+                    <input type="datetime-local" class="form-control" name="to-dt" id="toDate" placeholder="Enter password" required>
                     <span class="error" id="frmDate_err"></span>
                 </div>
 
@@ -425,9 +425,27 @@ include "ajax_files/checkRequest.php";
                             console.log(response);
                             var dis = response.distances[0];
                             var dur = response.durations[0];
-                            document.querySelector(".myForm input[name='distance']").value = dis / 1000 + "km";
-                            document.querySelector(".myForm input[name='duration']").value = toTimeString(dur);
-                            console.log("i was called");
+                            if(dis/1000<40)
+    {
+        alert("minimum distance to travel with us is 40km");
+        document.querySelector("#daddress").value=""; 
+        var dropdown=document.getElementById("dcity");
+        for(var i=0;i<dropdown.options.length;i++)
+        {
+            if(dropdown.options[i].text==="--Select City--")
+            {
+                dropdown.options[i].selected=true;
+                break;
+            }
+        }
+    }
+    else
+    {
+        document.querySelector(".myForm input[name='distance']").value=dis/1000+"km";
+    
+    document.querySelector(".myForm input[name='duration']").value=toTimeString(dur);
+    console.log("i was called");
+    }
                         });
                     }
 
