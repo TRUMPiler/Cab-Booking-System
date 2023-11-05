@@ -127,7 +127,7 @@ session_start();
                                 </div>
                                 <div class="col-md-3">
                                 <div class="text-center">
-                                    <a href="index"><button class="btn btn-primary profile-button" name="logout" id="logout" type="submit">Log out</button></a>
+                                    <a href="index"><button class="btn btn-primary profile-button" name="logout" id="logout">Log out</button></a>
                                 </div>
                             </div>
                                 <div class="col-md-3">
@@ -138,7 +138,8 @@ session_start();
                             </div>
                             <script>
                             $(document).ready(function() {
-                                $("#myform").submit(function(event)
+                                $("#update").click(function () {
+                                    $("#myform").submit(function(event)
                                         {   
                                             event.preventDefault();
                                             var formdata=new FormData(this);
@@ -168,6 +169,7 @@ session_start();
                                             }); 
                                             
                                         });
+                                });
                                         $("#logout").click(function(){
                                             $.post("logoutGG.php",function(data)
                                             {
