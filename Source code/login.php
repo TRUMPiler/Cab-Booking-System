@@ -15,6 +15,15 @@ if (isset($_SESSION["verified"]) and isset($_SESSION["email"])) {
 	<link href="Images/Taxibooking.png" rel="icon">
 	<title>Login Page</title>
 	<style>
+		.error span {
+            color: red;
+
+        }
+
+        span.error {
+            color: red;
+            border-radius: 2px solid red;
+        }
 		.container-center {
 			display: flex;
 			justify-content: center;
@@ -149,9 +158,10 @@ background-repeat: no-repeat;">
 						<h2>Log In</h2>
 					</div>
 					<div class="row">
-						<form control="" class="form-group" method="post">
+						<form control="" class="form-group" id="loginForm" method="post">
 							<div class="row">
-								<input type="text" name="email" id="email" class="form__input" placeholder="Enter your email">
+								<input type="email" name="email" id="email" class="form__input" placeholder="Enter your email">
+								<span class="error" id="email_err"></span>
 							</div>
 							<div class="row">
 								<!-- <span class="fa fa-lock"></span> -->
@@ -174,7 +184,7 @@ background-repeat: no-repeat;">
 									// output data of each row
 									while ($row = $result->fetch_assoc()) {
 										if ($row["email"] == $_POST["email"] and $row["password"] == $_POST["password"]) {
-											$_SESSION["id"]=$row["id"];
+											$_SESSION["id"] = $row["id"];
 											$_SESSION["fname"] = $row["fname"];
 											$_SESSION["lname"] = $row["lname"];
 											$_SESSION["dob"] = $row["dob"];
@@ -183,11 +193,12 @@ background-repeat: no-repeat;">
 											$_SESSION["address"] = $row["address"];
 											$_SESSION["email"] = $row["email"];
 											$_SESSION["password"] = $row["password"];
-											$_SESSION["filename"]=$row["image"];
+											$_SESSION["filename"] = $row["image"];
 											$_SESSION["city"] = $row["CityGG"];
 											$_SESSION["role"] = "passenger";
 											$_SESSION["verified"] = true;
-											header("location:index.php");
+											// header("location:index.php");
+											echo "<script>window.location='index'<\script>";
 										} else {
 											echo "<script>alert('invalid email or password')</script>";
 										}
@@ -200,11 +211,11 @@ background-repeat: no-repeat;">
 										// output data of each row
 										while ($row = $result->fetch_assoc()) {
 											if ($row["email"] == $_POST["email"] and $row["password"] == $_POST["password"]) {
-												$_SESSION["id"]=$row["id"];
+												$_SESSION["id"] = $row["id"];
 												$_SESSION["fname"] = $row["fname"];
 												$_SESSION["lname"] = $row["lname"];
 												$_SESSION["dob"] = $row["dob"];
-												$_SESSION["filename"]=$row["image"];
+												$_SESSION["filename"] = $row["image"];
 												$_SESSION["gender"] = $row["gender"];
 												$_SESSION["contact"] = $row["contact"];
 												$_SESSION["address"] = $row["address"];
@@ -214,7 +225,9 @@ background-repeat: no-repeat;">
 												$_SESSION["verified"] = true;
 												$_SESSION["city"] = $row["CityGG"];
 												$_SESSION["filename"] = $row["image"];
-												header("location:index_driver.php");
+												// header("location:index_driver.php");
+											echo "<script>window.location='index_driver'<\script>";
+
 											} else {
 												echo "<script>alert('invalid email or password')</script>";
 											}
@@ -237,9 +250,10 @@ background-repeat: no-repeat;">
 													$_SESSION["password"] = $row["password"];
 													$_SESSION["role"] = "admin";
 													$_SESSION["verified"] = true;
-													
+
 													// $_SESSION["filename"]=$row["image"];
-													header("location:Admin Panel/");
+													// header("location:Admin Panel/");
+													echo "<script>window.location='Admin Panel/'<\script>";
 												} else {
 													echo "<script>alert('invalid email or password')</script>";
 												}
@@ -256,6 +270,9 @@ background-repeat: no-repeat;">
 					<div class="row">
 						<p>Don't have an account? <a href="Register">Register Here</a></p>
 					</div>
+					<div class="row">
+					<p><a href="changepassword1">Forgot Password?</a></p>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -265,6 +282,32 @@ background-repeat: no-repeat;">
 			HH();
 		})
 		loading();
+	</script>
+	<script>
+		const emailForm = document.getElementById("loginForm");
+		const errorMessage = document.getElementById("email_err");
+
+		function validateEmail(email) {
+			const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+			return emailPattern.test(email);
+		}
+
+
+		emailForm.addEventListener("input", function(event) {
+			event.preventDefault();
+			const emailInput = document.getElementById("email");
+			const email = emailInput.value.trim();
+			if (email === "") {
+				errorMessage.textContent = "Email cannot be blank.";
+
+			} else if (validateEmail(email)) {
+				errorMessage.textContent = ""; 
+
+				// You can submit the form here
+			} else {
+				errorMessage.textContent = "Please enter a valid email address.";
+			}
+		});
 	</script>
 </body>
 
