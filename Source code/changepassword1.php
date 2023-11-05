@@ -1,6 +1,6 @@
 <?php
 session_start();
-error_reporting(0);
+// error_reporting(0);
 if (isset($_SESSION["verified"])) {
     if (isset($_SESSION["passwordVerified"])) {
         if ($_SESSION["passwordVerified"] == true) {
@@ -95,19 +95,19 @@ if (isset($_SESSION["verified"])) {
 
 <body>
 
-    <div id="preloader"></div>
+    <!-- <div id="preloader"></div> -->
     <div class="container">
         <div class="row justify-content-start">
             <div class="col-md-8">
                 <div class="card">
                     <h1 class="card-header text-center">Change Password</h1>
                     <div class="card-body">
-                        <form id="myform">
+                        <form id="myform" method="post" action="#">
                             <section class="registration-section" id="personal-info-section">
                                 <div class="form-group">
                                     <div class="form-group">
                                         <label for="password">Set Password:</label>
-                                        <input type="password" class="form-control" id="newpassword" name="newpassword" required>
+                                        <input type="password" class="form-control" id="password" name="newpassword" required>
                                         <span class="error" id="password_err"> </span>
                                     </div>
                                     <div class="form-group">
@@ -117,88 +117,160 @@ if (isset($_SESSION["verified"])) {
                                     </div>
                                 </div>
                                 <div class="d-flex justify-content-between">
-                                    <a href="profile"><button type="button" class="btn custom-button">Back to Profile</button></a>
+                                    <button type="button" class="btn custom-button" onclick="goBack()">Back to Profile</button>
                                     <button type="submit" name="submit" class="btn custom-button">Submit</button>
                                 </div>
+                                <span class="error" id="password_match_err"></span>
                             </section>
+                            <?php
+                            // if (isset($_POST["newpassword"])) {
+                            //     if ($_POST["newpassword"] != $_POST["cpassword"]) {
+                            //         echo "password does not match";
+                            //     }
+                            // }
+
+                            ?>
+                            <?php
+                            
+                            if (isset($_POST["submit"])) {
+                                echo "1";
+                                if ($_POST["newpassword"] == $_POST["cpassword"]) {
+                                    $email = $_SESSION["email"];
+                                    include "connection.php";
+                                    $query="select * from passenger where email='".$_SESSION["email"]."'";
+                                    $result=mysqli_query($conn,$query);
+                                    if($result->num_rows > 0) {
+                                        while($row=$result->fetch_array())
+                                    {
+                                        echo "2";
+                                        $_SESSION["id"]=$row["id"];
+											$_SESSION["fname"] = $row["fname"];
+											$_SESSION["lname"] = $row["lname"];
+											$_SESSION["dob"] = $row["dob"];
+											$_SESSION["gender"] = $row["gender"];
+											$_SESSION["contact"] = $row["contact"];
+											$_SESSION["address"] = $row["address"];
+											$_SESSION["email"] = $row["email"];
+											$_SESSION["password"] = $row["password"];
+											$_SESSION["filename"]=$row["image"];
+											$_SESSION["city"] = $row["CityGG"];
+											$_SESSION["role"] = "passenger";
+                                            $query="update passenger set password='".$_POST["cpassword"]."' where email='".$_SESSION["email"]."'";
+                                            $results=mysqli_query($conn,$query);
+											$_SESSION["verified"] = true;
+                                            echo "<script>window.location='index'</script>";
+ 
+                                    }
+                                    }
+                                    else
+                                    {
+                                        $query="select * from driver where email='".$_SESSION["email"]."' limit 1";
+                                    $results=mysqli_query($conn,$query);
+                                    if($results->num_rows > 0) {
+                                        while($row=$result->fetch_array())
+                                        {
+                                            echo "2";
+                                            $_SESSION["id"]=$row["id"];
+                                                $_SESSION["fname"] = $row["fname"];
+                                                $_SESSION["lname"] = $row["lname"];
+                                                $_SESSION["dob"] = $row["dob"];
+                                                $_SESSION["gender"] = $row["gender"];
+                                                $_SESSION["contact"] = $row["contact"];
+                                                $_SESSION["address"] = $row["address"];
+                                                $_SESSION["email"] = $row["email"];
+                                                $_SESSION["password"] = $row["password"];
+                                                $_SESSION["filename"]=$row["image"];
+                                                $_SESSION["city"] = $row["CityGG"];
+                                                $_SESSION["role"] = "driver";
+                                                $query="update driver set password='".$_POST["cpassword"]."' where email='".$email."'";
+                                                $results=mysqli_query($conn,$query);
+                                                $_SESSION["verified"] = true;
+                                                echo "<script>window.location='index_driver'</script>";
+     
+                                        }
+
+                                            
+                                    }
+                                    else
+                                    {
+                                            echo "<script>alert('entered email is not found in the system')</script>";
+                                            $_SESSION["verified"]=false;
+                                            echo "<script>window.location='index'</script>";
+                                    }
+                                }
+                            }
+                        }
+                            ?>
                         </form>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <?php
-    if (isset($_POST["newpassword"])) {
-        if ($_POST["newpassword"] != $_POST["cpassword"]) {
-            echo "password does not match";
-        }
-    }
 
-    ?>
-    <?php
-    if (isset($_POST["submit"])) {
-        if ($_POST["newpassword"] == $_POST["cpassword"]) {
-            $email = $_SESSION["email"];
-            require("connection.php");
-            $sql = "select email from passenger where email='" . $email . "'";
-            $ret = mysqli_query($conn, $sql);
-            if ($ret->num_rows > 0) {
-                require("connection.php");
-                echo "passenger called";
-                echo "$email";
-                $sqls = "UPDATE `passenger` SET `password`='" . $_POST["newpassword"] . "' WHERE email='" . $email . "'";
-                $rets = mysqli_query($conn, $sqls);
-                if ($ret->num_rows > 0) {
-                    echo "$email";
-                    $sql = "SELECT * FROM passenger where email='" . $email . "' limit 1";
-                    $ret = mysqli_query($conn, $sql);
-                    if ($ret->num_rows > 0)
-                        while ($row = $ret->fetch_array()) {
 
-                            echo "function called";
-                            $_SESSION["fname"] = $row["fname"];
-                            $_SESSION["lname"] = $row["lname"];
-                            $_SESSION["dob"] = $row["dob"];
-                            $_SESSION["gender"] = $row["gender"];
-                            $_SESSION["contact"] = $row["contact"];
-                            $_SESSION["address"] = $row["address"];
-                            $_SESSION["email"] = $row["email"];
-                            $_SESSION["password"] = $row["password"];
-                            $_SESSION["role"] = "passenger";
-                            $_SESSION["verified"] = true;
-                            header("location:index");
-                        }
-                }
-            } else {
-                $sql = "select email from admin where email='" . $email . "'";
-                $ret = mysqli_query($conn, $sql);
-                if ($ret->num_rows > 0) {
-                    $sql = "SELECT * FROM adminr where email='" . $_POST["email"] . "' limit 1";
-                    $_SESSION["fname"] = $row["fname"];
-                    $_SESSION["lname"] = $row["lname"];
-                    $_SESSION["dob"] = $row["dob"];
-                    $_SESSION["gender"] = $row["gender"];
-                    $_SESSION["contact"] = $row["contact"];
-                    $_SESSION["address"] = $row["address"];
-                    $_SESSION["email"] = $row["email"];
-                    $_SESSION["password"] = $row["password"];
-                    $_SESSION["role"] = "passenger";
-                    $_SESSION["verified"] = true;
-                    header("location:index");
-                }
-            }
-        }
-    }
-
-    ?>
 
     </div>
     <script>
         window.addEventListener("load", function() {
-            HH();
+            // HH();
         })
-        loading();
+        // loading();
+        function goBack() {
+        window.history.back();
+    }
     </script>
+    <script>
+    const passwordInput = document.querySelector('input[name="newpassword"]');
+    const cpasswordInput = document.querySelector('input[name="cpassword"]');
+    const passwordError = document.getElementById('password_err');
+    const cpasswordError = document.getElementById('cpassword_err');
+    const passwordMatchError = document.getElementById('password_match_err');
+
+    function validatePasswordFormat(password) {
+        if (password.length < 8) {
+        return false;
+    }
+
+    if (!/[A-Z]/.test(password)) {
+        return false;
+    }
+
+
+    if (!/[a-z]/.test(password)) {
+        return false;
+    }
+
+    if (!/\d/.test(password)) {
+        return false;
+    }
+
+    const specialCharacters = /[!@#$%^&*()_+[\]{};:<>?,.]/;
+    if (!specialCharacters.test(password)) {
+        return false;
+    }
+
+    return true;
+    }
+
+    passwordInput.addEventListener('input', function () {
+        const passwordValue = passwordInput.value;
+        if (validatePasswordFormat(passwordValue)) {
+            passwordError.textContent = ''; 
+        } else {
+            passwordError.textContent = 'Invalid password format. ';
+        }
+    });
+
+    cpasswordInput.addEventListener('input', function () {
+        const cpasswordValue = cpasswordInput.value;
+        if (cpasswordValue === passwordInput.value) {
+            cpasswordError.textContent = ''; 
+        } else {
+            cpasswordError.textContent = 'Passwords do not match.';
+        }
+    });
+</script>
 </body>
 
 </html>
