@@ -160,7 +160,7 @@ if (!isset($_SESSION["role"])) {
                         <td><?php echo $row["To"]; ?></td>
                         <td><?php echo $row["passengername"]; ?></td>
                         <td>
-                            <button class="btn btn-primary btnintrestRide" name="<?php echo $row["Request_id"]; ?>" onclick='requestride(<?php echo $row["Request_id"]; ?>)'>Give Cost estimation</button>
+                            <button class="btn btn-primary btnintrestRide" name="<?php echo $row["Request_id"]; ?>" onclick='requestride(<?php echo $row["Request_id"]; ?>,"<?php echo $row["From"]; ?>","<?php echo $row["To"]; ?>")'>Give Cost estimation</button>
                         </td>
                     </tr>
                 <?php } ?>
@@ -181,13 +181,24 @@ if (!isset($_SESSION["role"])) {
         //     });
         // });
     });
-    function requestride(id)
+    function requestride(id,from,to)
     {
         var requestID = id;
             $.post("InterestPage.php", {
-                RequestID: requestID
-            }, function() {
-                window.location = "Cost_Estimation.php";
+                RequestID: requestID,From:from,to:to
+            }, function(data) {
+                if(data=="true")
+                {
+                    window.location = "Cost_Estimation.php";
+                }
+                else if(data=="false")
+                {
+                     alert("you already have a schduled rides on these days");
+                }
+                else
+                {
+                    alert(data);
+                }
             });
     }
 </script>
