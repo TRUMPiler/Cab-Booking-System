@@ -15,6 +15,16 @@ if (!isset($_SESSION["role"])) {
 
 <head>
   <style>
+    .error span {
+      color: red;
+
+    }
+
+    span.error {
+      color: red;
+      border-radius: 2px solid red;
+    }
+
     #map {
       position: relative;
       top: 20px;
@@ -76,21 +86,16 @@ if (!isset($_SESSION["role"])) {
 
     .custom-button {
       background: white;
-      /* White background */
       color: rgb(255, 174, 0);
-      /* Text color */
       border: 2px solid rgb(255, 174, 0);
       border-radius: 5px;
       padding: 10px 20px;
       cursor: pointer;
     }
 
-    /* Button hover effect using Bootstrap classes */
     .custom-button:hover {
       background: rgb(255, 174, 0);
-      /* Background color on hover */
       color: white;
-      /* Text color on hover */
     }
   </style>
   <meta charset="UTF-8">
@@ -105,12 +110,7 @@ if (!isset($_SESSION["role"])) {
 
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,600,600i,700,700i" rel="stylesheet">
-  <script src="https://api.mqcdn.com/sdk/mapquest-js/v1.3.2/mapquest.js"></script>
-    <link type="text/css" rel="stylesheet" href="https://api.mqcdn.com/sdk/mapquest-js/v1.3.2/mapquest.css"/>
 
-    <script src=
-"https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js">
-    </script>
   <!-- Vendor CSS Files -->
   <link href="assets/vendor/aos/aos.css" rel="stylesheet">
   <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -118,7 +118,7 @@ if (!isset($_SESSION["role"])) {
   <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
   <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
   <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
-  <!-- <script src="assets/js/loader.js"></script> -->
+  <script src="assets/js/loader.js"></script>
   <!-- Template Main CSS File -->
   <link href="assets/css/style.css" rel="stylesheet">
 </head>
@@ -139,13 +139,13 @@ if (!isset($_SESSION["role"])) {
       <nav id="navbar" class="navbar">
         <ul>
           <li><a class="nav-link scrollto active" href="#hero">Home</a></li>
-          <li><a class="nav-link scrollto" href="#about">About Us</a></li>
+          <!-- <li><a class="nav-link scrollto" href="#about">About Us</a></li> -->
           <!-- <li><a class="nav-link scrollto" href="#services">Services</a></li> -->
           <!-- <li><a class="nav-link scrollto" href="#portfolio">Portfolio</a></li> -->
           <!-- <li><a class="nav-link scrollto" href="#team">Team</a></li> -->
           <li class="dropdown"><a href="#"><span>Services</span> <i class="bi bi-chevron-down"></i></a>
             <ul>
-              <li><a href="Request ride">Request Ride</a></li>
+              <li><a href="view_requested">View Request Ride</a></li>
               <!-- <li class="dropdown"><a href="#"><span>Deep Drop Down</span> <i class="bi bi-chevron-right"></i></a>
                 <ul>
                   <li><a href="#">Deep Drop Down 1</a></li>
@@ -155,7 +155,9 @@ if (!isset($_SESSION["role"])) {
                   <li><a href="#">Deep Drop Down 5</a></li>
                 </ul>
               </li> -->
-              <li><a href="booked Ride">Response</a></li>
+              <li><a href="confirm booking">Confirmed Bookings</a></li>
+              <!-- <li><a href="#">Drop Down 3</a></li> -->
+              <!-- <li><a href="#">Drop Down 4</a></li> -->
             </ul>
           </li>
           <!-- <li><a class="nav-link scrollto" href="#contact">Contact</a></li> -->
@@ -163,14 +165,14 @@ if (!isset($_SESSION["role"])) {
           <?php
           if (isset($_SESSION["fname"])) {
             if ($_SESSION["fname"] == "") {
-              echo "<li><a class='getstarted scrollto' href='login'>Login</a></li>";
-            } elseif (isset($_SESSION["filename"])) {
-              echo "<li><a  href='profile driver'>" . "<img src='images/" . $_SESSION["filename"] . "' alt='" . $_SESSION["fname"] . "' style='border-radius:150%;'>" . "</a></li>";
-            } elseif (!isset($_SESSION["filename"]) && $_SESSION["fname"] != "") {
+              echo "<li><a class='getstarted scrollto' href='login.php'>Login</a></li>";
+            } elseif ($_SESSION["filename"] != "") {
+              echo "<li><a  href='profile driver'>" . "<img src='Images/" . $_SESSION["filename"] . "' alt='" . $_SESSION["fname"] . "' style='border-radius:150%;'>" . "</a></li>";
+            } elseif ($_SESSION["filename"] == "" && $_SESSION["fname"] != "") {
               echo "<li><a class='getstarted scrollto' href='profile driver'>" . $_SESSION["fname"] . "</a></li>";
             }
           } else {
-            echo "<li><a class='getstarted scrollto' href='login'>Login</a></li>";
+            echo "<li><a class='getstarted scrollto' href='login.php'>Login</a></li>";
           }
           ?>
         </ul>
@@ -183,12 +185,12 @@ if (!isset($_SESSION["role"])) {
   <div class="split left">
     <!-- <div class="centered"> -->
     <div id="map"></div>
-    <!-- <script src="map.js"></script> -->
+    <script src="map.js"></script>
     <!-- </div> -->
   </div>
   <div class="split right">
     <div class="container">
-      <form id="myform">
+      <form action="" method="POST" class="myForm">
         <?php
         include "connection.php";
         if (isset($_SESSION["RequestID"])) {
@@ -250,164 +252,60 @@ if (!isset($_SESSION["role"])) {
                   <h4 id='duration'>Estimated Duration of the ride</h4>
                 </div>
               </div><br>
-        <?php
+              <?php
               $query = "select driver.id,interestID,Cost FROM tbl_interest JOIN driver where tbl_interest.DriverID=" . $_SESSION["id"] . " and driver.id=tbl_interest.DriverID and tbl_interest.RequestID=" . $_SESSION["RequestID"] . "";
               $results = mysqli_query($conn, $query);
               if ($results->num_rows > 0) {
                 while ($row = $results->fetch_array()) {
                   echo "<h4>Cost given for the trip is:" . $row["Cost"] . "</h4>";
-                  echo "<button id='Go'>Go Back</button>";
                 }
               } else {
-                echo "
-                <div class=input-group'>
-                <input type='text' id='cost_estimation' class='form-control' required>
-              </div>
-              
-                  ";
-                  echo '<button type="submit" id="estimation" class="custom-button">Submit Cost</button>';
-                  
+              ?>
+                <span class="error" id="cost_err"></span>
+                <div class='input-group'>
+                  <input type='text' name='cost_estimation' class='form-control' required>
+                </div>
+
+        <?php
               }
             }
           }
         }
         ?>
         <!-- <input type='text' name='cost_estimation' required> -->
-        <br><div class="d-flex justify-content-center">
-          
+        <br>
+        <div class="row col-md-6 d-flex justify-content-end">
+          <div class="d-flex justify-content-">
+            <button type="submit" id="estimation" class=" custom-button">Submit Cost</button>
+          </div>
         </div>
         <!-- <input type="submit" id="estimation" value="Submit Your Estimation"> -->
       </form>
     </div>
   </div>
-  <!-- <div class="container-fluid">
-    <div class="row">
-      <div class="col-md-6">
-        <form action="" method="POST" class="myForm">
-          <?php
-          // include "connection.php";
-          // if (isset($_SESSION["RequestID"])) {
-          //   $query = "SELECT 
-          //     Request_id,
-          //     SourceAddress,DestinationAddress,rr.From,rr.To,
-          //     passenger.fname as passengername,
-          //     source_city.City_name AS source_city_name,
-          //     destination_city.City_name AS destination_city_name
-          //     FROM 
-          //     tbl_request_ride AS rr
-          //     JOIN 
-          //     tbl_city AS source_city ON rr.SourceCity = source_city.CityID
-          //     JOIN 
-          //     tbl_city AS destination_city ON rr.DestinationCity = destination_city.CityID
-          //     JOIN
-          //     passenger as passenger on rr.passengerId=passenger.id
-          //     where Request_id=" . $_SESSION["RequestID"] . "";
-          //   $result = mysqli_query($conn, $query);
-          //   if ($result->num_rows > 0) {
-          //     while ($row = $result->fetch_array()) {
-          ?>
-                <div class="row">
-                  <div class="col-md-12">
-                    <h4><b>Passenger Name:</b> <?php //echo $row["passengername"]; 
-                                                ?></h4>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-md-12">
-                    <h4 id='address'>Source: <?php //echo $row["SourceAddress"]; 
-                                              ?> <?php //echo $row["source_city_name"]; 
-                                                  ?></h4>
-                  </div>
-                  <input type='text' name='latitude' id='lat' hidden>
-                  <input type='text' name='longitude' id='long' hidden>
-                </div>
-                <div class="row">
-                  <div class="col-md-12">
-                    <h4 id='daddress'>Destination: <?php //echo $row["DestinationAddress"]; 
-                                                    ?> <?php //echo $row["destination_city_name"]; 
-                                                        ?></h4>
-                  </div>
-                  <input type='text' name='dlat' id='dlat' hidden>
-                  <input type='text' name='long' id='dlong' hidden>
-                </div>
-                <div class="row">
-                  <div class="col-md-12">
-                    <h4>Travel Begins From: <?php //echo $row["From"]; 
-                                            ?></h4>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-md-12">
-                    <h4>Travel Ends On: <?php //echo $row["To"]; 
-                                        ?></h4>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-md-12">
-                    <h4 id='distance'>Estimated Distance of the ride</h4>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-md-12">
-                    <h4 id='duration'>Estimated Duration of the ride</h4>
-                  </div>
-                </div>
-          <?php
-          //       $query = "select driver.id,interestID,Cost FROM tbl_interest JOIN driver where tbl_interest.DriverID=" . $_SESSION["id"] . " and driver.id=tbl_interest.DriverID";
-          //       $results = mysqli_query($conn, $query);
-          //       if ($results->num_rows > 0) {
-          //         while ($row = $results->fetch_array()) {
-          //           echo "<h4>Cost given for the trip is:" . $row["Cost"] . "</h4>";
-          //         }
-          //       } else {
-          //         echo "
-          //         <input type='text' name='cost_estimation' required>
-          //         ";
-          //       }
-          //     }
-          //   }
-          // }
-          ?>
-          <input type='text' name='cost_estimation' required> 
-          <input type="submit" id="estimation" value="Submit Your Estimation">
-        </form>
-      </div>
-    </div>
-  </div> -->
   <script>
-    $(document).ready(function(){
-        settingLoc();
-        
-        $("button#estimation").click(function(event)
-                {
-                 $("#myform").submit(function(event) {
-                  event.preventDefault();
-                    var formValues=$(this).serialize();
-                    $.post(
-                        "setinterest.php",
-                     {cost_estimation:document.querySelector("#cost_estimation").value},
-                    function(data,status){
-                      
-                        if(data=="true")
-                        {
-                          alert("Estimation send to passenger");
-                          window.location='index_driver';
-                        }
-                        else
-                        {
-                          alert(data);
-                          alert("Estimation Already exists");
-                          // window.location='index_driver';
-                        }
-                        }   
-                )
-                  
-                 })
-                });
-                $("button#Go").click(function(event)
-                {
-                    window.location='index';
-                })
+    $(document).ready(function() {
+      settingLoc();
+
+      $("form").on("submit", function(event) {
+        event.preventDefault();
+        var formValues = $(this).serialize();
+        $.post(
+          "setinterest.php",
+          formValues,
+          function(data, status) {
+
+            if (data == "true") {
+              alert("Estimation send to passenger");
+              window.location = 'index_driver';
+            } else {
+              alert(data);
+              alert("Estimation Already exists");
+              // window.location='index_driver';
+            }
+          }
+        )
+      });
     })
 
     function settingLoc() {
@@ -433,8 +331,8 @@ if (!isset($_SESSION["role"])) {
         var lat = response.results[0].location.lat;
         var long = response.results[0].location.lng;
         console.log(lat);
-        document.querySelector("#lat").value = lat;
-        document.querySelector("#long").value = long;
+        document.querySelector(".myForm input[name='latitude']").value = lat;
+        document.querySelector(".myForm input[name='longitude']").value = long;
       });
 
 
@@ -457,8 +355,8 @@ if (!isset($_SESSION["role"])) {
         var dlat = responses.results[0].location.lat;
         var dlong = responses.results[0].location.lng;
         console.log(dlat);
-        document.querySelector("#dlat").value = dlat;
-        document.querySelector("#dlong").value = dlong;
+        document.querySelector(".myForm input[name='dlat']").value = dlat;
+        document.querySelector(".myForm input[name='dlong']").value = dlong;
 
       });
       overloadings();
@@ -490,8 +388,8 @@ if (!isset($_SESSION["role"])) {
 
         L.mapquest.directions().route({
 
-          start: '' + document.querySelector("#lat").value + ',' + document.querySelector("#long").value + '', // Starting address or location
-          end: '' + document.querySelector("#dlat").value + ',' + document.querySelector("#dlong").value + '', // Ending address or location
+          start: '' + document.querySelector(".myForm input[name='latitude']").value + ',' + document.querySelector(".myForm input[name='longitude']").value + '', // Starting address or location
+          end: '' + document.querySelector(".myForm input[name='dlat']").value + ',' + document.querySelector(".myForm input[name='dlong']").value + '', // Ending address or location
         });
       } finally {
         calculate();
@@ -504,7 +402,7 @@ if (!isset($_SESSION["role"])) {
       const settings = {
         async: true,
         crossDomain: true,
-        url: 'https://trueway-matrix.p.rapidapi.com/CalculateDrivingMatrix?origins=' + document.querySelector("#lat").value + '%2C' + document.querySelector("#long").value + '&destinations=' + document.querySelector("#dlat").value + '%2C' + document.querySelector("#dlong").value + '&avoid_highway=true',
+        url: 'https://trueway-matrix.p.rapidapi.com/CalculateDrivingMatrix?origins=' + document.querySelector(".myForm input[name='latitude']").value + '%2C' + document.querySelector(".myForm input[name='longitude']").value + '&destinations=' + document.querySelector(".myForm input[name='dlat']").value + '%2C' + document.querySelector(".myForm input[name='dlong']").value + '&avoid_highway=true',
         method: 'GET',
         headers: {
           'X-RapidAPI-Key': '39bebf8c65msh3c5431b6e89763ap1093ddjsn2d7d1e854615',
@@ -532,7 +430,21 @@ if (!isset($_SESSION["role"])) {
       return hDisplay + mDisplay + sDisplay;
     }
   </script>
-  <!-- <div id="map"></div> -->
+  <script>
+    const costInput = document.querySelector('input[name="cost_estimation"]');
+    const costError = document.getElementById('cost_err');
+
+    costInput.addEventListener('input', function() {
+      const costValue = costInput.value;
+
+      if (/^\d{3,}$/.test(costValue)) {
+        costError.textContent = '';
+      } else {
+        costError.textContent = 'Please enter at least 3 digits and only digits.';
+      }
+    });
+  </script>
+
 </body>
 
 </html>
