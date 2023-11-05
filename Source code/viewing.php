@@ -14,8 +14,8 @@ rr.From, rr.To, passenger.fname AS passengername,
 source_city.City_name AS source_city_name, 
 destination_city.City_name AS destination_city_name 
 FROM tbl_request_ride AS rr 
-JOIN tbl_city AS source_city ON rr.SourceCity = source_city.CityID 
-JOIN tbl_city AS destination_city ON rr.DestinationCity = destination_city.CityID \
+JOIN tbl_city AS source_city ON rr.SourceCity = source_city.CityID
+JOIN tbl_city AS destination_city ON rr.DestinationCity = destination_city.CityID 
 JOIN passenger ON rr.passengerId = passenger.id 
 LEFT JOIN tbl_interest ON tbl_interest.RequestID = rr.Request_id 
 LEFT JOIN tbl_booked ON tbl_booked.InterestID = tbl_interest.InterestID 
