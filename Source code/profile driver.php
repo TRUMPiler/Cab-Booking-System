@@ -235,7 +235,7 @@ session_start();
                                             $.ajax({
                                                 type:"POST",
                                                 url:"ajax_files/updatevehicle.php",
-                                                data:formdata,
+                                                data:formdata,  
                                                 contentType: false,
                                                 cache: false,
                                                 processData:false,
