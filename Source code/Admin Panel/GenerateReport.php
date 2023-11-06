@@ -248,8 +248,40 @@ else
     $html.="<h4>no Feedback given yet</h4>";
     
 }
-// echo $html;
 
+// echo $html;
+$query="SELECT `Payment_ID`, `Transactionid`, `BookedID`, `date` FROM `tbl_payment` WHERE `date`>=CURRENT_TIMESTAMP-1000000 and `date`<=CURRENT_TIMESTAMP();";
+$result=mysqli_query($conn,$query);
+if($result->num_rows > 0)
+{
+    $html.="<h4>Feedbacks Given Today</h4><br>";
+    $html.="<table>";
+    $html.='<thead>
+    <tr>
+    <th>Payment ID</th>
+    <th>Transcation ID</th>
+    <th>date of transcation</th>
+    </tr>
+  </thead>
+  <tbody>';
+    while($row=$result->fetch_assoc())
+    {
+        $html.= '<tr>
+        <td>'.$row["Payment_ID"].'</td>
+        <td>'.$row["Transactionid"].'</td>
+        <td>'.$row["BookedID"].'</td>
+        <td>'.$row["date"].'</td>
+        </tr>';
+    }
+    $html.= '</tbody>
+</table>';
+
+}
+else
+{
+    $html.="<h4>no payment done</h4>";
+    
+}
 $mpdf=new \Mpdf\Mpdf();
 $mpdf->WriteHTML($html);
 $file="Report".date("Y-m-d").'.pdf';
