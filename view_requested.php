@@ -135,7 +135,7 @@ if (!isset($_SESSION["role"])) {
                         if ($_SESSION["fname"] == "") {
                             echo "<li><a class='getstarted scrollto' href='login'>Login</a></li>";
                         } elseif (isset($_SESSION["filename"])) {
-                            echo "<li><a  href='profile1'>" . "<img src='images/" . $_SESSION["filename"] . "' alt='" . $_SESSION["fname"] . "' style='border-radius:360%;'>" . "</a></li>";
+                            echo "<li><a  href='profile driver'>" . "<img src='images/" . $_SESSION["filename"] . "' alt='" . $_SESSION["fname"] . "' style='border-radius:360%;'>" . "</a></li>";
                         } elseif (!isset($_SESSION["filename"]) && $_SESSION["fname"] != "") {
                             echo "<li><a class='getstarted scrollto' href='profile1'>" . $_SESSION["fname"] . "</a></li>";
                         }
@@ -159,8 +159,10 @@ if (!isset($_SESSION["role"])) {
                     <th>Destination</th>
                     <th>From</th>
                     <th>To</th>
-                    <th>Passenger Name</th>
+                    <th>No of Passengers</th>
+                    <th>Rider's Name</th>
                     <th>Interest Request</th>
+                    
                 </tr>
             </thead>
             <tbody>
@@ -171,6 +173,7 @@ if (!isset($_SESSION["role"])) {
                         <td><?php echo $row["DestinationAddress"] . " " . $row["destination_city_name"]; ?></td>
                         <td><?php echo $row["From"]; ?></td>
                         <td><?php echo $row["To"]; ?></td>
+                        <td><?php echo $row["PassCount"]; ?></td>
                         <td><?php echo $row["passengername"]; ?></td>
                         <td>
                             <button class="custom-button btnintrestRide" name="<?php echo $row["Request_id"]; ?>" onclick='requestride(<?php echo $row["Request_id"]; ?>)'>Give Cost estimation</button>

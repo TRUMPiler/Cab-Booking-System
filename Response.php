@@ -92,13 +92,13 @@
             </div>
             <nav id="navbar" class="navbar">
                 <ul>
-                    <li><a class="nav-link scrollto active" href="#hero">Home</a></li>
+                    <li><a class="nav-link scrollto active" href="index">Home</a></li>
                     <?php
                     if (isset($_SESSION["fname"])) {
                         if ($_SESSION["fname"] == "") {
                             echo "<li><a class='getstarted scrollto' href='login'>Login</a></li>";
                         } elseif (isset($_SESSION["filename"])) {
-                            echo "<li><a  href='profile1'>" . "<img src='images/" . $_SESSION["filename"] . "' alt='" . $_SESSION["fname"] . "' style='border-radius:360%;'>" . "</a></li>";
+                            echo "<li><a  href='profile passenger'>" . "<img src='images/" . $_SESSION["filename"] . "' alt='" . $_SESSION["fname"] . "' style='border-radius:360%;'>" . "</a></li>";
                         } elseif (!isset($_SESSION["filename"]) && $_SESSION["fname"] != "") {
                             echo "<li><a class='getstarted scrollto' href='profile1'>" . $_SESSION["fname"] . "</a></li>";
                         }

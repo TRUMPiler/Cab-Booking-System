@@ -31,7 +31,7 @@ include "ajax_files/checkRequest.php";
     <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-service.js"></script>
     <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-ui.js"></script>
     <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-mapevents.js"></script>
-    <script type="text/javascript" src="assets/js/rr2.js"></script>
+ 
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,600,600i,700,700i" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -49,7 +49,8 @@ include "ajax_files/checkRequest.php";
     <script src="https://api.mqcdn.com/sdk/mapquest-js/v1.3.2/mapquest.js"></script>
     <link type="text/css" rel="stylesheet" href="https://api.mqcdn.com/sdk/mapquest-js/v1.3.2/mapquest.css" />
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js">
+           <script type="text/javascript" src="assets/js/rr2.js"></script>
     </script>
     <link href="assets/css/style.css" rel="stylesheet">
     <style>
@@ -231,7 +232,7 @@ include "ajax_files/checkRequest.php";
                     </div>
                     <div class="form-group col-lg-6">
                         <label for="Number of passengers">No. of passengers:</label>
-                        <input type="number" class="form-control" name="noofpassengers" id="noofpassengers" placeholder="Enter number of passengers...">
+                        <input type="number" class="form-control" name="noofpassengers" id="noofpassengers" placeholder="Enter number of passengers..." value=1 required>
                         <span class="error" id="pnum_err"></span>
                     </div>
                 </div>
@@ -328,6 +329,12 @@ include "ajax_files/checkRequest.php";
                             longitudes = longitude;
                             document.querySelector(".myForm input[name='latitudes']").value = latitudes;
                             document.querySelector(".myForm input[name='longitudes']").value = longitudes;
+                            $("#noofpassengers").on("change",function(){
+                                if(document.querySelector("#noofpassengers").value>6){
+                                    alert("Maximum passengers allowed are 6 or less");
+                                    document.querySelector("#noofpassengers").value=undefined;
+                                }
+                            })
                         })
 
                     })
@@ -343,6 +350,10 @@ include "ajax_files/checkRequest.php";
                                 if (data == "success") {
                                     alert("Request sent successfully!✅");
                                     window.location = "index";
+                                }
+                                else
+                                {
+                                    alert(data);
                                 }
                             }
                         )

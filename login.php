@@ -148,12 +148,12 @@ if (isset($_SESSION["verified"]) and isset($_SESSION["email"])) {
 					<div class="row">
 						<form class="form-group1" method="POST">
 							<div class="row">
-								<input type="text" name="email" id="email" class="form__input" placeholder="Enter your email">
+								<input type="text" name="email" id="email" class="form__input" placeholder="Enter your email" required>
 								<span class="error" id="email_err"></span>
 							</div>
 							<div class="row">
 								<!-- <span class="fa fa-lock"></span> -->
-								<input type="password" name="password" id="password" class="form__input" placeholder="Enter your Password">
+								<input type="password" name="password" id="password" class="form__input" placeholder="Enter your Password" required>
 							</div>
 							<!-- <div class="row">
 								<input type="checkbox" name="remember_me" id="remember_me" class="">

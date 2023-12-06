@@ -258,6 +258,14 @@ if (!isset($_SESSION["role"])) {
               if ($results->num_rows > 0) {
                 while ($row = $results->fetch_array()) {
                   echo "<h4>Cost given for the trip is:" . $row["Cost"] . "</h4>";
+                  ?>
+                  <br>
+                  <div class="row col-md-6 d-flex justify-content-end">
+          <div class="d-flex justify-content-">
+            <a href="index"><button id="estimation" class=" custom-button">back</button></a>
+          </div>
+        </div>
+                  <?php
                 }
               } else {
               ?>
@@ -265,6 +273,12 @@ if (!isset($_SESSION["role"])) {
                 <div class='input-group'>
                   <input type='text' name='cost_estimation' class='form-control' required>
                 </div>
+                <br>
+        <div class="row col-md-6 d-flex justify-content-end">
+          <div class="d-flex justify-content-">
+            <button type="submit" id="estimation" class=" custom-button">Submit Cost</button>
+          </div>
+        </div>
 
         <?php
               }
@@ -273,12 +287,7 @@ if (!isset($_SESSION["role"])) {
         }
         ?>
         <!-- <input type='text' name='cost_estimation' required> -->
-        <br>
-        <div class="row col-md-6 d-flex justify-content-end">
-          <div class="d-flex justify-content-">
-            <button type="submit" id="estimation" class=" custom-button">Submit Cost</button>
-          </div>
-        </div>
+        
         <!-- <input type="submit" id="estimation" value="Submit Your Estimation"> -->
       </form>
     </div>
