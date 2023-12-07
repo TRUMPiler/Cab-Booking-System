@@ -7,6 +7,7 @@ if($_POST["vehiclenumber"]!="")
     $_SESSION["model"]=$_POST["model"];
     $_SESSION["mileage"]=$_POST["mileage"];
     $_SESSION["Fuel-type"]=$_POST["Fuel-type"];
+    $_SESSION["PassCapacity"]=$_POST["PassCapacity"];
     $targetDir = "../images/";
     $fileName = basename($_FILES["vehiclepermit"]["name"]);
     $targetFilePath = $targetDir . $fileName;
