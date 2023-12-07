@@ -67,6 +67,18 @@
                                         <input type="text" class="form-control" id="vehiclenumber" name="vehiclenumber" required placeholder="Enter your Vehicle Registration Number">
                                     </div>
                                     <div class="form-group col-md-12">
+                                    <label for="Fuel type">Select your vehicle fuel type:</label>
+                                        <select class="form-control" aria-label="Default select example">
+                                            <option>Petrol</option>
+                                            <option>Diesel</option>
+                                            <option>CNG</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-md-12">
+                                        <label for="vehicle's mileage">Mileage:</label>
+                                        <input type="number" class="form-control" id="mileage" name="mileage" required placeholder="Enter your Vehicle's Mileage.">
+                                    </div>
+                                    <div class="form-group col-md-12">
                                         <label for="vehiclepermit">Vehicle Permit:</label>
                                         <input type="file" class="form-control" id="vehiclepermit" name="vehiclepermit" placeholder="Upload Vehicle Permit" required>
                                     </div>
