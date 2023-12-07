@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 03, 2023 at 11:58 PM
--- Server version: 10.4.28-MariaDB
--- PHP Version: 8.2.4
+-- Generation Time: Dec 07, 2023 at 05:57 PM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -68,8 +68,7 @@ CREATE TABLE `driver` (
 --
 
 INSERT INTO `driver` (`id`, `fname`, `mname`, `lname`, `password`, `dob`, `gender`, `contact`, `address`, `CityGG`, `email`, `image`, `account_creation`) VALUES
-(32, 'Naishal', 'manish', 'Doshi', 'Naishald123@', '2003-06-13', 'male', 9326163059, 'Pratistha apartments piplod', 1225, 'naishal036@gmail.com', 'naishal.jpg', '2023-10-29 18:57:21'),
-(34, 'Manish', 'navinbhai', 'Doshi', 'Naishald123@', '2003-06-12', 'male', 9326163059, 'Pratistha apartments piplod', 1225, 'cjesus69133@gmail.com', 'naishal.jpg', '2023-10-31 17:38:20');
+(37, 'Naishal', 'Manish', 'Doshi', 'Naishald123@', '2003-06-13', 'male', 9326163058, 'Pratistha apartments piplod', 1225, '21bmiit100@gmail.com', 'naishal.jpg', '2023-12-07 14:06:16');
 
 -- --------------------------------------------------------
 
@@ -98,8 +97,9 @@ CREATE TABLE `passenger` (
 --
 
 INSERT INTO `passenger` (`id`, `fname`, `mname`, `lname`, `password`, `dob`, `gender`, `contact`, `address`, `CityGG`, `email`, `image`, `account_creation`) VALUES
-(56, 'Naishal ', 'Manish', 'Doshi', 'naishald123', '2003-06-13', 'male', 9326163059, 'Pratistha apartments piplod', 1225, '21bmiit100@gmail.com', 'naishal.jpg', '2023-11-03 18:31:56'),
-(60, 'Naishal', 'manish', 'Doshi', 'Naishald123@', '2003-06-13', 'male', 9326163059, 'Pratistha apartments piplod', 1225, 'cjesus691332@gmail.com', 'naishal.jpg', '2023-11-01 18:51:41');
+(56, 'Naishal ', 'Manish', 'Doshi', 'Naishald123@', '2003-06-13', 'male', 9326163059, 'Pratistha apartments piplod', 1225, 'doshinaishal833@gmail.com', 'naishal.jpg', '2023-11-03 18:31:56'),
+(60, 'Naishal', 'manish', 'Doshi', 'Naishald123@', '2003-06-13', 'male', 9326163059, 'Pratistha apartments piplod', 1225, 'cjesus691332@gmail.com', 'naishal.jpg', '2023-11-01 18:51:41'),
+(64, 'Naishal', 'manish', 'Doshi', 'Dimpled123@', '1975-06-15', 'male', 9137079398, 'pratistha apartments piplod', 1225, 'dimpledoshi8@gmail.com', 'naishal.jpg', '2023-11-07 18:07:46');
 
 -- --------------------------------------------------------
 
@@ -112,13 +112,6 @@ CREATE TABLE `tbl_booked` (
   `InterestID` int(11) NOT NULL,
   `RideStatus` varchar(70) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `tbl_booked`
---
-
-INSERT INTO `tbl_booked` (`Booked_ID`, `InterestID`, `RideStatus`) VALUES
-(14, 25, 'Ride Completed');
 
 -- --------------------------------------------------------
 
@@ -430,6 +423,11 @@ INSERT INTO `tbl_city` (`CityID`, `City_Name`, `stateId`) VALUES
 (1228, 'Valsad', 12),
 (1229, 'Vapi', 12),
 (1230, 'Bardoli', 12),
+(1231, 'Bhuj', 12),
+(1232, 'Bilimora', 12),
+(1233, 'Borsad', 12),
+(1234, 'Chikhli', 12),
+(1235, 'Chhatral', 12),
 (1301, 'Ambala', 13),
 (1302, 'Bhiwani', 13),
 (1303, 'Faridabad', 13),
@@ -500,7 +498,7 @@ INSERT INTO `tbl_city` (`CityID`, `City_Name`, `stateId`) VALUES
 (1621, 'Simdega', 16),
 (1622, 'West Singhbhum', 16),
 (1701, 'Bagalkot', 17),
-(1702, 'Bangalore', 17),
+(1702, 'Bengaluru', 17),
 (1703, 'Bangalore Rural', 17),
 (1704, 'Belgaum', 17),
 (1705, 'Bellary', 17),
@@ -1020,19 +1018,33 @@ CREATE TABLE `tbl_feedback` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `tbl_feedback`
---
-
-INSERT INTO `tbl_feedback` (`feedbackid`, `date-of-feedback`, `description`, `booked_id`) VALUES
-(5, '2023-11-02 21:12:04', 'Hello', 14);
-
---
 -- Triggers `tbl_feedback`
 --
 DELIMITER $$
 CREATE TRIGGER `Update tbl_feedback` AFTER INSERT ON `tbl_feedback` FOR EACH ROW update tbl_booked set tbl_booked.RideStatus='Ride Completed' where tbl_booked.Booked_ID=new.booked_id
 $$
 DELIMITER ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_fuel_registery`
+--
+
+CREATE TABLE `tbl_fuel_registery` (
+  `fuelid` int(11) NOT NULL,
+  `Fuel-type` varchar(15) NOT NULL,
+  `price_per_mileage` decimal(7,2) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tbl_fuel_registery`
+--
+
+INSERT INTO `tbl_fuel_registery` (`fuelid`, `Fuel-type`, `price_per_mileage`) VALUES
+(1, 'Petrol', 96.87),
+(2, 'Diesel', 89.62),
+(3, 'CNG', 75.59);
 
 -- --------------------------------------------------------
 
@@ -1048,12 +1060,18 @@ CREATE TABLE `tbl_interest` (
   `date_of_request` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+-- --------------------------------------------------------
+
 --
--- Dumping data for table `tbl_interest`
+-- Table structure for table `tbl_payment`
 --
 
-INSERT INTO `tbl_interest` (`interestID`, `RequestID`, `DriverID`, `Cost`, `date_of_request`) VALUES
-(25, 12, 32, 21000.00, '2023-11-04 00:18:14');
+CREATE TABLE `tbl_payment` (
+  `Payment_ID` int(11) NOT NULL,
+  `Transactionid` int(11) NOT NULL,
+  `BookedID` int(11) NOT NULL,
+  `date` datetime NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -1069,6 +1087,7 @@ CREATE TABLE `tbl_request_ride` (
   `DestinationCity` int(11) NOT NULL,
   `From` datetime NOT NULL,
   `To` datetime NOT NULL,
+  `PassCount` smallint(6) NOT NULL,
   `passengerId` int(11) NOT NULL,
   `requestCreation` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -1077,9 +1096,22 @@ CREATE TABLE `tbl_request_ride` (
 -- Dumping data for table `tbl_request_ride`
 --
 
-INSERT INTO `tbl_request_ride` (`Request_id`, `SourceAddress`, `DestinationAddress`, `SourceCity`, `DestinationCity`, `From`, `To`, `passengerId`, `requestCreation`) VALUES
-(12, 'Pratistha apartments piplod', 'Suryansh serenity ahemdabad', 1225, 1201, '2023-11-01 05:26:00', '2023-11-01 23:56:00', 56, '2023-11-01 21:57:08'),
-(15, 'Pratistha apartments piplod', 'uka tarsadia university ', 1225, 1230, '2023-11-11 22:23:00', '2023-11-04 02:23:00', 56, '2023-11-03 22:23:43');
+INSERT INTO `tbl_request_ride` (`Request_id`, `SourceAddress`, `DestinationAddress`, `SourceCity`, `DestinationCity`, `From`, `To`, `PassCount`, `passengerId`, `requestCreation`) VALUES
+(28, 'Pratistha apartments piplod', 'uka tarsadia university', 1225, 1230, '2023-12-08 19:47:00', '2023-12-08 20:52:00', 1, 56, '2023-12-07 19:47:14');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_schdule`
+--
+
+CREATE TABLE `tbl_schdule` (
+  `SchduleID` int(11) NOT NULL,
+  `From_date` datetime NOT NULL,
+  `To_date` datetime NOT NULL,
+  `Driver_id` int(11) NOT NULL,
+  `booked_ID` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -1144,6 +1176,8 @@ CREATE TABLE `vehicle` (
   `id` int(11) NOT NULL,
   `company_name` varchar(50) NOT NULL,
   `model` varchar(50) NOT NULL,
+  `Fuel-type` varchar(12) NOT NULL,
+  `mileage` decimal(4,2) NOT NULL,
   `vehicle-number` varchar(20) NOT NULL,
   `vehiclepermit` varchar(150) NOT NULL,
   `vehicleinsurance` varchar(150) NOT NULL,
@@ -1154,9 +1188,8 @@ CREATE TABLE `vehicle` (
 -- Dumping data for table `vehicle`
 --
 
-INSERT INTO `vehicle` (`id`, `company_name`, `model`, `vehicle-number`, `vehiclepermit`, `vehicleinsurance`, `driver_id`) VALUES
-(13, 'Taxdash', 'huvre XUV', 'AJ-04-CH-1567', 'cab2.png', 'destination.png', 32),
-(15, 'Taxdash', 'huvre XUV', 'AJ-04-CH-1566', 'reg_passenger.jpg', 'cab2.png', 34);
+INSERT INTO `vehicle` (`id`, `company_name`, `model`, `Fuel-type`, `mileage`, `vehicle-number`, `vehiclepermit`, `vehicleinsurance`, `driver_id`) VALUES
+(18, 'Mahindra', 'XUV', 'Petrol', 9.99, 'MH 07 Ah 1392', 'Permit.jpg', 'insurance.jpg', 37);
 
 --
 -- Indexes for dumped tables
@@ -1198,12 +1231,25 @@ ALTER TABLE `tbl_feedback`
   ADD KEY `booked` (`booked_id`);
 
 --
+-- Indexes for table `tbl_fuel_registery`
+--
+ALTER TABLE `tbl_fuel_registery`
+  ADD PRIMARY KEY (`fuelid`);
+
+--
 -- Indexes for table `tbl_interest`
 --
 ALTER TABLE `tbl_interest`
   ADD PRIMARY KEY (`interestID`),
   ADD KEY `RequestIDF` (`RequestID`),
   ADD KEY `DriverID` (`DriverID`);
+
+--
+-- Indexes for table `tbl_payment`
+--
+ALTER TABLE `tbl_payment`
+  ADD PRIMARY KEY (`Payment_ID`),
+  ADD KEY `BookedID` (`BookedID`);
 
 --
 -- Indexes for table `tbl_request_ride`
@@ -1213,6 +1259,13 @@ ALTER TABLE `tbl_request_ride`
   ADD KEY `DestinationCityGG` (`DestinationCity`),
   ADD KEY `SourceCityGG` (`SourceCity`),
   ADD KEY `Passenger_name` (`passengerId`);
+
+--
+-- Indexes for table `tbl_schdule`
+--
+ALTER TABLE `tbl_schdule`
+  ADD PRIMARY KEY (`SchduleID`),
+  ADD KEY `Booked_ID` (`booked_ID`);
 
 --
 -- Indexes for table `tbl_state`
@@ -1235,37 +1288,55 @@ ALTER TABLE `vehicle`
 -- AUTO_INCREMENT for table `driver`
 --
 ALTER TABLE `driver`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 
 --
 -- AUTO_INCREMENT for table `passenger`
 --
 ALTER TABLE `passenger`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=64;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=65;
 
 --
 -- AUTO_INCREMENT for table `tbl_booked`
 --
 ALTER TABLE `tbl_booked`
-  MODIFY `Booked_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `Booked_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT for table `tbl_feedback`
 --
 ALTER TABLE `tbl_feedback`
-  MODIFY `feedbackid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `feedbackid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT for table `tbl_fuel_registery`
+--
+ALTER TABLE `tbl_fuel_registery`
+  MODIFY `fuelid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `tbl_interest`
 --
 ALTER TABLE `tbl_interest`
-  MODIFY `interestID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `interestID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
+
+--
+-- AUTO_INCREMENT for table `tbl_payment`
+--
+ALTER TABLE `tbl_payment`
+  MODIFY `Payment_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `tbl_request_ride`
 --
 ALTER TABLE `tbl_request_ride`
-  MODIFY `Request_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `Request_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+
+--
+-- AUTO_INCREMENT for table `tbl_schdule`
+--
+ALTER TABLE `tbl_schdule`
+  MODIFY `SchduleID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `tbl_state`
@@ -1277,7 +1348,7 @@ ALTER TABLE `tbl_state`
 -- AUTO_INCREMENT for table `vehicle`
 --
 ALTER TABLE `vehicle`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- Constraints for dumped tables
@@ -1321,12 +1392,24 @@ ALTER TABLE `tbl_interest`
   ADD CONSTRAINT `RequestIDF` FOREIGN KEY (`RequestID`) REFERENCES `tbl_request_ride` (`Request_id`);
 
 --
+-- Constraints for table `tbl_payment`
+--
+ALTER TABLE `tbl_payment`
+  ADD CONSTRAINT `tbl_payment_ibfk_1` FOREIGN KEY (`BookedID`) REFERENCES `tbl_booked` (`Booked_ID`);
+
+--
 -- Constraints for table `tbl_request_ride`
 --
 ALTER TABLE `tbl_request_ride`
   ADD CONSTRAINT `DestinationCityGG` FOREIGN KEY (`DestinationCity`) REFERENCES `tbl_city` (`CityID`),
   ADD CONSTRAINT `Passenger_name` FOREIGN KEY (`passengerId`) REFERENCES `passenger` (`id`),
   ADD CONSTRAINT `SourceCityGG` FOREIGN KEY (`SourceCity`) REFERENCES `tbl_city` (`CityID`);
+
+--
+-- Constraints for table `tbl_schdule`
+--
+ALTER TABLE `tbl_schdule`
+  ADD CONSTRAINT `Booked_ID` FOREIGN KEY (`booked_ID`) REFERENCES `tbl_booked` (`Booked_ID`);
 
 --
 -- Constraints for table `vehicle`
