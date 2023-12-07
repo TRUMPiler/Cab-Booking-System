@@ -80,7 +80,7 @@
                                     </div>
                                     <div class="form-group col-md-12">
                                         <label for="No of seats">No of seats:</label>
-                                        <input type="number" class="form-control" id="noofseats" name="noofseats" required placeholder="Enter no. of seats available in your vehicle..">
+                                        <input type="number" class="form-control" id="noofpassengers" name="PassCapacity" required placeholder="Enter no. of seats available in your vehicle..">
                                     </div>
                                     <div class="form-group col-md-12">
                                         <label for="vehiclepermit">Vehicle Permit:</label>
@@ -97,10 +97,17 @@
                             </section>
                             <script>
                                 $(document).ready(function() {
+                                    $("#noofpassengers").on("change",function(){
+                                if(document.querySelector("#noofpassengers").value>6){
+                                    alert("Maximum seats allowed are 6 or less");
+                                    document.querySelector("#noofpassengers").value=undefined;
+                                }
+                            })
 
                                     $("#myform").submit(function(event) {
                                         event.preventDefault();
                                         var formdata = new FormData(this);
+
                                         $.ajax({
                                             type: "POST",
                                             url: "ajax_files/setvehicle.php",

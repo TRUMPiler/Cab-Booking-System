@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 07, 2023 at 05:57 PM
+-- Generation Time: Dec 07, 2023 at 09:44 PM
 -- Server version: 10.4.32-MariaDB
--- PHP Version: 8.2.12
+-- PHP Version: 8.0.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -68,7 +68,7 @@ CREATE TABLE `driver` (
 --
 
 INSERT INTO `driver` (`id`, `fname`, `mname`, `lname`, `password`, `dob`, `gender`, `contact`, `address`, `CityGG`, `email`, `image`, `account_creation`) VALUES
-(37, 'Naishal', 'Manish', 'Doshi', 'Naishald123@', '2003-06-13', 'male', 9326163058, 'Pratistha apartments piplod', 1225, '21bmiit100@gmail.com', 'naishal.jpg', '2023-12-07 14:06:16');
+(41, 'Naishal', 'Manish', 'Doshi', 'Naishald123@', '2003-06-13', 'male', 9326163057, 'Pratistha apartments piplod', 1225, '21bmiit100@gmail.com', 'naishal.jpg', '2023-12-07 20:42:52');
 
 -- --------------------------------------------------------
 
@@ -1178,6 +1178,7 @@ CREATE TABLE `vehicle` (
   `model` varchar(50) NOT NULL,
   `Fuel-type` varchar(12) NOT NULL,
   `mileage` decimal(4,2) NOT NULL,
+  `PassCapacity` smallint(6) NOT NULL,
   `vehicle-number` varchar(20) NOT NULL,
   `vehiclepermit` varchar(150) NOT NULL,
   `vehicleinsurance` varchar(150) NOT NULL,
@@ -1188,8 +1189,8 @@ CREATE TABLE `vehicle` (
 -- Dumping data for table `vehicle`
 --
 
-INSERT INTO `vehicle` (`id`, `company_name`, `model`, `Fuel-type`, `mileage`, `vehicle-number`, `vehiclepermit`, `vehicleinsurance`, `driver_id`) VALUES
-(18, 'Mahindra', 'XUV', 'Petrol', 9.99, 'MH 07 Ah 1392', 'Permit.jpg', 'insurance.jpg', 37);
+INSERT INTO `vehicle` (`id`, `company_name`, `model`, `Fuel-type`, `mileage`, `PassCapacity`, `vehicle-number`, `vehiclepermit`, `vehicleinsurance`, `driver_id`) VALUES
+(21, 'Mahindra', 'XUV', 'Diesel', 12.00, 6, 'MH 07 Ah 1392', 'Permit.jpg', 'insurance.jpg', 41);
 
 --
 -- Indexes for dumped tables
@@ -1288,7 +1289,7 @@ ALTER TABLE `vehicle`
 -- AUTO_INCREMENT for table `driver`
 --
 ALTER TABLE `driver`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
 
 --
 -- AUTO_INCREMENT for table `passenger`
@@ -1348,7 +1349,7 @@ ALTER TABLE `tbl_state`
 -- AUTO_INCREMENT for table `vehicle`
 --
 ALTER TABLE `vehicle`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- Constraints for dumped tables
