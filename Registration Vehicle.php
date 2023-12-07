@@ -79,6 +79,10 @@
                                         <input type="number" class="form-control" id="mileage" name="mileage" placeholder="Enter your Vehicle's Mileage." required>
                                     </div>
                                     <div class="form-group col-md-12">
+                                        <label for="No of seats">No of seats:</label>
+                                        <input type="number" class="form-control" id="noofseats" name="noofseats" required placeholder="Enter no. of seats available in your vehicle..">
+                                    </div>
+                                    <div class="form-group col-md-12">
                                         <label for="vehiclepermit">Vehicle Permit:</label>
                                         <input type="file" class="form-control" id="vehiclepermit" name="vehiclepermit" placeholder="Upload Vehicle Permit" required>
                                     </div>
