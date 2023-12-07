@@ -28,6 +28,8 @@ require_once "connection.php";
                 $vehiclenumber=$_SESSION["vehiclenumber"];
                 $vehiclepermit=$_SESSION["vehiclepermit"];
                 $vehicleinsurance=$_SESSION["vehicleinsurance"];
+                $mileage=$_SESSION["mileage"];
+                $fueltype=$_SESSION["Fuel-type"];
 
                 $sql = "select id from driver where email='$email' and fname='$fname' LIMIT 1";
                 $result=0;
@@ -35,7 +37,7 @@ require_once "connection.php";
                     {
                         while ($row = $result -> fetch_row()) {
                             $_SESSION["id"]=$row[0];
-                            $sql="INSERT INTO `vehicle`(`company_name`, `model`, `vehicle-number`, `vehiclepermit`, `vehicleinsurance`, `driver_id`) VALUES ('$company','$vehiclemodel','$vehiclenumber','$vehiclepermit','$vehicleinsurance',".$row[0].")";
+                            $sql="INSERT INTO `vehicle`(`company_name`, `model`, `vehicle-number`, `vehiclepermit`, `vehicleinsurance`, `mileage` ,`Fuel-type`,`driver_id`) VALUES ('$company','$vehiclemodel','$vehiclenumber','$vehiclepermit','$vehicleinsurance','$mileage','$fueltype',".$row[0].")";
                         }
                     }
                     else

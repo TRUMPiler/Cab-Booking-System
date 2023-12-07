@@ -258,27 +258,13 @@ if (!isset($_SESSION["role"])) {
               if ($results->num_rows > 0) {
                 while ($row = $results->fetch_array()) {
                   echo "<h4>Cost given for the trip is:" . $row["Cost"] . "</h4>";
-                  ?>
-                  <br>
-                  <div class="row col-md-6 d-flex justify-content-end">
-          <div class="d-flex justify-content-">
-            <a href="index"><button id="estimation" class=" custom-button">back</button></a>
-          </div>
-        </div>
-                  <?php
                 }
               } else {
               ?>
                 <span class="error" id="cost_err"></span>
                 <div class='input-group'>
-                  <input type='text' name='cost_estimation' class='form-control' required>
+                  <input type='text' name='cost_estimation' class='form-control' id="Cost" required>
                 </div>
-                <br>
-        <div class="row col-md-6 d-flex justify-content-end">
-          <div class="d-flex justify-content-">
-            <button type="submit" id="estimation" class=" custom-button">Submit Cost</button>
-          </div>
-        </div>
 
         <?php
               }
@@ -287,7 +273,12 @@ if (!isset($_SESSION["role"])) {
         }
         ?>
         <!-- <input type='text' name='cost_estimation' required> -->
-        
+        <br>
+        <div class="row col-md-6 d-flex justify-content-end">
+          <div class="d-flex justify-content-">
+            <button type="submit" id="estimation" class=" custom-button">Submit Cost</button>
+          </div>
+        </div>
         <!-- <input type="submit" id="estimation" value="Submit Your Estimation"> -->
       </form>
     </div>
@@ -365,7 +356,7 @@ if (!isset($_SESSION["role"])) {
         var dlong = responses.results[0].location.lng;
         console.log(dlat);
         document.querySelector(".myForm input[name='dlat']").value = dlat;
-        document.querySelector(".myForm input[name='dlong']").value = dlong;
+        document.querySelector("#dlong").value = dlong;
 
       });
       overloadings();
@@ -398,20 +389,23 @@ if (!isset($_SESSION["role"])) {
         L.mapquest.directions().route({
 
           start: '' + document.querySelector(".myForm input[name='latitude']").value + ',' + document.querySelector(".myForm input[name='longitude']").value + '', // Starting address or location
-          end: '' + document.querySelector(".myForm input[name='dlat']").value + ',' + document.querySelector(".myForm input[name='dlong']").value + '', // Ending address or location
+          end: '' + document.querySelector(".myForm input[name='dlat']").value + ',' + document.querySelector("#dlong").value + '', // Ending address or location
         });
       } finally {
         calculate();
       }
 
     }
-
+    function GGs(dis)
+{
+  $.post("getmoney.php",{distance:dis},function(data) { document.querySelector("#Cost").value=data})
+}
     function calculate() {
 
       const settings = {
         async: true,
         crossDomain: true,
-        url: 'https://trueway-matrix.p.rapidapi.com/CalculateDrivingMatrix?origins=' + document.querySelector(".myForm input[name='latitude']").value + '%2C' + document.querySelector(".myForm input[name='longitude']").value + '&destinations=' + document.querySelector(".myForm input[name='dlat']").value + '%2C' + document.querySelector(".myForm input[name='dlong']").value + '&avoid_highway=true',
+        url: 'https://trueway-matrix.p.rapidapi.com/CalculateDrivingMatrix?origins=' + document.querySelector(".myForm input[name='latitude']").value + '%2C' + document.querySelector(".myForm input[name='longitude']").value + '&destinations=' + document.querySelector(".myForm input[name='dlat']").value + '%2C' + document.querySelector("#dlong").value + '&avoid_highway=true',
         method: 'GET',
         headers: {
           'X-RapidAPI-Key': '39bebf8c65msh3c5431b6e89763ap1093ddjsn2d7d1e854615',
@@ -425,6 +419,8 @@ if (!isset($_SESSION["role"])) {
         var dur = response.durations[0];
         $("#duration").html("Estimated Duration of the ride " + secondsToHms(dur));
         $("#distance").html("Estimated Distance of the ride " + dis / 1000 + "km");
+        dis=dis/1000;
+        GGs(dis);
       });
     }
 

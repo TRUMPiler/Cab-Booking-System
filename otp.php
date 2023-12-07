@@ -18,13 +18,15 @@ if(isset($_SESSION["email"]))
     your otp is $otp\n 
     please insert it for further completion of the process";
     $headers = "From: dashtaxigg@gmail.com";
-
+    echo "HELLO";
     if (mail($to_email, $subject, $body, $headers)) {
         $_SESSION["otp"]=$otp;
         header("location:process");
+        
     } 
     else 
     {
+        echo "GG";
        header("error.php");
     }
 }
