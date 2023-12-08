@@ -15,6 +15,14 @@
 
 <?php 
 session_start();
+ if($_SESSION["role"]=="driver")
+  {
+     echo "<script>window.location='../index_driver'</script>";
+  }
+  else if($_SESSION["role"]=="passenger")
+  {
+     echo "<script>window.location='../index.php'</script>";
+  }
 include "../connection.php";
 $total=0;
 $totalnew=0;
