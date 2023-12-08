@@ -1,13 +1,17 @@
-<?php
-
-$_SESSION["fname"]=$_POST["fname"];
-$_SESSION["mname"]=$_POST["mname"];
-$_SESSION["lname"]=$_POST["lname"];
-$_SESSION["email"]=$_POST["email"];
-$_SESSION["address"]=$_POST["address"];
-$_SESSION["gender"]=$_POST["gender"];
-$_SESSION["dob"]=$_POST["dob"];
-$_SESSION["contact"]=$_POST["contact"];
-$_SESSION["url"]="./ajax_files/checkupdate.php";
-echo "true";
+<?php 
+session_start();
+include("../connection.php");
+$query="update passenger set email='".$_SESSION["email2"]."', fname='".$_SESSION["fname"]."', lname='".$_SESSION["lname"]."', mname='".$_SESSION["mname"]."',address='".$_SESSION["address"]."',dob='".$_SESSION["dob"]."',gender='".$_SESSION["gender"]."',contact='".$_SESSION["contact"]."' where email='".$_SESSION["email"]."'";
+$result=mysqli_query($conn,$query);
+echo $query;
+if($result>0)
+{
+    echo  true;
+    $_SESSION["email"]=$_SESSION["email2"];
+}
+else
+{
+    echo false;
+    include("../logoutGG.php");
+}
 ?>
