@@ -10,6 +10,7 @@ session_start();
     <title>Profile</title>
     <link href="Images/Taxibooking.png" rel="icon">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/css/bootstrap.min.css">
+    <script src="validation.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <style>
@@ -94,9 +95,9 @@ session_start();
                                 <div class="col-md-4"><label class="labels">Last Name:</label><input type="text" class="form-control readonly" name="lname" id="lname" readonly value="<?php echo $row['lname']; ?>"><span class="error" id="lname_err"> </span></div>
                             </div>
                             <div class="row mt-3">
-                                <div class="col-md-12"><label class="labels">Contact Number</label><input type="text" class="form-control readonly" name="contact" id="contact" readonly value="<?php echo $row['contact']; ?>"><span class="error" id="contact_err"></div>
-                                <div class="col-md-12"><label class="labels">Address</label><input type="text" class="form-control readonly" name="address" id="address" readonly value="<?php echo $row['address']; ?>"><span class="error" id="address_err"></div>
-                                <div class="col-md-12"><label class="labels">Date of Birth</label><input type="text" class="form-control readonly" name="dob" id="dob" readonly value="<?php echo $row['dob']; ?>"><span class="error" id="dob_err"></div>
+                                <div class="col-md-12"><label class="labels">Contact Number</label><input type="text" class="form-control readonly" name="contact" id="contact" readonly value="<?php echo $row['contact']; ?>" required><span class="error" id="contact_err"></div>
+                                <div class="col-md-12"><label class="labels">Address</label><input type="text" class="form-control readonly" name="address" id="address" readonly value="<?php echo $row['address']; ?>"><span class="error" id="address_err" required></div>
+                                <div class="col-md-12"><label class="labels">Date of Birth</label><input type="text" class="form-control readonly" name="dob" id="dob" readonly value="<?php echo $row['dob']; ?>"><span class="error" id="dob_err" required></div>
                                 <div class="col-md-12"><label class="labels">Gender</label><select class="form-control readonly" id="gender" name="gender" readonly>
                                             <?php if($row["gender"]=="male" || $row["gender"]=="Male")
                                             {

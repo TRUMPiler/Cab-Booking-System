@@ -9,6 +9,7 @@ session_start();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profile</title>
     <link href="Images/Taxibooking.png" rel="icon">
+    <script src="validation.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/css/bootstrap.min.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -91,16 +92,37 @@ session_start();
                         </div>
                         <form id="myform">
                             <div class="row mt-2">
-                                <div class="col-md-4"><label class="labels">First Name:</label><input type="text" class="form-control readonly" name="fname" id="fname" readonly value="<?php echo $row['fname']; ?>"><span class="error" id="fname_err"> </span></div>
-                                <div class="col-md-4"><label class="labels">Middle Name:</label><input type="text" class="form-control readonly" name="mname" id="mname" readonly value="<?php echo $row['mname']; ?>"><span class="error" id="mname_err"> </span></div>
-                                <div class="col-md-4"><label class="labels">Last Name:</label><input type="text" class="form-control readonly" name="lname" id="lname" readonly value="<?php echo $row['lname']; ?>"><span class="error" id="lname_err"> </span></div>
+                                <div class="col-md-4"><label class="labels">First Name:</label><input type="text" class="form-control readonly" name="fname" id="fname" readonly value="<?php echo $row['fname']; ?>" required><span class="error" id="fname_err"> </span></div>
+                                <div class="col-md-4"><label class="labels">Middle Name:</label><input type="text" class="form-control readonly" name="mname" id="mname" readonly value="<?php echo $row['mname']; ?>" required><span class="error" id="mname_err"> </span></div>
+                                <div class="col-md-4"><label class="labels">Last Name:</label><input type="text" class="form-control readonly" name="lname" id="lname" readonly value="<?php echo $row['lname']; ?>" required><span class="error" id="lname_err"> </span></div>
                             </div>
                             <div class="row mt-3">
-                                <div class="col-md-12"><label class="labels">Contact Number</label><input type="text" class="form-control readonly" name="contact" id="contact" readonly value="<?php echo $row['contact']; ?>"><span class="error" id="contact_err"> </span></div>
-                                <div class="col-md-12"><label class="labels">Address</label><input type="text" class="form-control readonly" name="address" id="address" readonly value="<?php echo $row['address']; ?>"><span class="error" id="address_err"> </span></div>
-                                <div class="col-md-12"><label class="labels">Date of Birth</label><input type="text" class="form-control readonly" name="dob" id="dob" readonly value="<?php echo $row['dob']; ?>"><span class="error" id="dob_err"> </span></div>
-                                <div class="col-md-12"><label class="labels">Gender</label><input type="text" class="form-control readonly" name="gender" id="gender" readonly value="<?php echo $row['gender']; ?>"></div>
-                                <div class="col-md-12"><label class="labels">Email ID</label><input type="text" class="form-control readonly" name="email" id="email" readonly value="<?php echo $row['email']; ?>"><span class="error" id="email_err"></span></div>
+                                <div class="col-md-12"><label class="labels">Contact Number</label><input type="text" class="form-control readonly" name="contact" id="contact" readonly value="<?php echo $row['contact']; ?>" required><span class="error" id="contact_err"> </span></div>
+                                <div class="col-md-12"><label class="labels">Address</label><input type="text" class="form-control readonly" name="address" id="address" readonly value="<?php echo $row['address']; ?>" required><span class="error" id="address_err"> </span></div>
+                                <div class="col-md-12"><label class="labels">Date of Birth</label><input type="text" class="form-control readonly" name="dob" id="dob" readonly value="<?php echo $row['dob']; ?>" required><span class="error" id="dob_err"> </span></div>
+                                <div class="col-md-12"><label class="labels">Gender</label><select class="form-control readonly" id="gender" name="gender" readonly>
+                                            <?php if($row["gender"]=="male" || $row["gender"]=="Male")
+                                            {
+                                                echo "<option value='male' selected>Male</option>";
+                                                echo "<option value='female'>Female</option>
+                                                <option value='other'>Other</option>";
+                                            }
+                                            else if($row["gender"]=="female" || $row["gender"]=="Female")
+                                            {
+                                                echo "<option value='male'>Male</option>";
+                                                echo "<option value='female' Selected>Female</option>
+                                                <option value='other'>Other</option>";
+                                            }
+                                            else
+                                            {
+                                                echo "<option value='male' >Male</option>";
+                                                echo "<option value='female'>Female</option>
+                                                <option value='other' selected>Other</option>";
+                                            }
+                                            ?>
+                                            
+                                        </select></div>
+                                <div class="col-md-12"><label class="labels">Email ID</label><input type="text" class="form-control readonly" name="email" id="email" readonly value="<?php echo $row['email']; ?>" required><span class="error" id="email_err"></span></div>
                                 <!-- <div class="col-md-12"><label class="labels">Password</label><input type="text" class="form-control readonly" name="password" readonly value="<?php echo $row['password']; ?>"></div> -->
                                 <!-- <div class="col-md-12"><label class="labels">Profile</label><input type="text" class="form-control readonly" name="role" readonly placeholder="Passenger/Driver" value="driver"></div> -->
                             <?php
@@ -110,14 +132,14 @@ session_start();
                             ?>
                             </div>
                             <div class="row mt-3">
-                                <div class="col-md-4"><label class="labels">Country</label><input type="text" class="form-control " name="country" readonly value="India"></div>
-                                <div class="col-md-4"><label class="labels">City</label><input type="text" class="form-control " name="state" readonly value="<?php echo $row["City_Name"]?>"></div>
-                                <div class="col-md-4"><div class="text-center"><a href="changepassword1"><button class="btn btn-primary profile-button" name="update" type="button">Change password</button></a></div></div>
+                                <div class="col-md-4"><label class="labels">Country</label><input type="text" class="form-control " name="country" readonly value="India" required></div>
+                                <div class="col-md-4"><label class="labels">City</label><input type="text" class="form-control " name="state" readonly value="<?php echo $row["City_Name"]?>" required></div>
+                                <div class="col-md-4"><div class="text-center"><a href="changepassword1"><button class="btn btn-primary profile-button" name="update" type="button" required>Change password</button></a></div></div>
                             </div>
                             <div class="row mt-5">
                                 <div class="col-md-3">
                                     <div class="text-center">
-                                        <button class="btn btn-primary profile-button" name="update" type="button">Home</button>
+                                    <a href="index"><button class="btn btn-primary profile-button" name="update" type="button">Home</button></a>
                                     </div>
                                 </div>
                                 <div class="col-md-3">
@@ -210,9 +232,9 @@ session_start();
                         if ($result->num_rows > 0) {
                             $row = $result->fetch_assoc();
                         ?>
-                            <div class="col-md-12"><label class="labels">Company:</label><input type="text" class="form-control readonly" name="company" readonly value="<?php echo $row['company_name']; ?>"></div> <br>
-                            <div class="col-md-12"><label class="labels">Vehicle name:</label><input type="text" class="form-control readonly" name="vname" readonly value="<?php echo $row['model']; ?>"></div> <br>
-                            <div class="col-md-12"><label class="labels">Vehicle Plate number:</label><input type="text" class="form-control readonly" name="platenumber" readonly value="<?php echo $row['vehicle-number']; ?>"></div>
+                            <div class="col-md-12"><label class="labels">Company:</label><input type="text" class="form-control readonly" name="company" readonly value="<?php echo $row['company_name']; ?>" required></div> <br>
+                            <div class="col-md-12"><label class="labels">Vehicle name:</label><input type="text" class="form-control readonly" name="vname" readonly value="<?php echo $row['model']; ?>" required></div> <br>
+                            <div class="col-md-12"><label class="labels">Vehicle Plate number:</label><input type="text" class="form-control readonly" name="platenumber" readonly value="<?php echo $row['vehicle-number']; ?> " required></div>
                             <div class="row mt-5">
                                 <div class="col-md-3">
                                     <div class="text-center">

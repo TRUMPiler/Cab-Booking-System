@@ -199,12 +199,12 @@ if (isset($_SESSION["email"]) and isset($_SESSION["fname"])) {
                                 <div class="form-group">
                                     <div class="form-group">
                                         <label for="password">Set Password:</label>
-                                        <input type="password" class="form-control" id="password" name="password" required>
+                                        <input type="password" class="form-control" id="password" name="password" maxlength="15" required>
                                         <span class="error errorsi" id="password_err"> </span>
                                     </div>
                                     <div class="form-group">
                                         <label for="confirm_password">Confirm Password:</label>
-                                        <input type="password" class="form-control" id="cpassword" name="confirmPass" required>
+                                        <input type="password" class="form-control" id="cpassword" name="confirmPass" required maxlength="15">
                                         <span class="error errorsi" id="cpassword_err"> </span>
                                     </div>
                                 </div>
