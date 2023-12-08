@@ -172,7 +172,7 @@ session_start();
                                                     if(data=="true")
                                                     {
                                                         
-                                                        window.location="otp.php";
+                                                        window.location="verificationpage";
                                                     }
                                                     else if(data=="false")
                                                     {

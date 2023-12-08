@@ -154,7 +154,7 @@ session_start();
                                                     if(data=="true")
                                                     {
                                                         
-                                                        window.location="otp.php";
+                                                        window.location="verificationpage2";
                                                     }
                                                     else if(data=="false")
                                                     {
