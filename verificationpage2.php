@@ -56,7 +56,7 @@ session_start();
         .card {
             border-radius: 20px;
             width: 700px;
-            height: 250px;
+            height: 340px;
         }
 
         .custom-button {
