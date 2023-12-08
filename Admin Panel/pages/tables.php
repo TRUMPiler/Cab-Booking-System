@@ -534,7 +534,7 @@
                   <tbody>
                     <?php 
                     include "/xampp/htdocs/Cab Booking System/connection.php";
-                    $query="SELECT interestID,RequestID,Cost,date_of_request,driver.id as driver_ID,driver.fname,driver.mname,driver.lname from tbl_interest JOIN driver on driver.id=tbl_interest.DriverID;";
+                    $query="SELECT interestID,RequestID,Cost,date_of_request,vehicle_id,driver.fname,driver.mname,driver.lname from tbl_interest JOIN vehicle on vehicle.id=tbl_interest.vehicle_id JOIN driver on driver.id=vehicle.driver_id;";
                     $result=mysqli_query($conn,$query);
                     if($result->num_rows > 0)
                     {
@@ -560,7 +560,7 @@
                         <span class="text-secondary text-xs font-weight-bold"><?php echo $row["fname"]." ".$row["mname"]." ".$row["lname"]; ?></span>
                       </td>
                       <td class="align-middle text-center text-sm">
-                      <p class="text-xs font-weight-bold mb-0"><?php echo $row["driver_ID"]?></p>
+                      <p class="text-xs font-weight-bold mb-0"><?php echo $row["vehicle_id"]?></p>
                       </td>
                       <td class="align-middle text-center">
                         <span class="text-secondary text-xs font-weight-bold"><?php echo $row["Cost"]?></span>
@@ -601,14 +601,16 @@
                   <thead>
                     <tr>
                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Booked ID</th>
-                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Passenger's Request ID</th>
-                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Driver's IntrestID</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2"></th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Driver's IntrestID
+
+                      </th>
                       <!-- <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2"> -->
                       <!-- </th> -->
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Driver ID
+                      <!-- <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Driver ID
                       </th>
                       <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Passenger ID
-                      </th>
+                      </th> -->
                       <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Ride Status
                       </th>
                       <!-- <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Address
@@ -621,7 +623,7 @@
                   <tbody>
                     <?php 
                     include "/xampp/htdocs/Cab Booking System/connection.php";
-                    $query="SELECT Booked_ID,tbl_booked.InterestID,RideStatus,tbl_interest.RequestID,tbl_request_ride.passengerId,tbl_interest.DriverID from tbl_booked JOIN tbl_interest on tbl_interest.interestID=tbl_booked.InterestID JOIN tbl_request_ride on tbl_request_ride.Request_id=tbl_interest.RequestID JOIN passenger on passenger.id=tbl_request_ride.passengerId JOIN driver on driver.id=tbl_interest.DriverID;";
+                    $query="SELECT Booked_ID,tbl_booked.InterestID,RideStatus,tbl_interest.RequestID,tbl_request_ride.passengerId,vehicle.driver_id from tbl_booked JOIN tbl_interest on tbl_interest.interestID=tbl_booked.InterestID JOIN tbl_request_ride on tbl_request_ride.Request_id=tbl_interest.RequestID JOIN passenger on passenger.id=tbl_request_ride.passengerId JOIN vehicle on vehicle.id=tbl_interest.vehicle_id JOIN driver on driver.id=vehicle.driver_id";
                     $result=mysqli_query($conn,$query);
                     if($result->num_rows > 0)
                     {
@@ -639,19 +641,11 @@
                       <span class="text-secondary text-xs font-weight-bold"><?php echo $row["Booked_ID"]?></span>
                         <!-- <p class="text-xs text-secondary mb-0">Organization</p> -->
                       </td>
-                      <td class="align-middle text-center text-sm">
-                      <p class="text-xs font-weight-bold mb-0"><?php echo $row["RequestID"]?></p>
-                      </td>
-                     
+                      
                       <td class="align-middle text-center">
                         <span class="text-secondary text-xs font-weight-bold"><?php echo $row["InterestID"] ?></span>
                       </td>
-                      <td class="align-middle text-center text-sm">
-                      <p class="text-xs font-weight-bold mb-0"><?php echo $row["passengerId"]?></p>
-                      </td>
-                      <td class="align-middle text-center">
-                        <span class="text-secondary text-xs font-weight-bold"><?php echo $row["DriverID"]?></span>
-                      </td>
+                      
                       <td class="align-middle text-center">
                         <span class="text-secondary text-xs font-weight-bold"><?php echo $row["RideStatus"]?></span>
                       </td>
