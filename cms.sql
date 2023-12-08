@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 07, 2023 at 09:44 PM
+-- Generation Time: Dec 08, 2023 at 08:26 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -1055,10 +1055,17 @@ INSERT INTO `tbl_fuel_registery` (`fuelid`, `Fuel-type`, `price_per_mileage`) VA
 CREATE TABLE `tbl_interest` (
   `interestID` int(11) NOT NULL,
   `RequestID` int(11) NOT NULL,
-  `DriverID` int(11) NOT NULL,
   `Cost` decimal(11,2) NOT NULL,
+  `vehicle_id` int(11) NOT NULL,
   `date_of_request` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tbl_interest`
+--
+
+INSERT INTO `tbl_interest` (`interestID`, `RequestID`, `Cost`, `vehicle_id`, `date_of_request`) VALUES
+(44, 28, 351.00, 21, '2023-12-08 12:11:45');
 
 -- --------------------------------------------------------
 
@@ -1243,7 +1250,7 @@ ALTER TABLE `tbl_fuel_registery`
 ALTER TABLE `tbl_interest`
   ADD PRIMARY KEY (`interestID`),
   ADD KEY `RequestIDF` (`RequestID`),
-  ADD KEY `DriverID` (`DriverID`);
+  ADD KEY `vehicle_id` (`vehicle_id`);
 
 --
 -- Indexes for table `tbl_payment`
@@ -1319,7 +1326,7 @@ ALTER TABLE `tbl_fuel_registery`
 -- AUTO_INCREMENT for table `tbl_interest`
 --
 ALTER TABLE `tbl_interest`
-  MODIFY `interestID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
+  MODIFY `interestID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
 
 --
 -- AUTO_INCREMENT for table `tbl_payment`
@@ -1389,8 +1396,8 @@ ALTER TABLE `tbl_feedback`
 -- Constraints for table `tbl_interest`
 --
 ALTER TABLE `tbl_interest`
-  ADD CONSTRAINT `DriverID` FOREIGN KEY (`DriverID`) REFERENCES `driver` (`id`),
-  ADD CONSTRAINT `RequestIDF` FOREIGN KEY (`RequestID`) REFERENCES `tbl_request_ride` (`Request_id`);
+  ADD CONSTRAINT `RequestIDF` FOREIGN KEY (`RequestID`) REFERENCES `tbl_request_ride` (`Request_id`),
+  ADD CONSTRAINT `tbl_interest_ibfk_1` FOREIGN KEY (`vehicle_id`) REFERENCES `vehicle` (`id`);
 
 --
 -- Constraints for table `tbl_payment`
