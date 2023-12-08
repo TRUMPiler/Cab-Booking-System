@@ -196,19 +196,23 @@ if (!isset($_SESSION["role"])) {
         if (isset($_SESSION["RequestID"])) {
           $query = "SELECT 
           Request_id,
-          SourceAddress,DestinationAddress,rr.From,rr.To,
+          SourceAddress,
+          DestinationAddress,
+          rr.From,
+          rr.To,
           passenger.fname as passengername,
           source_city.City_name AS source_city_name,
           destination_city.City_name AS destination_city_name
-          FROM 
+      FROM 
           tbl_request_ride AS rr
-          JOIN 
+      JOIN 
           tbl_city AS source_city ON rr.SourceCity = source_city.CityID
-          JOIN 
+      JOIN 
           tbl_city AS destination_city ON rr.DestinationCity = destination_city.CityID
-          JOIN
-          passenger as passenger on rr.passengerId=passenger.id
-          where Request_id=" . $_SESSION["RequestID"] . "";
+      JOIN
+          passenger as passenger on rr.passengerId = passenger.id
+      WHERE 
+          Request_id =" . $_SESSION["RequestID"] . "";
           $result = mysqli_query($conn, $query);
           if ($result->num_rows > 0) {
             while ($row = $result->fetch_array()) {
@@ -253,7 +257,21 @@ if (!isset($_SESSION["role"])) {
                 </div>
               </div><br>
               <?php
-              $query = "select driver.id,interestID,Cost FROM tbl_interest JOIN driver where tbl_interest.DriverID=" . $_SESSION["id"] . " and driver.id=tbl_interest.DriverID and tbl_interest.RequestID=" . $_SESSION["RequestID"] . "";
+              $query = "SELECT 
+              driver.id AS driver_id,
+              vehicle.id AS vehicle_id,
+              tbl_interest.interestID,
+              tbl_interest.Cost 
+          FROM 
+              driver
+          JOIN 
+              vehicle ON driver.id = vehicle.driver_id
+          JOIN 
+              tbl_interest ON vehicle.id = tbl_interest.vehicle_id
+          WHERE 
+              driver.id = ".$_SESSION["id"]." 
+              AND tbl_interest.RequestID = ".$_SESSION["RequestID"]." limit 1";
+          ;
               $results = mysqli_query($conn, $query);
               if ($results->num_rows > 0) {
                 while ($row = $results->fetch_array()) {
@@ -295,7 +313,7 @@ if (!isset($_SESSION["role"])) {
           formValues,
           function(data, status) {
 
-            if (data == "true") {
+            if (data == true) {
               alert("Estimation send to passenger");
               window.location = 'index_driver';
             } else {

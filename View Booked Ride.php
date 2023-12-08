@@ -146,7 +146,7 @@
                 <h4 id="distance">Distance</h4>
                 <h4 id="duration">Duration</h4>
                 <?php
-                if ($row["totime"] < 0) { 
+                if ($row["totime"] > 0) { 
                     ?>
                     <div class="row col-md-6">
                         <div class="input-group"><button id='cancel' onclick="cancell(<?php echo $row['Booked_ID']?>)" class='btn custom-button form-control'>Cancel</button></div>

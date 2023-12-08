@@ -106,7 +106,8 @@ else
 
     <?php
     include "connection.php";
-    $query="SELECT source_city.City_name AS source_city_name , destination_city.City_name AS destination_city_name , rr.SourceAddress, rr.DestinationAddress , passenger.fname As passengername , rr.From,rr.To, tbl_booked.RideStatus , tbl_booked.Booked_ID , (rr.From-CURRENT_TIMESTAMP)-10000 As totime FROM tbl_booked Join tbl_request_ride as rr JOIN tbl_city AS source_city ON rr.SourceCity = source_city.CityID JOIN tbl_city AS destination_city ON rr.DestinationCity = destination_city.CityID JOIN tbl_interest JOIN passenger JOIN driver where rr.passengerId=".$_SESSION["id"]." and tbl_interest.RequestID=rr.Request_id and tbl_interest.interestID=tbl_booked.InterestID and driver.id=tbl_interest.DriverID and passenger.id=rr.passengerId and Not tbl_booked.RideStatus in ('Ride Completed','Ride Cancelled') limit 1;"; 
+    $query="SELECT source_city.City_name AS source_city_name , destination_city.City_name AS destination_city_name , rr.SourceAddress, rr.DestinationAddress , passenger.fname As passengername , rr.From,rr.To, tbl_booked.RideStatus , tbl_booked.Booked_ID , (rr.From-CURRENT_TIMESTAMP)-10000 As totime FROM tbl_booked Join tbl_request_ride as rr JOIN tbl_city AS source_city ON rr.SourceCity = source_city.CityID JOIN tbl_city AS destination_city ON rr.DestinationCity = destination_city.CityID JOIN tbl_interest JOIN passenger JOIN vehicle where rr.passengerId=56 and tbl_interest.RequestID=rr.Request_id and tbl_interest.interestID=tbl_booked.InterestID and vehicle.id=tbl_interest.vehicle_id and passenger.id=rr.passengerId and Not tbl_booked.RideStatus in ('Ride Completed','Ride Cancelled') limit 1;
+"; 
     $result=mysqli_query($conn,$query);
     if($result->num_rows > 0)   
     {

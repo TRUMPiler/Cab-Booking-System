@@ -18,10 +18,12 @@ JOIN tbl_interest
 JOIN tbl_request_ride 
 JOIN passenger 
 JOIN driver 
+JOIN vehicle
 where tbl_request_ride.passengerId=56 
 and tbl_interest.interestID=tbl_booked.InterestID 
 and tbl_booked.InterestID=tbl_interest.interestID 
-and driver.id=tbl_interest.DriverID 
+and vehicle.id=tbl_interest.vehicle_id
+and driver.id=vehicle.driver_id 
 and passenger.id=tbl_request_ride.passengerId;";
 $result=mysqli_query($conn,$query);
 if($result->num_rows > 0)

@@ -178,12 +178,14 @@ if (!isset($_SESSION["role"])) {
     <?php
     include "connection.php";
     $query = "select tbl_interest.interestID,tbl_booked.Booked_ID 
-        FROM tbl_booked 
-        JOIN tbl_interest 
-        JOIN driver 
-        where tbl_interest.DriverID=" . $_SESSION["id"] . " 
-        and tbl_interest.interestID=tbl_booked.InterestID 
-        and driver.id=tbl_interest.DriverID;";
+    FROM tbl_booked 
+    JOIN tbl_interest 
+    JOIN driver
+    JOIN vehicle 
+    where vehicle.driver_id=" . $_SESSION["id"] . "
+    and tbl_interest.vehicle_id=vehicle.id
+    and tbl_interest.interestID=tbl_booked.InterestID 
+    and driver.id=vehicle.driver_id;";
     $result = mysqli_query($conn, $query);
     if ($result->num_rows == 0) { ?>
         <h1>No Ride Confirmed yet\n please wait for one of your request to be accepted</h1><?php
@@ -215,10 +217,13 @@ JOIN
 JOIN
     tbl_city AS destination_city ON destination_city.CityID = tbl_request_ride.DestinationCity
 JOIN
-    driver ON driver.id = tbl_interest.DriverID
+vehicle on vehicle.id=tbl_interest.vehicle_id
+JOIN
+    driver ON driver.id =vehicle.driver_id
 WHERE
     NOT tbl_booked.RideStatus IN ('Ride Completed', 'Ride Cancelled')
-    AND tbl_interest.DriverID = " . $_SESSION["id"] . "
+    AND vehicle.driver_id=" . $_SESSION["id"] . "
+    AND tbl_interest.vehicle_id =vehicle.id 
     AND tbl_request_ride.To > CURRENT_TIMESTAMP
 ORDER BY ABS(TIMESTAMPDIFF(SECOND, tbl_request_ride.To, CURRENT_TIMESTAMP))
 LIMIT 1;";  
@@ -246,7 +251,7 @@ LIMIT 1;";
             <?php } else if ($row["RideStatus"] == "Ride Ended") {
                 echo "<h4>This ride has ended successully</h4>";
             } else {
-                echo date('Y-m-d H:i:s') . " " . $row["To"] . "</div>";
+                echo "Current Time is ".date('Y-m-d H:i:s') . "<br>Your Ride Starts at " . $row["From"] . "</div>";
             }
             echo '<div class="split left">
             <!-- <div class="centered"> -->
