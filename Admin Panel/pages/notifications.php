@@ -172,10 +172,14 @@
                       </td>
                       
                       <td>
-                        <p class=" text-center text-xs font-weight-bold mb-0"><img src="\Cab Booking System\Images\<?php echo $row["vehiclepermit"]?>" style="height: 400px;" alt=""></p>
+                        <!-- <p class=" text-center text-xs font-weight-bold mb-0"><img src="\Cab Booking System\Images\<?php echo $row["vehiclepermit"]?>" style="height: 400px;" alt=""></p> -->
+                        <p class=" text-center text-xs font-weight-bold mb-0"><a href="\Cab Booking System\Images\<?php echo $row["vehiclepermit"]?>" download>click ME
+                        </a></p>
                       </td>
                       <td>
-                        <p class=" text-center text-xs font-weight-bold mb-0"><img src="\Cab Booking System\Images\<?php echo $row["vehicleinsurance"]?>" style="height: 400px;" alt=""></p>
+                        <!-- <p class=" text-center text-xs font-weight-bold mb-0"><img src="\Cab Booking System\Images\<?php echo $row["vehicleinsurance"]?>" style="height: 400px;" alt=""></p> -->
+                        <p class=" text-center text-xs font-weight-bold mb-0"><a href="\Cab Booking System\Images\<?php echo $row["vehicleinsurance"]?>" download>click ME
+                        </a></p>
                       </td>
                     </tr>
                     <?php 
