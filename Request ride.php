@@ -227,7 +227,7 @@ include "ajax_files/checkRequest.php";
                     </div>
                     <div class="form-group col-lg-3">
                         <label for="Password">To Date:</label>
-                        <input type="datetime-local" class="form-control" name="to-dt" id="toDate" placeholder="Enter password" required>
+                        <input type="datetime-local" class="form-control" name="to-dt" id="toDate" placeholder="Enter password" readonly>
                         <span class="error" id="frmDate_err"></span>
                     </div>
                     <div class="form-group col-lg-6">
@@ -319,6 +319,31 @@ include "ajax_files/checkRequest.php";
 
                 <script>
                     $(document).ready(function() {
+                        $("#address").change(function(){
+                            if(document.querySelector("#address").value=="" || document.querySelector("#address").value==undefined)
+                            {
+
+                                alert("source address can't be empty");
+                                document.querySelector("#address").value="";
+                            }
+                            else if(document.querySelector("#address").value.length<7)
+                            {
+                                alert("source address is too short");
+                                document.querySelector("#address").value="";
+                            }
+                        })
+                        $("#daddress").change(function(){
+                            if(document.querySelector("#daddress").value=="" || document.querySelector("#daddress").value==undefined)
+                            {
+                                alert("Destination can't be empty");
+                                document.querySelector("#daddress").value="";
+                            }
+                            else if(document.querySelector("#daddress").value.length<7)
+                            {
+                                alert("Destination address is too short");
+                                document.querySelector("#daddress").value="";
+                            }
+                        })
                         var latitudes, longitudes;
                         navigator.geolocation.getCurrentPosition(position => {
                             const {
