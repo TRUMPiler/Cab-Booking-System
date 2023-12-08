@@ -86,6 +86,7 @@ function checkFromDate() {
         // console.log('invalid choice');
 
         $('#frmDate_err').html('Select date between ' + minDate + ' - ' + maxDate);
+        const dateInput = document.getElementById("frmDate").value="";
     } else {
         $("#frmDate_err").html("");
         checkToDate();
